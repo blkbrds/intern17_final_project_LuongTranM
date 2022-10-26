@@ -22,7 +22,7 @@ enum Result<Value> {
 }
 
 enum APIResult {
-    case success(Data)
+    case success(Codable)
     case failure(APIError)
 }
 

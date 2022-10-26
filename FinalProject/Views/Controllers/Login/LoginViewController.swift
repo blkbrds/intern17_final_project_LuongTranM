@@ -24,7 +24,7 @@ final class LoginViewController: UIViewController {
 
 // MARK: - APIs
 extension LoginViewController {
-    
+
     private func getAPI() {
         viewModel.requestAPI { result in
             print(result)

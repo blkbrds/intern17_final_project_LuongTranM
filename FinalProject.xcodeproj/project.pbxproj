@@ -20,6 +20,7 @@
 		D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECE5562908F1D800041BF9 /* Optional+Ext.swift */; };
 		D2ECE5592908F38800041BF9 /* WeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECE5582908F38800041BF9 /* WeatherResponse.swift */; };
 		D2ECE55B29090E6B00041BF9 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECE55A29090E6B00041BF9 /* Network.swift */; };
+		D2ECE55D29093BF300041BF9 /* Collection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECE55C29093BF300041BF9 /* Collection+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		D2ECE5562908F1D800041BF9 /* Optional+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
 		D2ECE5582908F38800041BF9 /* WeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResponse.swift; sourceTree = "<group>"; };
 		D2ECE55A29090E6B00041BF9 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		D2ECE55C29093BF300041BF9 /* Collection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				D2ECE5562908F1D800041BF9 /* Optional+Ext.swift */,
+				D2ECE55C29093BF300041BF9 /* Collection+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				D2ECE54B2908632200041BF9 /* APIManager.Login.swift in Sources */,
 				D2ECE53F290853CD00041BF9 /* LoginViewController.swift in Sources */,
 				D2ECE5462908591C00041BF9 /* Reachability.swift in Sources */,
+				D2ECE55D29093BF300041BF9 /* Collection+Ext.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
 				D27553962907C1C400032E02 /* AppDelegate.swift in Sources */,
 				D2ECE5592908F38800041BF9 /* WeatherResponse.swift in Sources */,

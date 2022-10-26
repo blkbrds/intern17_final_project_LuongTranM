@@ -70,13 +70,14 @@ protocol ProviderType {
 
     associatedtype Target: TargetType
 
-    func request(target: Target,
-                 completion: @escaping APICompletion)
+    func request<T: Codable>(target: Target,
+                             model: T.Type,
+                             completion: @escaping APICompletion)
 }
 
 class Provider<Target: TargetType>: ProviderType {
 
-    func request(target: Target, completion: @escaping APICompletion) {
+    func request<T: Codable>(target: Target, model: T.Type, completion: @escaping APICompletion) {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
             completion(.failure(.noInternet))
@@ -104,7 +105,8 @@ class Provider<Target: TargetType>: ProviderType {
                 switch response.statusCode {
                 case 200...299:
                     if let data = data {
-                        completion(.success(data))
+                        let result = ApiManager.shared.decoder(model: T.self, from: data)
+                        completion(.success(result))
                     } else {
                         completion(.failure(.noData))
                     }
