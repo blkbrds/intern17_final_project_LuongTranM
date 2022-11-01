@@ -13,6 +13,7 @@ final class BaseTabbarViewController: UITabBarController {
     func configTabbar() {
         let homeVC = HomeViewController()
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
+        homeVC.viewModel = HomeViewModel()
         let homeNavigationController = UINavigationController(rootViewController: homeVC)
 
         let searchVC = SearchViewController()
