@@ -497,7 +497,6 @@
 				D2ECE55D29093BF300041BF9 /* Collection+Ext.swift in Sources */,
 				84B76C83290A646B00AF2B3C /* SearchViewController.swift in Sources */,
 				84B76CB72910B8A500AF2B3C /* SearchCollectionCellViewModel.swift in Sources */,
-				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
 				84B76CB42910B85800AF2B3C /* SearchCollectionViewCell.swift in Sources */,
 				84B76CA1290CC4C800AF2B3C /* PopularCollectionViewCell.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
