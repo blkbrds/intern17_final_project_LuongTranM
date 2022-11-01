@@ -9,11 +9,11 @@ import UIKit
 
 final class HistoryTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var productImageView: UIImageView!
-    @IBOutlet weak var productNameLabel: UILabel!
-    @IBOutlet weak var productQuantityLabel: UILabel!
-    @IBOutlet weak var productPriceLabel: UILabel!
-    @IBOutlet weak var productOrderedLabel: UILabel!
+    @IBOutlet private weak var productImageView: UIImageView!
+    @IBOutlet private weak var productNameLabel: UILabel!
+    @IBOutlet private weak var productQuantityLabel: UILabel!
+    @IBOutlet private weak var productPriceLabel: UILabel!
+    @IBOutlet private weak var productOrderedLabel: UILabel!
 
     var viewModel: HistoryTableCellViewModel?
 

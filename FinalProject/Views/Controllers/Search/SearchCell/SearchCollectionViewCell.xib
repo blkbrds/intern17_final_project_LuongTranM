@@ -17,13 +17,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="170" height="234"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="9eL-2R-3lc">
-                        <rect key="frame" x="10" y="7" width="150" height="146.66666666666666"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9eL-2R-3lc">
+                        <rect key="frame" x="10" y="5" width="150" height="150"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="9eL-2R-3lc" secondAttribute="height" multiplier="1:1" id="LcB-3i-CJI"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snaker Adidas" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vf1-FY-FQf">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vf1-FY-FQf">
                         <rect key="frame" x="10" y="165" width="150" height="59"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <nil key="textColor"/>
@@ -49,7 +49,4 @@
             <point key="canvasLocation" x="213.84615384615384" y="85.308056872037909"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-    </resources>
 </document>
