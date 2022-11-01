@@ -102,17 +102,20 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         switch collectionView {
         case slideCollectionView:
             guard let viewModel = viewModel,
-                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCollectionCell, for: indexPath) as? SlideCollectionViewCell
-            else { return UICollectionViewCell() }
+                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCollectionCell, for: indexPath) as? SlideCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             cell.viewModel = viewModel.viewSlideForItem(at: indexPath)
             return cell
         case recommendCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCollectionCell, for: indexPath) as? RecommendCollectionViewCell
-            else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCollectionCell, for: indexPath) as? RecommendCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             return cell
         case popularCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.popularCollectionCell, for: indexPath) as? PopularCollectionViewCell
-            else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.popularCollectionCell, for: indexPath) as? PopularCollectionViewCell else {
+                return UICollectionViewCell()
+            }
             return cell
         default:
             return UICollectionViewCell()
