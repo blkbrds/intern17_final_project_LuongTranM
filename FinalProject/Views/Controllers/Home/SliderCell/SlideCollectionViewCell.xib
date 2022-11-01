@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SlideCollectionViewCell" customModule="FinalProject" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="374" height="203"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="374" height="203"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beast" translatesAutoresizingMaskIntoConstraints="NO" id="cVw-3n-v7b">
+                        <rect key="frame" x="0.0" y="0.0" width="374" height="203"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nike Shop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGv-3c-egf">
+                        <rect key="frame" x="15" y="163" width="344" height="20"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="cVw-3n-v7b" secondAttribute="bottom" id="A3c-cc-d5w"/>
+                <constraint firstItem="cVw-3n-v7b" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="HVb-Yw-jdC"/>
+                <constraint firstItem="cVw-3n-v7b" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="S40-pB-qd8"/>
+                <constraint firstAttribute="bottom" secondItem="PGv-3c-egf" secondAttribute="bottom" constant="20" id="YAt-uz-KB6"/>
+                <constraint firstItem="PGv-3c-egf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="d13-su-0TZ"/>
+                <constraint firstAttribute="trailing" secondItem="PGv-3c-egf" secondAttribute="trailing" constant="15" id="pjk-ln-rzc"/>
+                <constraint firstAttribute="trailing" secondItem="cVw-3n-v7b" secondAttribute="trailing" id="t1J-jo-phY"/>
+            </constraints>
+            <size key="customSize" width="639" height="325"/>
+            <connections>
+                <outlet property="nameShopLabel" destination="PGv-3c-egf" id="SD5-qr-kKn"/>
+                <outlet property="shopImageView" destination="cVw-3n-v7b" id="aQL-ih-hqw"/>
+            </connections>
+            <point key="canvasLocation" x="573.84615384615381" y="118.3649289099526"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="beast" width="341.33334350585938" height="437.66665649414062"/>
+    </resources>
+</document>
