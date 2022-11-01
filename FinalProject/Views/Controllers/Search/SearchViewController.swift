@@ -58,6 +58,7 @@ extension SearchViewController {
     private struct Define {
         static var title: String = "Search"
         static var cellName: String = String(describing: SearchCollectionViewCell.self)
+        static var insetSection = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 }
 
@@ -80,7 +81,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return Define.insetSection
     }
 }
 
