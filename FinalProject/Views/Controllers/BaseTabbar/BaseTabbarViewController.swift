@@ -18,6 +18,7 @@ final class BaseTabbarViewController: UITabBarController {
 
         let searchVC = SearchViewController()
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        searchVC.viewModel = SearchViewModel()
         let searchNavigationController = UINavigationController(rootViewController: searchVC)
 
         let favoriteVC = FavoriteViewController()
