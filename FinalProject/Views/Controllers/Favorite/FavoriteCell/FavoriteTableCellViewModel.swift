@@ -9,7 +9,6 @@ import Foundation
 
 final class FavoriteTableCellViewModel {
 
-    #warning("Handle Data Favorite Cell")
     var name: String
 
     init(name: String) {

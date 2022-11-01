@@ -35,9 +35,9 @@ final class FavoriteTableViewCell: UITableViewCell {
     }
 
     private func configUI() {
-        itemImageView.layer.borderWidth = 1.0
-        itemImageView.layer.cornerRadius = 10
-        itemImageView.layer.borderColor = .init(red: 0.93, green: 0.93, blue: 0.93, alpha: 1.00)
+        itemImageView.layer.borderWidth = Define.borderWidth
+        itemImageView.layer.cornerRadius = Define.cornerRadius
+        itemImageView.layer.borderColor = Define.borderColor
     }
 
     private func updateCell() {
@@ -50,4 +50,12 @@ final class FavoriteTableViewCell: UITableViewCell {
         delegate.cell(cell: self, needPerform: .didTap)
     }
 
+}
+
+extension FavoriteTableViewCell {
+    private struct Define {
+        static var borderWidth: CGFloat = 1.0
+        static var cornerRadius: CGFloat = 10
+        static var borderColor: CGColor = .init(red: 0.93, green: 0.93, blue: 0.93, alpha: 1.00)
+    }
 }

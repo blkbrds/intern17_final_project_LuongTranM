@@ -70,12 +70,11 @@ extension FavoriteViewController: FavoriteTableViewCellDelegate {
         switch action {
         case .didTap:
             guard let viewModel = viewModel,
-                  let index = tableView.indexPath(for: cell) else { return }
-            viewModel.doVat.remove(at: index.row)
+                  let doVat = tableView.indexPath(for: cell) else { return }
+            viewModel.doVat.remove(at: doVat.row)
             tableView.beginUpdates()
-            tableView.deleteRows(at: [index], with: .left)
+            tableView.deleteRows(at: [doVat], with: .left)
             tableView.endUpdates()
-            print("Home Cell ---> Tap me: section \(index.section) row \(index.row)")
         }
     }
 }
