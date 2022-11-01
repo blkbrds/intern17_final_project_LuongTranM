@@ -16,6 +16,10 @@
 		84B76C8B290A648700AF2B3C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C89290A648700AF2B3C /* ProfileViewController.swift */; };
 		84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76C8A290A648700AF2B3C /* ProfileViewController.xib */; };
 		84B76C8E290A68F500AF2B3C /* BaseTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C8D290A68F500AF2B3C /* BaseTabbarViewController.swift */; };
+		84B76CBB2910CDBF00AF2B3C /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CB92910CDBF00AF2B3C /* FavoriteTableViewCell.swift */; };
+		84B76CBC2910CDBF00AF2B3C /* FavoriteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76CBA2910CDBF00AF2B3C /* FavoriteTableViewCell.xib */; };
+		84B76CBE2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CBD2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift */; };
+		84B76CC02910CDFC00AF2B3C /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CBF2910CDFC00AF2B3C /* FavoriteViewModel.swift */; };
 		C067F6D4814AB1C3AEEA9AAE /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A22DB3123BD609AE6F9698A /* Pods_FinalProject.framework */; };
 		D27553962907C1C400032E02 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27553952907C1C400032E02 /* AppDelegate.swift */; };
 		D275539F2907C1C600032E02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D275539E2907C1C600032E02 /* Assets.xcassets */; };
@@ -43,6 +47,10 @@
 		84B76C89290A648700AF2B3C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		84B76C8A290A648700AF2B3C /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		84B76C8D290A68F500AF2B3C /* BaseTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabbarViewController.swift; sourceTree = "<group>"; };
+		84B76CB92910CDBF00AF2B3C /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
+		84B76CBA2910CDBF00AF2B3C /* FavoriteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteTableViewCell.xib; sourceTree = "<group>"; };
+		84B76CBD2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableCellViewModel.swift; sourceTree = "<group>"; };
+		84B76CBF2910CDFC00AF2B3C /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		893897C552A43E05BA857672 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 		8E5899E7E223907F44FD0064 /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		D27553922907C1C400032E02 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,8 +128,10 @@
 		84B76C7B290A63C400AF2B3C /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
+				84B76CB82910CD9F00AF2B3C /* FavoriteCell */,
 				84B76C85290A647B00AF2B3C /* FavoriteViewController.swift */,
 				84B76C86290A647B00AF2B3C /* FavoriteViewController.xib */,
+				84B76CBF2910CDFC00AF2B3C /* FavoriteViewModel.swift */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -133,6 +143,16 @@
 				84B76C8A290A648700AF2B3C /* ProfileViewController.xib */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		84B76CB82910CD9F00AF2B3C /* FavoriteCell */ = {
+			isa = PBXGroup;
+			children = (
+				84B76CB92910CDBF00AF2B3C /* FavoriteTableViewCell.swift */,
+				84B76CBA2910CDBF00AF2B3C /* FavoriteTableViewCell.xib */,
+				84B76CBD2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift */,
+			);
+			path = FavoriteCell;
 			sourceTree = "<group>";
 		};
 		D27553892907C1C400032E02 = {
@@ -333,6 +353,7 @@
 				D275539F2907C1C600032E02 /* Assets.xcassets in Resources */,
 				84B76C88290A647B00AF2B3C /* FavoriteViewController.xib in Resources */,
 				D2ECE540290853CD00041BF9 /* LoginViewController.xib in Resources */,
+				84B76CBC2910CDBF00AF2B3C /* FavoriteTableViewCell.xib in Resources */,
 				84B76C84290A646B00AF2B3C /* SearchViewController.xib in Resources */,
 				84B76C80290A645E00AF2B3C /* HomeViewController.xib in Resources */,
 			);
@@ -405,8 +426,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84B76CC02910CDFC00AF2B3C /* FavoriteViewModel.swift in Sources */,
 				D2ECE55B29090E6B00041BF9 /* Network.swift in Sources */,
 				D2ECE5442908569600041BF9 /* APIManager.swift in Sources */,
+				84B76CBE2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift in Sources */,
 				D2ECE54B2908632200041BF9 /* APIManager.Login.swift in Sources */,
 				84B76C8E290A68F500AF2B3C /* BaseTabbarViewController.swift in Sources */,
 				D2ECE53F290853CD00041BF9 /* LoginViewController.swift in Sources */,
@@ -414,6 +437,7 @@
 				D2ECE5462908591C00041BF9 /* Reachability.swift in Sources */,
 				D2ECE55D29093BF300041BF9 /* Collection+Ext.swift in Sources */,
 				84B76C83290A646B00AF2B3C /* SearchViewController.swift in Sources */,
+				84B76CBB2910CDBF00AF2B3C /* FavoriteTableViewCell.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
 				84B76C7F290A645E00AF2B3C /* HomeViewController.swift in Sources */,
 				84B76C87290A647B00AF2B3C /* FavoriteViewController.swift in Sources */,
