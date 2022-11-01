@@ -35,19 +35,19 @@ final class HomeViewController: UIViewController {
     }
 
     private func configCollectionView() {
-        let slideNib = UINib(nibName: Define.slideCell, bundle: Bundle.main)
-        slideCollectionView.register(slideNib, forCellWithReuseIdentifier: Define.slideCell)
+        let slideNib = UINib(nibName: Define.slideCollectionCell, bundle: Bundle.main)
+        slideCollectionView.register(slideNib, forCellWithReuseIdentifier: Define.slideCollectionCell)
         slideCollectionView.delegate = self
         slideCollectionView.dataSource = self
         startTimer()
 
-        let recommendNib = UINib(nibName: Define.recommendCell, bundle: Bundle.main)
-        recommendCollectionView.register(recommendNib, forCellWithReuseIdentifier: Define.recommendCell)
+        let recommendNib = UINib(nibName: Define.recommendCollectionCell, bundle: Bundle.main)
+        recommendCollectionView.register(recommendNib, forCellWithReuseIdentifier: Define.recommendCollectionCell)
         recommendCollectionView.delegate = self
         recommendCollectionView.dataSource = self
 
-        let popularNib = UINib(nibName: Define.popularCell, bundle: Bundle.main)
-        popularCollectionView.register(popularNib, forCellWithReuseIdentifier: Define.popularCell)
+        let popularNib = UINib(nibName: Define.popularCollectionCell, bundle: Bundle.main)
+        popularCollectionView.register(popularNib, forCellWithReuseIdentifier: Define.popularCollectionCell)
         popularCollectionView.delegate = self
         popularCollectionView.dataSource = self
     }
@@ -78,9 +78,9 @@ extension HomeViewController {
         static var lineSpacingDefault: CGFloat = 0
         static var lineSpacingPopular: CGFloat = 10
         static var lineSpacingRecommend: CGFloat = 15
-        static var slideCell: String = String(describing: SlideCollectionViewCell.self)
-        static var recommendCell: String = String(describing: RecommendCollectionViewCell.self)
-        static var popularCell: String = String(describing: PopularCollectionViewCell.self)
+        static var slideCollectionCell: String = String(describing: SlideCollectionViewCell.self)
+        static var recommendCollectionCell: String = String(describing: RecommendCollectionViewCell.self)
+        static var popularCollectionCell: String = String(describing: PopularCollectionViewCell.self)
         static var timerIntervar: Double = 2.5
     }
 }
@@ -89,6 +89,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case slideCollectionView:
+            #warning("Handle number default")
             guard let viewModel = viewModel else { return 0 }
             pageControl.numberOfPages = viewModel.images.count
             return viewModel.images.count
@@ -101,16 +102,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         switch collectionView {
         case slideCollectionView:
             guard let viewModel = viewModel,
-                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCell, for: indexPath) as? SlideCollectionViewCell
+                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCollectionCell, for: indexPath) as? SlideCollectionViewCell
             else { return UICollectionViewCell() }
             cell.viewModel = viewModel.viewSlideForItem(at: indexPath)
             return cell
         case recommendCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCell, for: indexPath) as? RecommendCollectionViewCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCollectionCell, for: indexPath) as? RecommendCollectionViewCell
             else { return UICollectionViewCell() }
             return cell
         case popularCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.popularCell, for: indexPath) as? PopularCollectionViewCell
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.popularCollectionCell, for: indexPath) as? PopularCollectionViewCell
             else { return UICollectionViewCell() }
             return cell
         default:

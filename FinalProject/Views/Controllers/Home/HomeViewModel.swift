@@ -9,6 +9,8 @@ import Foundation
 
 final class HomeViewModel {
 
+    #warning("Handle Popular Product API")
+    #warning("Handle Shop Images API")
     var images: [String] = ["beast", "drax", "groot", "storm", "thor", "wolverine"]
     var currentCellIndex: Int = 0
 
