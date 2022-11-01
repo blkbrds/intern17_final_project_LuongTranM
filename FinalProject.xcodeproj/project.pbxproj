@@ -20,6 +20,10 @@
 		84B76C8B290A648700AF2B3C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C89290A648700AF2B3C /* ProfileViewController.swift */; };
 		84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76C8A290A648700AF2B3C /* ProfileViewController.xib */; };
 		84B76C8E290A68F500AF2B3C /* BaseTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C8D290A68F500AF2B3C /* BaseTabbarViewController.swift */; };
+		84B76CAF2910B64500AF2B3C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CAE2910B64500AF2B3C /* SearchViewModel.swift */; };
+		84B76CB42910B85800AF2B3C /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CB22910B85800AF2B3C /* SearchCollectionViewCell.swift */; };
+		84B76CB52910B85800AF2B3C /* SearchCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76CB32910B85800AF2B3C /* SearchCollectionViewCell.xib */; };
+		84B76CB72910B8A500AF2B3C /* SearchCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CB62910B8A500AF2B3C /* SearchCollectionCellViewModel.swift */; };
 		84B76C93290CBF0200AF2B3C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C92290CBF0200AF2B3C /* HomeViewModel.swift */; };
 		84B76C9D290CC4B800AF2B3C /* RecommendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C9B290CC4B800AF2B3C /* RecommendCollectionViewCell.swift */; };
 		84B76C9E290CC4B800AF2B3C /* RecommendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76C9C290CC4B800AF2B3C /* RecommendCollectionViewCell.xib */; };
@@ -61,6 +65,10 @@
 		84B76C89290A648700AF2B3C /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		84B76C8A290A648700AF2B3C /* ProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		84B76C8D290A68F500AF2B3C /* BaseTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabbarViewController.swift; sourceTree = "<group>"; };
+		84B76CAE2910B64500AF2B3C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		84B76CB22910B85800AF2B3C /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		84B76CB32910B85800AF2B3C /* SearchCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCollectionViewCell.xib; sourceTree = "<group>"; };
+		84B76CB62910B8A500AF2B3C /* SearchCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionCellViewModel.swift; sourceTree = "<group>"; };
 		84B76C92290CBF0200AF2B3C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		84B76C9B290CC4B800AF2B3C /* RecommendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCollectionViewCell.swift; sourceTree = "<group>"; };
 		84B76C9C290CC4B800AF2B3C /* RecommendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -153,8 +161,10 @@
 		84B76C7A290A63BC00AF2B3C /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				84B76CB12910B84100AF2B3C /* SearchCell */,
 				84B76C81290A646B00AF2B3C /* SearchViewController.swift */,
 				84B76C82290A646B00AF2B3C /* SearchViewController.xib */,
+				84B76CAE2910B64500AF2B3C /* SearchViewModel.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -179,6 +189,16 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		84B76CB12910B84100AF2B3C /* SearchCell */ = {
+			isa = PBXGroup;
+			children = (
+				84B76CB22910B85800AF2B3C /* SearchCollectionViewCell.swift */,
+				84B76CB32910B85800AF2B3C /* SearchCollectionViewCell.xib */,
+				84B76CB62910B8A500AF2B3C /* SearchCollectionCellViewModel.swift */,
+			);
+			path = SearchCell;
+            sourceTree = "<group>";
+        };
 		84B76C94290CC13300AF2B3C /* SliderCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +425,7 @@
 				84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */,
 				D27553A22907C1C600032E02 /* LaunchScreen.storyboard in Resources */,
 				8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */,
+				84B76CB52910B85800AF2B3C /* SearchCollectionViewCell.xib in Resources */,
 				D275539F2907C1C600032E02 /* Assets.xcassets in Resources */,
 				84B76C88290A647B00AF2B3C /* FavoriteViewController.xib in Resources */,
 				84B76CA2290CC4C800AF2B3C /* PopularCollectionViewCell.xib in Resources */,
@@ -485,6 +506,7 @@
 			files = (
 				D2ECE55B29090E6B00041BF9 /* Network.swift in Sources */,
 				D2ECE5442908569600041BF9 /* APIManager.swift in Sources */,
+				84B76CAF2910B64500AF2B3C /* SearchViewModel.swift in Sources */,
 				84B76CA6290CC51E00AF2B3C /* RecommendCollectionCellViewModel.swift in Sources */,
 				D2ECE54B2908632200041BF9 /* APIManager.Login.swift in Sources */,
 				84B76C93290CBF0200AF2B3C /* HomeViewModel.swift in Sources */,
@@ -495,6 +517,8 @@
 				D2ECE5462908591C00041BF9 /* Reachability.swift in Sources */,
 				D2ECE55D29093BF300041BF9 /* Collection+Ext.swift in Sources */,
 				84B76C83290A646B00AF2B3C /* SearchViewController.swift in Sources */,
+				84B76CB72910B8A500AF2B3C /* SearchCollectionCellViewModel.swift in Sources */,
+				84B76CB42910B85800AF2B3C /* SearchCollectionViewCell.swift in Sources */,
 				84B76CA1290CC4C800AF2B3C /* PopularCollectionViewCell.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
 				84B76CAB290CC7EF00AF2B3C /* SlideCollectionViewCell.swift in Sources */,
