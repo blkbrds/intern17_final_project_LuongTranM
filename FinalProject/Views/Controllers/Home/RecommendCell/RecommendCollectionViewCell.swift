@@ -9,7 +9,7 @@ import UIKit
 
 final class RecommendCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var cellView: UIView!
+    @IBOutlet private weak var cellView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

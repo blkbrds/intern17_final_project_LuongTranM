@@ -9,13 +9,13 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
-    @IBOutlet weak var slideCollectionView: UICollectionView!
-    @IBOutlet weak var recommendCollectionView: UICollectionView!
-    @IBOutlet weak var popularCollectionView: UICollectionView!
-    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet private weak var slideCollectionView: UICollectionView!
+    @IBOutlet private weak var recommendCollectionView: UICollectionView!
+    @IBOutlet private weak var popularCollectionView: UICollectionView!
+    @IBOutlet private weak var pageControl: UIPageControl!
 
     var viewModel: HomeViewModel?
-    var timer: Timer?
+    private var timer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()

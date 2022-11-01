@@ -18,10 +18,6 @@ final class SlideCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     private func updateCell() {
         guard let viewModel = viewModel else { return }
         shopImageView.image = UIImage(named: viewModel.imageName)
