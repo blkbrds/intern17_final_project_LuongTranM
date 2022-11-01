@@ -43,7 +43,7 @@ extension FavoriteViewController {
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.doVat.count
+        return viewModel.items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,10 +70,10 @@ extension FavoriteViewController: FavoriteTableViewCellDelegate {
         switch action {
         case .didTap:
             guard let viewModel = viewModel,
-                  let doVat = tableView.indexPath(for: cell) else { return }
-            viewModel.doVat.remove(at: doVat.row)
+                  let index = tableView.indexPath(for: cell) else { return }
+            viewModel.items.remove(at: index.row)
             tableView.beginUpdates()
-            tableView.deleteRows(at: [doVat], with: .left)
+            tableView.deleteRows(at: [index], with: .left)
             tableView.endUpdates()
         }
     }

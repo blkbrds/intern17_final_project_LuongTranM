@@ -15,8 +15,7 @@ final class HomeViewModel {
     var currentCellIndex: Int = 0
 
     func viewSlideForItem(at indexPath: IndexPath) -> SlideCollectionCellViewModel {
-        let cellModel = SlideCollectionCellViewModel(imageName: images[indexPath.row], shopName: images[indexPath.row])
-        return cellModel
+        return SlideCollectionCellViewModel(imageName: images[safe: indexPath.row].content, shopName: images[safe: indexPath.row].content)
     }
 
 }
