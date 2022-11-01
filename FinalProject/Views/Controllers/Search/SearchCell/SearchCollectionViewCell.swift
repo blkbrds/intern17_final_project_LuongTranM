@@ -10,14 +10,21 @@ import UIKit
 final class SearchCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet private weak var productNameLabel: UILabel!
-    @IBOutlet weak var productImageview: UIImageView!
+    @IBOutlet private weak var productImageview: UIImageView!
 
     var viewModel: SearchCollectionCellViewModel?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.layer.borderWidth  = 1
-        contentView.layer.cornerRadius = 20
+        contentView.layer.borderWidth  = Define.borderWidth
+        contentView.layer.cornerRadius = Define.cornerRadius
     }
 
+}
+
+extension SearchCollectionViewCell {
+    private struct Define {
+        static var borderWidth: CGFloat = 1.0
+        static var cornerRadius: CGFloat = 20
+    }
 }
