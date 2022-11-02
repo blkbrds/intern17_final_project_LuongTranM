@@ -76,6 +76,12 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        vc.viewModel = DetailViewModel()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width / 2 - 15, height: 230)
     }
@@ -87,7 +93,6 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 
 extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 
-    #warning("Handle Data When Searching")
     func updateSearchResults(for searchController: UISearchController) {
         searchCollectionView.reloadData()
     }

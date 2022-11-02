@@ -7,6 +7,4 @@
 
 import Foundation
 
-final class SearchViewModel {
-    #warning("Handle Search API")
-}
+final class SearchViewModel { }

@@ -16,5 +16,4 @@ final class SlideCollectionCellViewModel {
         self.imageName = imageName
         self.shopName = shopName
     }
-
 }

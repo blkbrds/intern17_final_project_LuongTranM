@@ -105,7 +105,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                   let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCollectionCell, for: indexPath) as? SlideCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.viewModel = viewModel.viewSlideForItem(at: indexPath)
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath)
             return cell
         case recommendCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCollectionCell, for: indexPath) as? RecommendCollectionViewCell else {

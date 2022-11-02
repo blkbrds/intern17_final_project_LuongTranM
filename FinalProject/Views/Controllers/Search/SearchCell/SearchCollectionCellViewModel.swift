@@ -7,6 +7,4 @@
 
 import Foundation
 
-final class SearchCollectionCellViewModel {
-
-}
+final class SearchCollectionCellViewModel { }
