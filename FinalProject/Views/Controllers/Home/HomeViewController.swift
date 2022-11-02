@@ -9,10 +9,7 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
-    @IBOutlet private weak var slideCollectionView: UICollectionView!
-    @IBOutlet private weak var recommendCollectionView: UICollectionView!
-    @IBOutlet private weak var popularCollectionView: UICollectionView!
-    @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet private weak var tableView: UITableView!
 
     var viewModel: HomeViewModel?
     private var timer: Timer?
@@ -20,7 +17,8 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
-        configCollectionView()
+        configTableView()
+        getData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,26 +36,18 @@ final class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = cartButton
     }
 
-    private func configCollectionView() {
-        let slideNib = UINib(nibName: Define.slideCollectionCell, bundle: Bundle.main)
-        slideCollectionView.register(slideNib, forCellWithReuseIdentifier: Define.slideCollectionCell)
-        slideCollectionView.delegate = self
-        slideCollectionView.dataSource = self
-        startTimer()
+    private func configTableView() {
+        let slideNib = UINib(nibName: Define.slideCell, bundle: Bundle.main)
+        tableView.register(slideNib, forCellReuseIdentifier: Define.slideCell)
 
-        let recommendNib = UINib(nibName: Define.recommendCollectionCell, bundle: Bundle.main)
-        recommendCollectionView.register(recommendNib, forCellWithReuseIdentifier: Define.recommendCollectionCell)
-        recommendCollectionView.delegate = self
-        recommendCollectionView.dataSource = self
+        let recommendCell = UINib(nibName: Define.recommendCell, bundle: Bundle.main)
+        tableView.register(recommendCell, forCellReuseIdentifier: Define.recommendCell)
 
-        let popularNib = UINib(nibName: Define.popularCollectionCell, bundle: Bundle.main)
-        popularCollectionView.register(popularNib, forCellWithReuseIdentifier: Define.popularCollectionCell)
-        popularCollectionView.delegate = self
-        popularCollectionView.dataSource = self
-    }
+        let popularCell = UINib(nibName: Define.popularCell, bundle: Bundle.main)
+        tableView.register(popularCell, forCellReuseIdentifier: Define.popularCell)
 
-    private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: Define.timerIntervar, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     @objc private func cartButtonTouchUpInside() {
@@ -65,18 +55,6 @@ final class HomeViewController: UIViewController {
         vc.viewModel = CartViewModel()
         navigationController?.pushViewController(vc, animated: true)
     }
-
-    @objc private func moveToNextIndex() {
-        guard let viewModel = viewModel else { return }
-        if viewModel.currentCellIndex < viewModel.images.count - 1 {
-            viewModel.currentCellIndex += 1
-        } else {
-            viewModel.currentCellIndex = 0
-        }
-        slideCollectionView.scrollToItem(at: IndexPath(row: viewModel.currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
-        pageControl.currentPage = viewModel.currentCellIndex
-    }
-
 }
 
 extension HomeViewController {
@@ -88,93 +66,78 @@ extension HomeViewController {
         static var lineSpacingDefault: CGFloat = 0
         static var lineSpacingPopular: CGFloat = 10
         static var lineSpacingRecommend: CGFloat = 15
-        static var slideCollectionCell: String = String(describing: SlideCollectionViewCell.self)
-        static var recommendCollectionCell: String = String(describing: RecommendCollectionViewCell.self)
-        static var popularCollectionCell: String = String(describing: PopularCollectionViewCell.self)
+        static var slideCell: String = String(describing: SliderCell.self)
+        static var recommendCell: String = String(describing: RecommendCell.self)
+        static var popularCell: String = String(describing: PopularCell.self)
         static var timerIntervar: Double = 2.5
     }
 }
 
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch collectionView {
-        case slideCollectionView:
-            #warning("Handle number default")
-            guard let viewModel = viewModel else { return 0 }
-            pageControl.numberOfPages = viewModel.images.count
-            return viewModel.images.count
-        default:
-            return 6
-        }
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch collectionView {
-        case slideCollectionView:
-            guard let viewModel = viewModel,
-                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.slideCollectionCell, for: indexPath) as? SlideCollectionViewCell else {
-                return UICollectionViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = viewModel else {
+            return UITableViewCell()
+        }
+        switch indexPath.row {
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.slideCell) as? SliderCell else {
+                return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath)
+            viewModel.cellType = .slide
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? SlideCellViewModel
             return cell
-        case recommendCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.recommendCollectionCell, for: indexPath) as? RecommendCollectionViewCell else {
-                return UICollectionViewCell()
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.recommendCell) as? RecommendCell else {
+                return UITableViewCell()
             }
+            viewModel.cellType = .recommend
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? RecommendCellViewModel
             return cell
-        case popularCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.popularCollectionCell, for: indexPath) as? PopularCollectionViewCell else {
-                return UICollectionViewCell()
+        case 2:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.popularCell) as? PopularCell else {
+                return UITableViewCell()
             }
+            viewModel.cellType = .popular
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? PopularCellViewModel
             return cell
         default:
-            return UICollectionViewCell()
+            return UITableViewCell()
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        switch collectionView {
-        case slideCollectionView:
-            return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
-        case recommendCollectionView:
-            return CGSize(width: collectionView.frame.width, height: 180)
-        case popularCollectionView:
-            return CGSize(width: view.frame.width / 2 - 15, height: 350)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return 300
+        case 1:
+            return 300
+        case 2:
+            return 400
         default:
-            return CGSize(width: 10, height: 10)
+            return 0
         }
     }
+}
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch collectionView {
-        case popularCollectionView, recommendCollectionView:
-            let vc = DetailViewController()
-            vc.viewModel = DetailViewModel()
-            navigationController?.pushViewController(vc, animated: true)
-        default:
-            return
-        }
+// MARK: - APIs
+extension HomeViewController {
+
+    private func getData() {
+        getProduct()
+        getShop()
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        switch collectionView {
-        case recommendCollectionView:
-            return Define.insetRecommend
-        case popularCollectionView:
-            return Define.insetPopular
-        default:
-            return Define.insetDefault
-        }
+    func getProduct() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getProduct()
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        switch collectionView {
-        case recommendCollectionView:
-            return Define.lineSpacingRecommend
-        case popularCollectionView:
-            return Define.lineSpacingPopular
-        default:
-            return Define.lineSpacingDefault
-        }
+    func getShop() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getShop()
     }
 }

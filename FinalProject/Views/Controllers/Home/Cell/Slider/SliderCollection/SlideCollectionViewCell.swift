@@ -20,7 +20,7 @@ final class SlideCollectionViewCell: UICollectionViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        shopImageView.downloadImage(from: viewModel.imageName)
-        nameShopLabel.text = viewModel.shopName.uppercased()
+        shopImageView.downloadImage(from: (viewModel.shop?.imageShop).content)
+        nameShopLabel.text = (viewModel.shop?.nameShop).content.uppercased()
     }
 }
