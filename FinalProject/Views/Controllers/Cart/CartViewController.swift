@@ -16,8 +16,8 @@ final class CartViewController: UIViewController {
     @IBOutlet private weak var checkOutButton: UIButton!
 
     var viewModel: CartViewModel?
-    var totalCart: Int = 0
-    var isShowViewDetail: Bool = true
+    private var totalCart: Int = 0
+    private var isShowViewDetail: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,7 @@ final class CartViewController: UIViewController {
     @objc private func deleteButtonTouchUpInside() {
         guard let viewModel = viewModel else { return }
         let refreshAlert = UIAlertController(title: "Delete", message: "Do you wanna delete all products in cart?", preferredStyle: UIAlertController.Style.alert)
-        refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+        refreshAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
             viewModel.carts.removeAll()
             self.animationLoadTable()
           }))
@@ -145,8 +145,7 @@ extension CartViewController: CartTabeViewCellDelegate {
             tableView.reloadData()
         case .decrease(let id, let count):
             guard let index = tableView.indexPath(for: cell),
-                  let viewModel = viewModel
-            else { return }
+                  let viewModel = viewModel else { return }
             if count != 0 {
                 viewModel.updateCart(id: id, count: count, indexPath: index)
                 tableView.reloadData()

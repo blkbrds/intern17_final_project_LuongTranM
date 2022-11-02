@@ -56,18 +56,15 @@ final class CartTableViewCell: UITableViewCell {
 
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
         guard let delegate = delegate,
-              let viewModel = viewModel
-        else { return }
+              let viewModel = viewModel else { return }
         count = viewModel.cart.count + 1
         delegate.cell(cell: self, needPerform: .increase(id: viewModel.cart.id, count: count))
     }
 
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
         guard let delegate = delegate,
-              let viewModel = viewModel
-        else { return }
+              let viewModel = viewModel else { return }
         count = viewModel.cart.count - 1
         delegate.cell(cell: self, needPerform: .decrease(id: viewModel.cart.id, count: count))
     }
-
 }
