@@ -32,6 +32,10 @@ final class HomeViewController: UIViewController {
         navigationItem.title = Define.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+
+        let cartButton = UIBarButtonItem(image: UIImage(systemName: "cart"), style: .plain, target: self, action: #selector(cartButtonTouchUpInside))
+        cartButton.tintColor = .black
+        navigationItem.rightBarButtonItem = cartButton
     }
 
     private func configCollectionView() {
@@ -54,6 +58,12 @@ final class HomeViewController: UIViewController {
 
     private func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: Define.timerIntervar, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
+    }
+
+    @objc private func cartButtonTouchUpInside() {
+        let vc = CartViewController()
+        vc.viewModel = CartViewModel()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc private func moveToNextIndex() {
@@ -132,6 +142,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return CGSize(width: view.frame.width / 2 - 15, height: 350)
         default:
             return CGSize(width: 10, height: 10)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case popularCollectionView, recommendCollectionView:
+            let vc = DetailViewController()
+            vc.viewModel = DetailViewModel()
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            return
         }
     }
 

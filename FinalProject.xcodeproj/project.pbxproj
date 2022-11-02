@@ -15,6 +15,12 @@
 		844E4327291164EB006B713B /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E4325291164EB006B713B /* CarouselCollectionViewCell.swift */; };
 		844E4328291164EB006B713B /* CarouselCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844E4326291164EB006B713B /* CarouselCollectionViewCell.xib */; };
 		844E432A29120008006B713B /* ImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E432929120008006B713B /* ImageView+Ext.swift */; };
+		844E432F29121297006B713B /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E432D29121297006B713B /* CartViewController.swift */; };
+		844E433029121297006B713B /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844E432E29121297006B713B /* CartViewController.xib */; };
+		844E4332291212AC006B713B /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E4331291212AC006B713B /* CartViewModel.swift */; };
+		844E4336291212DF006B713B /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E4334291212DF006B713B /* CartTableViewCell.swift */; };
+		844E4337291212DF006B713B /* CartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844E4335291212DF006B713B /* CartTableViewCell.xib */; };
+		844E433929121306006B713B /* CartCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E433829121306006B713B /* CartCellViewModel.swift */; };
 		8458F2B129110B230087D6FB /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458F2B029110B230087D6FB /* ProfileViewModel.swift */; };
 		8458F2B529110C260087D6FB /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */; };
 		8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */; };
@@ -71,6 +77,12 @@
 		844E4325291164EB006B713B /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		844E4326291164EB006B713B /* CarouselCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarouselCollectionViewCell.xib; sourceTree = "<group>"; };
 		844E432929120008006B713B /* ImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Ext.swift"; sourceTree = "<group>"; };
+		844E432D29121297006B713B /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		844E432E29121297006B713B /* CartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartViewController.xib; sourceTree = "<group>"; };
+		844E4331291212AC006B713B /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		844E4334291212DF006B713B /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
+		844E4335291212DF006B713B /* CartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartTableViewCell.xib; sourceTree = "<group>"; };
+		844E433829121306006B713B /* CartCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCellViewModel.swift; sourceTree = "<group>"; };
 		8458F2B029110B230087D6FB /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -168,6 +180,27 @@
 				844E43232911627B006B713B /* CarouselCollectionCellViewModel.swift */,
 			);
 			path = Carousel;
+			sourceTree = "<group>";
+		};
+		844E432C29121261006B713B /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				844E4333291212B0006B713B /* CartCell */,
+				844E432D29121297006B713B /* CartViewController.swift */,
+				844E432E29121297006B713B /* CartViewController.xib */,
+				844E4331291212AC006B713B /* CartViewModel.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		844E4333291212B0006B713B /* CartCell */ = {
+			isa = PBXGroup;
+			children = (
+				844E4334291212DF006B713B /* CartTableViewCell.swift */,
+				844E4335291212DF006B713B /* CartTableViewCell.xib */,
+				844E433829121306006B713B /* CartCellViewModel.swift */,
+			);
+			path = CartCell;
 			sourceTree = "<group>";
 		};
 		8458F2B229110C070087D6FB /* HistoryCell */ = {
@@ -372,6 +405,7 @@
 		D2ECE5392908537400041BF9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				844E432C29121261006B713B /* Cart */,
 				844E431729115F4B006B713B /* Detail */,
 				84B76C78290A637D00AF2B3C /* BaseTabbar */,
 				84B76C7C290A63CF00AF2B3C /* Profile */,
@@ -479,12 +513,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844E433029121297006B713B /* CartViewController.xib in Resources */,
 				84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */,
 				844E431B29115F7C006B713B /* DetailViewController.xib in Resources */,
 				D27553A22907C1C600032E02 /* LaunchScreen.storyboard in Resources */,
 				8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */,
 				84B76CB52910B85800AF2B3C /* SearchCollectionViewCell.xib in Resources */,
 				D275539F2907C1C600032E02 /* Assets.xcassets in Resources */,
+				844E4337291212DF006B713B /* CartTableViewCell.xib in Resources */,
 				84B76C88290A647B00AF2B3C /* FavoriteViewController.xib in Resources */,
 				84B76CA2290CC4C800AF2B3C /* PopularCollectionViewCell.xib in Resources */,
 				84B76C9E290CC4B800AF2B3C /* RecommendCollectionViewCell.xib in Resources */,
@@ -570,8 +606,10 @@
 				D2ECE5442908569600041BF9 /* APIManager.swift in Sources */,
 				84B76CBE2910CDD400AF2B3C /* FavoriteTableCellViewModel.swift in Sources */,
 				84B76CAF2910B64500AF2B3C /* SearchViewModel.swift in Sources */,
+				844E432F29121297006B713B /* CartViewController.swift in Sources */,
 				84B76CA6290CC51E00AF2B3C /* RecommendCollectionCellViewModel.swift in Sources */,
 				D2ECE54B2908632200041BF9 /* APIManager.Login.swift in Sources */,
+				844E4336291212DF006B713B /* CartTableViewCell.swift in Sources */,
 				84B76C93290CBF0200AF2B3C /* HomeViewModel.swift in Sources */,
 				84B76C8E290A68F500AF2B3C /* BaseTabbarViewController.swift in Sources */,
 				844E431A29115F7C006B713B /* DetailViewController.swift in Sources */,
@@ -585,6 +623,8 @@
 				84B76CBB2910CDBF00AF2B3C /* FavoriteTableViewCell.swift in Sources */,
 				84B76CB72910B8A500AF2B3C /* SearchCollectionCellViewModel.swift in Sources */,
 				84B76CB42910B85800AF2B3C /* SearchCollectionViewCell.swift in Sources */,
+				844E4332291212AC006B713B /* CartViewModel.swift in Sources */,
+				844E433929121306006B713B /* CartCellViewModel.swift in Sources */,
 				84B76CA1290CC4C800AF2B3C /* PopularCollectionViewCell.swift in Sources */,
 				844E43242911627B006B713B /* CarouselCollectionCellViewModel.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,

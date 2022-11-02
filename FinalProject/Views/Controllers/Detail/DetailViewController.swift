@@ -113,8 +113,8 @@ final class DetailViewController: UIViewController {
         UIView.transition(with: addToCartButton, duration: 0.2,
                           options: .transitionCrossDissolve,
                           animations: {
-            self.addToCartButton.isHidden = self.isShowCartButton ? true : false
-            self.isShowCartButton = self.isShowCartButton ? false : true
+            self.addToCartButton.isHidden = self.isShowCartButton
+            self.isShowCartButton = !self.isShowCartButton
         })
     }
 }
