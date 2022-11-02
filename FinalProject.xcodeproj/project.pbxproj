@@ -6,13 +6,16 @@
 	objectVersion = 56;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		844E431A29115F7C006B713B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E431829115F7C006B713B /* DetailViewController.swift */; };
+/* Begin PBXBuildFile section */		844E431A29115F7C006B713B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E431829115F7C006B713B /* DetailViewController.swift */; };
 		844E431B29115F7C006B713B /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844E431929115F7C006B713B /* DetailViewController.xib */; };
 		844E431D29115F99006B713B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E431C29115F99006B713B /* DetailViewModel.swift */; };
 		844E43242911627B006B713B /* CarouselCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E43232911627B006B713B /* CarouselCollectionCellViewModel.swift */; };
 		844E4327291164EB006B713B /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E4325291164EB006B713B /* CarouselCollectionViewCell.swift */; };
 		844E4328291164EB006B713B /* CarouselCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844E4326291164EB006B713B /* CarouselCollectionViewCell.xib */; };
+		844E431629110F1C006B713B /* HistoryTableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E431529110F1C006B713B /* HistoryTableCellViewModel.swift */; };
+		8458F2B129110B230087D6FB /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458F2B029110B230087D6FB /* ProfileViewModel.swift */; };
+		8458F2B529110C260087D6FB /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */; };
+		8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */; };
 		84B76C7F290A645E00AF2B3C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C7D290A645E00AF2B3C /* HomeViewController.swift */; };
 		84B76C80290A645E00AF2B3C /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84B76C7E290A645E00AF2B3C /* HomeViewController.xib */; };
 		84B76C83290A646B00AF2B3C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76C81290A646B00AF2B3C /* SearchViewController.swift */; };
@@ -64,6 +67,10 @@
 		844E43232911627B006B713B /* CarouselCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionCellViewModel.swift; sourceTree = "<group>"; };
 		844E4325291164EB006B713B /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		844E4326291164EB006B713B /* CarouselCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarouselCollectionViewCell.xib; sourceTree = "<group>"; };
+		844E431529110F1C006B713B /* HistoryTableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableCellViewModel.swift; sourceTree = "<group>"; };
+		8458F2B029110B230087D6FB /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryTableViewCell.xib; sourceTree = "<group>"; };
 		84B76C7D290A645E00AF2B3C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		84B76C7E290A645E00AF2B3C /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		84B76C81290A646B00AF2B3C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +165,16 @@
 				844E43232911627B006B713B /* CarouselCollectionCellViewModel.swift */,
 			);
 			path = Carousel;
+            sourceTree = "<group>";
+        };
+		8458F2B229110C070087D6FB /* HistoryCell */ = {
+			isa = PBXGroup;
+			children = (
+				8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */,
+				8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */,
+				844E431529110F1C006B713B /* HistoryTableCellViewModel.swift */,
+			);
+			path = HistoryCell;
 			sourceTree = "<group>";
 		};
 		84B76C78290A637D00AF2B3C /* BaseTabbar */ = {
@@ -206,8 +223,10 @@
 		84B76C7C290A63CF00AF2B3C /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				8458F2B229110C070087D6FB /* HistoryCell */,
 				84B76C89290A648700AF2B3C /* ProfileViewController.swift */,
 				84B76C8A290A648700AF2B3C /* ProfileViewController.xib */,
+				8458F2B029110B230087D6FB /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -459,6 +478,7 @@
 				84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */,
 				844E431B29115F7C006B713B /* DetailViewController.xib in Resources */,
 				D27553A22907C1C600032E02 /* LaunchScreen.storyboard in Resources */,
+				8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */,
 				84B76CB52910B85800AF2B3C /* SearchCollectionViewCell.xib in Resources */,
 				D275539F2907C1C600032E02 /* Assets.xcassets in Resources */,
 				84B76C88290A647B00AF2B3C /* FavoriteViewController.xib in Resources */,
@@ -565,9 +585,12 @@
 				844E43242911627B006B713B /* CarouselCollectionCellViewModel.swift in Sources */,
 				D2ECE5572908F1D800041BF9 /* Optional+Ext.swift in Sources */,
 				84B76CAB290CC7EF00AF2B3C /* SlideCollectionViewCell.swift in Sources */,
+				8458F2B129110B230087D6FB /* ProfileViewModel.swift in Sources */,
 				84B76C7F290A645E00AF2B3C /* HomeViewController.swift in Sources */,
 				84B76C87290A647B00AF2B3C /* FavoriteViewController.swift in Sources */,
+				8458F2B529110C260087D6FB /* HistoryTableViewCell.swift in Sources */,
 				D27553962907C1C400032E02 /* AppDelegate.swift in Sources */,
+				844E431629110F1C006B713B /* HistoryTableCellViewModel.swift in Sources */,
 				D2ECE5592908F38800041BF9 /* WeatherResponse.swift in Sources */,
 				D2ECE54D2908DFBB00041BF9 /* LoginViewModel.swift in Sources */,
 				84B76CA4290CC50500AF2B3C /* PopularCollectionCellViewModel.swift in Sources */,
