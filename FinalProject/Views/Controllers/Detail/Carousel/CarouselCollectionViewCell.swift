@@ -19,7 +19,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        productImageView.image = UIImage(named: viewModel.image)
+        productImageView.downloaded(from: viewModel.image)
     }
 
 }

@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="323" height="206"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beast" translatesAutoresizingMaskIntoConstraints="NO" id="smO-tX-yZj">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="smO-tX-yZj">
                         <rect key="frame" x="0.0" y="0.0" width="323" height="206"/>
                     </imageView>
                 </subviews>
@@ -36,7 +36,4 @@
             <point key="canvasLocation" x="320.76923076923077" y="76.066350710900466"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="beast" width="341.33334350585938" height="437.66665649414062"/>
-    </resources>
 </document>

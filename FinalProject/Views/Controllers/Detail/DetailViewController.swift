@@ -95,6 +95,10 @@ final class DetailViewController: UIViewController {
         quantity += 1
     }
 
+    @IBAction func addCartButtonTouchUpInside(_ sender: Any) {
+        #warning("add to cart")
+    }
+    
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
         if viewModel.currentCellIndex < viewModel.images.count - 1 {
@@ -109,13 +113,8 @@ final class DetailViewController: UIViewController {
         UIView.transition(with: addToCartButton, duration: 0.2,
                           options: .transitionCrossDissolve,
                           animations: {
-            if self.isShowCartButton {
-                self.addToCartButton.isHidden = true
-                self.isShowCartButton = false
-            } else {
-                self.addToCartButton.isHidden = false
-                self.isShowCartButton = true
-            }
+            self.addToCartButton.isHidden = self.isShowCartButton ? true : false
+            self.isShowCartButton = self.isShowCartButton ? false : true
         })
     }
 }
@@ -147,7 +146,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
             return UICollectionViewCell()
 
         }
-        cell.viewModel = viewModel.viewSlideForItem(at: indexPath)
+        cell.viewModel = viewModel.viewCarouselForItem(at: indexPath)
         return cell
     }
 
