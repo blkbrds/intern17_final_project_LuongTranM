@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+final class CartCellViewModel {
+
+    var cart: Cart
+
+    init(cart: Cart) {
+        self.cart = cart
+    }
+}
