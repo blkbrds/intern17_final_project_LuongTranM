@@ -12,7 +12,11 @@ final class SearchCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var productNameLabel: UILabel!
     @IBOutlet private weak var productImageview: UIImageView!
 
-    var viewModel: SearchCollectionCellViewModel?
+    var viewModel: SearchCollectionCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,6 +24,11 @@ final class SearchCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = Define.cornerRadius
     }
 
+    private func updateUI() {
+        guard let viewModel = viewModel else { return }
+        productNameLabel.text = (viewModel.product?.name).content
+        productImageview.downloadImage(from: (viewModel.product?.imageProduct).content)
+    }
 }
 
 extension SearchCollectionViewCell {

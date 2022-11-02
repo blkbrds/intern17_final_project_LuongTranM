@@ -41,7 +41,7 @@ final class RecommendCollectionViewCell: UICollectionViewCell {
         guard let viewModel = viewModel else { return }
         productImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
         nameProductLabel.text = (viewModel.product?.name).content
-        priceProductLabel.text = "\((viewModel.product?.price).unwrap(or: 0))"
+        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
         shopLabel.text = (viewModel.product?.category.shop.nameShop).content
     }
 }

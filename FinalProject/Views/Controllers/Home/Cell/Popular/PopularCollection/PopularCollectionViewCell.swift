@@ -31,6 +31,6 @@ final class PopularCollectionViewCell: UICollectionViewCell {
         productImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
         nameProductLabel.text = viewModel.product?.name
         categotyProductLabel.text = viewModel.product?.category.nameCategory
-        priceProductLabel.text = "\((viewModel.product?.price).unwrap(or: 0))"
+        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
     }
 }
