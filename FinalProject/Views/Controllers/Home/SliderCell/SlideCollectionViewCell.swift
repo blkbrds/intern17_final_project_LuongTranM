@@ -20,9 +20,7 @@ final class SlideCollectionViewCell: UICollectionViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        #warning("Handle link image: http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png")
-        shopImageView.image = UIImage(named: viewModel.imageName)
+        shopImageView.downloadImage(from: viewModel.imageName)
         nameShopLabel.text = viewModel.shopName.uppercased()
     }
-
 }

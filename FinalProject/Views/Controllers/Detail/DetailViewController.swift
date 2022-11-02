@@ -98,15 +98,15 @@ final class DetailViewController: UIViewController {
     @IBAction func addCartButtonTouchUpInside(_ sender: Any) {
         #warning("add to cart")
     }
-    
+
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
-        if viewModel.currentCellIndex < viewModel.images.count - 1 {
-            viewModel.currentCellIndex += 1
+        if viewModel.currentIndex < viewModel.images.count - 1 {
+            viewModel.currentIndex += 1
         } else {
-            viewModel.currentCellIndex = 0
+            viewModel.currentIndex = 0
         }
-        collectionView.scrollToItem(at: IndexPath(row: viewModel.currentCellIndex, section: 0), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: IndexPath(row: viewModel.currentIndex, section: 0), at: .centeredHorizontally, animated: true)
     }
 
     @objc private func showHideAddButton(sender: UITapGestureRecognizer) {
@@ -146,7 +146,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
             return UICollectionViewCell()
 
         }
-        cell.viewModel = viewModel.viewCarouselForItem(at: indexPath)
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 

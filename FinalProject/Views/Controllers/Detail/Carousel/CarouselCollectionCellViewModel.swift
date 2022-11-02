@@ -14,5 +14,4 @@ final class CarouselCollectionCellViewModel {
     init(image: String) {
         self.image = image
     }
-
 }

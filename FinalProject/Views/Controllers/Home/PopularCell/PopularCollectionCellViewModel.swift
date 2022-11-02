@@ -7,8 +7,4 @@
 
 import Foundation
 
-final class PopularCollectionCellViewModel {
-
-    #warning("Handle Data Popular")
-
-}
+final class PopularCollectionCellViewModel { }

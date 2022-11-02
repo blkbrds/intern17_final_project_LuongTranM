@@ -93,7 +93,6 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 
 extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 
-    #warning("Handle Data When Searching")
     func updateSearchResults(for searchController: UISearchController) {
         searchCollectionView.reloadData()
     }
