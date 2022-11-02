@@ -9,9 +9,9 @@ import Foundation
 
 final class FavoriteTableCellViewModel {
 
-    var name: String
+    var product: Product?
 
-    init(name: String) {
-        self.name = name
+    init(product: Product?) {
+        self.product = product
     }
 }

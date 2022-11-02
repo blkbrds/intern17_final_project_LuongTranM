@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FavoriteTableViewCellDelegate: AnyObject {
-    func cell(cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action)
+    func cell(_ cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action)
 }
 
 final class FavoriteTableViewCell: UITableViewCell {
@@ -17,23 +17,27 @@ final class FavoriteTableViewCell: UITableViewCell {
         case didTap
     }
 
-    weak var delegate: FavoriteTableViewCellDelegate?
-
+    // MARK: - Outlets
     @IBOutlet private weak var itemImageView: UIImageView!
     @IBOutlet private weak var itemNameLabel: UILabel!
     @IBOutlet private weak var itemSubLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: FavoriteTableCellViewModel? {
         didSet {
             updateCell()
         }
     }
 
+    weak var delegate: FavoriteTableViewCellDelegate?
+
+    // MARK: - Override method
     override func awakeFromNib() {
         super.awakeFromNib()
         configUI()
     }
 
+    // MARK: - Private method
     private func configUI() {
         itemImageView.layer.borderWidth = Define.borderWidth
         itemImageView.layer.cornerRadius = Define.cornerRadius
@@ -42,16 +46,18 @@ final class FavoriteTableViewCell: UITableViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        itemNameLabel.text = viewModel.name
+        itemImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
+        itemNameLabel.text = viewModel.product?.name
+        itemSubLabel.text = viewModel.product?.category.shop.nameShop
     }
 
+    // MARK: - Action
     @IBAction private func favoriteButtonTouchUpInside(_ sender: Any) {
-        guard let delegate = delegate else { return }
-        delegate.cell(cell: self, needPerform: .didTap)
+        delegate?.cell(self, needPerform: .didTap)
     }
-
 }
 
+// MARK: - Define
 extension FavoriteTableViewCell {
     private struct Define {
         static var borderWidth: CGFloat = 1.0

@@ -10,12 +10,14 @@ import UIKit
 final class RecommendCell: UITableViewCell {
 
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var viewAllLabel: UILabel!
 
     var viewModel: RecommendCellViewModel?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
+        configUI()
     }
 
     private func configCollectionView() {
@@ -23,6 +25,15 @@ final class RecommendCell: UITableViewCell {
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellName)
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+
+    private func configUI() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(viewAllRecommend))
+        self.addGestureRecognizer(tap)
+    }
+
+    @objc private func viewAllRecommend() {
+        #warning("Handle Later")
     }
 }
 

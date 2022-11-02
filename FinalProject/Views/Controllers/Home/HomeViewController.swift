@@ -88,6 +88,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             viewModel.cellType = .slide
+            cell.selectionStyle = .none
             cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? SlideCellViewModel
             return cell
         case 1:
@@ -95,6 +96,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             viewModel.cellType = .recommend
+            cell.selectionStyle = .none
             cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? RecommendCellViewModel
             return cell
         case 2:
@@ -102,6 +104,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             viewModel.cellType = .popular
+            cell.selectionStyle = .none
             cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? PopularCellViewModel
             return cell
         default:

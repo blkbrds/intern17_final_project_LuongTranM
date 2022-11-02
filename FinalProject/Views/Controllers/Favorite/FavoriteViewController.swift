@@ -17,6 +17,12 @@ final class FavoriteViewController: UIViewController {
         super.viewDidLoad()
         configNavigation()
         configTableView()
+        getDataOnLocal()
+    }
+
+    private func getDataOnLocal() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getProductLocal()
     }
 
     private func configNavigation() {
@@ -41,9 +47,10 @@ extension FavoriteViewController {
 }
 
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.items.count
+        return viewModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,15 +73,10 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension FavoriteViewController: FavoriteTableViewCellDelegate {
-    func cell(cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action) {
+    func cell(_ cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action) {
         switch action {
         case .didTap:
-            guard let viewModel = viewModel,
-                  let index = tableView.indexPath(for: cell) else { return }
-            viewModel.items.remove(at: index.row)
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [index], with: .left)
-            tableView.endUpdates()
+            #warning("Handle later")
         }
     }
 }
