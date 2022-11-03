@@ -21,6 +21,7 @@ final class CartTableViewCell: UITableViewCell {
     weak var delegate: CartTabeViewCellDelegate?
 
     @IBOutlet private weak var cartView: UIView!
+    @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var countLabel: UILabel!
@@ -39,32 +40,37 @@ final class CartTableViewCell: UITableViewCell {
     }
 
     private func configUI() {
-        cartView.layer.cornerRadius = 20
-        cartView.layer.shadowColor = UIColor.lightGray.cgColor
-        cartView.layer.shadowOpacity = 0.5
-        cartView.layer.shadowOffset = CGSize.zero
-        cartView.layer.shadowRadius = 3
+        cartView.layer.cornerRadius = 10
+        cartView.layer.borderWidth = 1
+
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(selectCell))
+        productImageView.isUserInteractionEnabled = true
+        productImageView.addGestureRecognizer(tapImage)
     }
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        let total: Int = viewModel.cart.price * viewModel.cart.count
-        nameLabel.text = viewModel.cart.name
-        priceLabel.text = "\(total)$"
-        countLabel.text = "\(viewModel.cart.count)"
+        let total: Int = viewModel.cart.price * viewModel.cart.quantity
+
+        productImageView.downloadImage(from: viewModel.cart.image)
+        nameLabel.text = viewModel.cart.productName
+        priceLabel.text = "$ \(total)"
+        countLabel.text = "\(viewModel.cart.quantity)"
     }
 
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
-        guard let delegate = delegate,
-              let viewModel = viewModel else { return }
-        count = viewModel.cart.count + 1
-        delegate.cell(cell: self, needPerform: .increase(id: viewModel.cart.id, count: count))
+        guard let viewModel = viewModel else { return }
+        count = viewModel.cart.quantity + 1
+        delegate?.cell(cell: self, needPerform: .increase(id: viewModel.cart.id, count: count))
     }
 
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
-        guard let delegate = delegate,
-              let viewModel = viewModel else { return }
-        count = viewModel.cart.count - 1
-        delegate.cell(cell: self, needPerform: .decrease(id: viewModel.cart.id, count: count))
+        guard let viewModel = viewModel else { return }
+        count = viewModel.cart.quantity - 1
+        delegate?.cell(cell: self, needPerform: .decrease(id: viewModel.cart.id, count: count))
+    }
+
+    @objc private func selectCell() {
+        #warning("Handle select item")
     }
 }

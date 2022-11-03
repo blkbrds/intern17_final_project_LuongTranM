@@ -41,6 +41,17 @@ struct Product: Codable {
         self.images = images
     }
 
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.discount = try container.decode(Int.self, forKey: .discount)
+        self.content = try container.decode(String.self, forKey: .content)
+        self.price = try container.decode(Int.self, forKey: .price)
+        self.category = try container.decode(Category.self, forKey: .category)
+        self.images = try container.decode([ImageProduct].self, forKey: .images)
+        self.imageProduct = try container.decode(String.self, forKey: .imageProduct)
+    }
 }
 
 struct Category: Codable {

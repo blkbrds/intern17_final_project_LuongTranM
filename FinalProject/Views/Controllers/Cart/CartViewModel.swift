@@ -12,36 +12,43 @@ final class CartViewModel {
     var carts: [Cart] = []
 
     func setData() {
-        let p1 = Cart(id: 1, name: "Banh Gao", count: 1, price: 15)
-        let p2 = Cart(id: 2, name: "Banh Kem", count: 1, price: 15)
-        let p3 = Cart(id: 3, name: "Banh Bao", count: 2, price: 15)
-        let p4 = Cart(id: 4, name: "Banh Xoai", count: 1, price: 15)
-        let p5 = Cart(id: 5, name: "Banh Nam", count: 1, price: 15)
-        let p6 = Cart(id: 6, name: "Banh Beo", count: 1, price: 15)
-        carts.append(contentsOf: [p1, p2, p3, p4, p5, p6])
+        let p1 = Cart(id: 6,
+                      userId: 20,
+                      productId: 16,
+                      productName: "Alphaskin Tie Headband",
+                      quantity: 2,
+                      price: 8,
+                      status: 0,
+                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+        let p2 = Cart(id: 6,
+                      userId: 20,
+                      productId: 37,
+                      productName: "Santal Royal",
+                      quantity: 2,
+                      price: 260,
+                      status: 0,
+                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+        let p3 = Cart(id: 6,
+                      userId: 20,
+                      productId: 20,
+                      productName: "Santal Royal Spapa Santal Royal Spapa",
+                      quantity: 2,
+                      price: 180,
+                      status: 0,
+                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+        carts.append(contentsOf: [p1, p2, p3])
     }
 
     func updateCart(id: Int, count: Int, indexPath: IndexPath) {
-        carts[indexPath.row].count = count
+        carts[indexPath.row].quantity = count
+    }
+
+    func numberOfRows(in section: Int) -> Int {
+        return carts.count
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> CartCellViewModel {
         let cellViewModel = CartCellViewModel(cart: carts[indexPath.row])
         return cellViewModel
-    }
-}
-
-final class Cart {
-
-    var id: Int
-    var name: String
-    var count: Int
-    var price: Int
-
-    init(id: Int, name: String, count: Int, price: Int) {
-        self.id = id
-        self.name = name
-        self.count = count
-        self.price = price
     }
 }

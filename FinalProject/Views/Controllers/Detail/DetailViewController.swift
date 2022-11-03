@@ -20,6 +20,8 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var addToCartButton: UIButton!
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var totalProductLabel: UILabel!
+    @IBOutlet private weak var backImageView: UIImageView!
+    @IBOutlet private weak var favoriteImageView: UIImageView!
 
     var viewModel: DetailViewModel?
     var timer: Timer?
@@ -34,6 +36,7 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        configNavigation()
         configCollectionView()
         updateQuantity()
     }
@@ -46,6 +49,25 @@ final class DetailViewController: UIViewController {
     private func configUI() {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
+
+        guard let viewModel = viewModel else { return }
+        nameProductLabel.text = viewModel.product?.name
+        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
+        categoryProductLabel.text = viewModel.product?.category.nameCategory
+        shopProductLabel.text = viewModel.product?.category.shop.nameShop
+        descriptionProductLabel.text = viewModel.product?.content
+
+        let favoriteTap = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonTouchUpInside))
+        favoriteImageView.isUserInteractionEnabled = true
+        favoriteImageView.addGestureRecognizer(favoriteTap)
+
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(returnButtonTouchUpInside))
+        backImageView.isUserInteractionEnabled = true
+        backImageView.addGestureRecognizer(backTap)
+    }
+
+    private func configNavigation() {
+        navigationController?.isNavigationBarHidden = true
     }
 
     private func configCollectionView() {
@@ -78,13 +100,18 @@ final class DetailViewController: UIViewController {
     }
 
     private func updateQuantity() {
-        let total = quantity * 150
+        guard let viewModel = viewModel else { return }
+        let total = quantity * (viewModel.product?.price).unwrap(or: 0)
         quantityLabel.text = "\(quantity)"
         totalProductLabel.text = "Total: $\(total)"
     }
 
-    @IBAction private func favoriteButtonTouchUpInside(_ sender: Any) {
-        #warning("add favorite")
+    @objc private func favoriteButtonTouchUpInside() {
+        #warning("HandleFavorite")
+    }
+
+    @objc private func returnButtonTouchUpInside() {
+        navigationController?.popViewController(animated: true)
     }
 
     @IBAction private func decreaseButtonTouchUpInside(_ sender: Any) {
@@ -95,13 +122,17 @@ final class DetailViewController: UIViewController {
         quantity += 1
     }
 
-    @IBAction func addCartButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
         #warning("add to cart")
+    }
+
+    @IBAction private func backButtonTouchUpInside(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
-        if viewModel.currentIndex < viewModel.images.count - 1 {
+        if viewModel.currentIndex < (viewModel.product?.images.count).unwrap(or: 0) - 1 {
             viewModel.currentIndex += 1
         } else {
             viewModel.currentIndex = 0
@@ -137,7 +168,7 @@ extension DetailViewController {
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.images.count
+        return (viewModel.product?.images.count).unwrap(or: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -26,6 +26,7 @@ final class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     private func configNavigation() {
@@ -80,8 +81,9 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
         let vc = DetailViewController()
-        vc.viewModel = DetailViewModel()
+        vc.viewModel = viewModel.viewDetailForItem(at: indexPath)
         navigationController?.pushViewController(vc, animated: true)
     }
 

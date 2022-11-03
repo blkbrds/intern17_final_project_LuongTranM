@@ -90,4 +90,14 @@ final class SearchViewModel {
             return SearchCollectionCellViewModel(product: product)
         }
     }
+
+    func viewDetailForItem(at indexPath: IndexPath) -> DetailViewModel {
+        if searching || scopeButtonPress {
+            guard let product = searchProducts[safe: indexPath.row] else { return DetailViewModel(product: nil) }
+            return DetailViewModel(product: product)
+        } else {
+            guard let product = products[safe: indexPath.row] else { return DetailViewModel(product: nil) }
+            return DetailViewModel(product: product)
+        }
+    }
 }

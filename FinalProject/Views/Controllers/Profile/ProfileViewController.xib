@@ -73,6 +73,9 @@
                                         <state key="normal">
                                             <imageReference key="image" image="logout" symbolScale="large"/>
                                         </state>
+                                        <connections>
+                                            <action selector="logOutButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="z1Z-Xz-p6V"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemMintColor"/>
