@@ -10,8 +10,9 @@ import Foundation
 final class CartViewModel {
 
     var carts: [Cart] = []
+    var totalPrice: Int = 0
 
-    func setData() {
+    func getData() {
         let p1 = Cart(id: 6,
                       userId: 20,
                       productId: 16,
@@ -39,7 +40,15 @@ final class CartViewModel {
         carts.append(contentsOf: [p1, p2, p3])
     }
 
-    func updateCart(id: Int, count: Int, indexPath: IndexPath) {
+    func totalPriceCarts() -> Int {
+        var total: Int = 0
+        for cart in carts {
+            total += cart.quantity * cart.price
+        }
+        return total
+    }
+
+    func updateCart(count: Int, indexPath: IndexPath) {
         carts[indexPath.row].quantity = count
     }
 

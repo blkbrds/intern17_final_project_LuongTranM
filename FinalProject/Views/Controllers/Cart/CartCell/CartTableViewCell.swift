@@ -14,8 +14,8 @@ protocol CartTabeViewCellDelegate: AnyObject {
 final class CartTableViewCell: UITableViewCell {
 
     enum Action {
-        case increase(id: Int, count: Int)
-        case decrease(id: Int, count: Int)
+        case increase
+        case decrease
     }
 
     weak var delegate: CartTabeViewCellDelegate?
@@ -41,36 +41,26 @@ final class CartTableViewCell: UITableViewCell {
 
     private func configUI() {
         cartView.layer.cornerRadius = 10
-        cartView.layer.borderWidth = 1
-
-        let tapImage = UITapGestureRecognizer(target: self, action: #selector(selectCell))
-        productImageView.isUserInteractionEnabled = true
-        productImageView.addGestureRecognizer(tapImage)
     }
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        let total: Int = viewModel.cart.price * viewModel.cart.quantity
 
         productImageView.downloadImage(from: viewModel.cart.image)
         nameLabel.text = viewModel.cart.productName
-        priceLabel.text = "$ \(total)"
+        priceLabel.text = "$ \(viewModel.cart.price)"
         countLabel.text = "\(viewModel.cart.quantity)"
     }
 
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
         guard let viewModel = viewModel else { return }
         count = viewModel.cart.quantity + 1
-        delegate?.cell(cell: self, needPerform: .increase(id: viewModel.cart.id, count: count))
+        delegate?.cell(cell: self, needPerform: .increase)
     }
 
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
         guard let viewModel = viewModel else { return }
         count = viewModel.cart.quantity - 1
-        delegate?.cell(cell: self, needPerform: .decrease(id: viewModel.cart.id, count: count))
-    }
-
-    @objc private func selectCell() {
-        #warning("Handle select item")
+        delegate?.cell(cell: self, needPerform: .decrease)
     }
 }

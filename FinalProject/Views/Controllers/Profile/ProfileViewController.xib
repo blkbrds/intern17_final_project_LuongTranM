@@ -74,7 +74,7 @@
                                             <imageReference key="image" image="logout" symbolScale="large"/>
                                         </state>
                                         <connections>
-                                            <action selector="logOutButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="z1Z-Xz-p6V"/>
+                                            <action selector="logOutButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="p8A-zc-GeD"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -107,6 +107,9 @@
                                         <state key="normal" title="Account Infomation">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="infoButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="n8c-BO-uyQ"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dK0-Dm-aeq">
                                         <rect key="frame" x="364" y="0.5" width="20" height="49"/>
@@ -131,6 +134,9 @@
                                         <state key="normal" title="Order">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="orderButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="qA5-Xo-fP8"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h1d-Y8-lwN">
                                         <rect key="frame" x="364" y="0.5" width="20" height="49"/>
@@ -155,6 +161,9 @@
                                         <state key="normal" title="Setting">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="settingButtonTouchUpInside:" destination="-1" eventType="touchUpInside" id="PO1-Kx-xB0"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ZVn-xC-3D5">
                                         <rect key="frame" x="364" y="0.5" width="20" height="49"/>

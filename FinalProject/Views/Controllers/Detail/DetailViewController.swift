@@ -26,7 +26,6 @@ final class DetailViewController: UIViewController {
     var viewModel: DetailViewModel?
     var timer: Timer?
 
-    private var isShowCartButton: Bool = false
     private var quantity: Int = 1 {
         didSet {
             updateQuantity()
@@ -89,10 +88,6 @@ final class DetailViewController: UIViewController {
         contentProductView.clipsToBounds = true
         contentProductView.layer.cornerRadius = Define.cornerRadius
         contentProductView.layer.maskedCorners = Define.maskedCorners
-
-        let tapView = UITapGestureRecognizer()
-        tapView.addTarget(self, action: #selector(showHideAddButton))
-        addProductView.addGestureRecognizer(tapView)
     }
 
     private func startTimer() {
@@ -139,15 +134,6 @@ final class DetailViewController: UIViewController {
         }
         collectionView.scrollToItem(at: IndexPath(row: viewModel.currentIndex, section: 0), at: .centeredHorizontally, animated: true)
     }
-
-    @objc private func showHideAddButton(sender: UITapGestureRecognizer) {
-        UIView.transition(with: addToCartButton, duration: 0.2,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.addToCartButton.isHidden = self.isShowCartButton
-            self.isShowCartButton = !self.isShowCartButton
-        })
-    }
 }
 
 extension DetailViewController {
@@ -155,7 +141,7 @@ extension DetailViewController {
         static var cellName: String = String(describing: CarouselCollectionViewCell.self)
         static var insetDefault: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         static var lineSpacingDefault: CGFloat = 0
-        static var cornerRadius: CGFloat = 20
+        static var cornerRadius: CGFloat = 25
         static var shadowOffset: CGSize = CGSize(width: 3, height: 0)
         static var shadowOpacity: Float = 1
         static var shadowRadius: CGFloat = 3

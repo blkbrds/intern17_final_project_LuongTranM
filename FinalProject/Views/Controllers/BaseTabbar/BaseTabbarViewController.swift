@@ -28,6 +28,7 @@ final class BaseTabbarViewController: UITabBarController {
 
         let profileVC = ProfileViewController()
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.fill"), tag: 3)
+        profileVC.viewModel = ProfileViewModel()
         let profileNavigationController = UINavigationController(rootViewController: profileVC)
 
         tabBar.layer.borderWidth = 1

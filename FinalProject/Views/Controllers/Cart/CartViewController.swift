@@ -10,21 +10,19 @@ import UIKit
 final class CartViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var viewDetail: UIView!
+    @IBOutlet private weak var priceInfoView: UIView!
     @IBOutlet private weak var selectedItemLabel: UILabel!
-    @IBOutlet private weak var totalItemsLabel: UILabel!
+    @IBOutlet private weak var totalPriceLabel: UILabel!
     @IBOutlet private weak var checkOutButton: UIButton!
 
     var viewModel: CartViewModel?
-    private var totalCart: Int = 0
     private var isShowViewDetail: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
         configTableView()
-        guard let viewModel = viewModel else { return }
-        viewModel.setData()
+        getData()
         configUI()
     }
 
@@ -50,19 +48,36 @@ final class CartViewController: UIViewController {
     }
 
     private func configUI() {
-        viewDetail.layer.cornerRadius = Define.cornerRadius
-        viewDetail.layer.maskedCorners = Define.maskedCorners
-        viewDetail.layer.shadowColor = Define.shadowColor
-        viewDetail.layer.shadowOpacity = Define.shadowOpacity
-        viewDetail.layer.shadowOffset = Define.shadowOffset
-        viewDetail.layer.shadowRadius = Define.shadowRadius
-        viewDetail.clipsToBounds = true
-        viewDetail.layer.masksToBounds = false
+        guard let viewModel = viewModel else { return }
+        priceInfoView.layer.cornerRadius = Define.cornerRadius
+        priceInfoView.layer.maskedCorners = Define.maskedCorners
+        priceInfoView.layer.shadowColor = Define.shadowColor
+        priceInfoView.layer.shadowOpacity = Define.shadowOpacity
+        priceInfoView.layer.shadowOffset = Define.shadowOffset
+        priceInfoView.layer.shadowRadius = Define.shadowRadius
+        priceInfoView.clipsToBounds = true
+        priceInfoView.layer.masksToBounds = false
         checkOutButton.layer.cornerRadius = Define.cornerRadius
+
+        let totalPrice = viewModel.totalPriceCarts()
+        selectedItemLabel.text = "Item selected: \(viewModel.carts.count)"
+        totalPriceLabel.text = "\(totalPrice)$"
 
         let tapView = UITapGestureRecognizer()
         tapView.addTarget(self, action: #selector(showHideViewDetail))
-        viewDetail.addGestureRecognizer(tapView)
+        priceInfoView.addGestureRecognizer(tapView)
+    }
+
+    private func updatePriceInfoView() {
+        guard let viewModel = viewModel else { return }
+        let totalPrice = viewModel.totalPriceCarts()
+        selectedItemLabel.text = "Item selected: \(viewModel.carts.count)"
+        totalPriceLabel.text = "\(totalPrice)$"
+    }
+
+    private func getData() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getData()
     }
 
     @objc private func showHideViewDetail(sender: UITapGestureRecognizer) {
@@ -74,16 +89,9 @@ final class CartViewController: UIViewController {
         })
     }
 
-    private func handleTotalCart() {
-        guard let viewModel = viewModel else { return }
-        totalCart = viewModel.carts.reduce(0, { result, cart in
-            result + cart.price
-        })
-    }
-
     private func animationLoadTable() {
         UIView.transition(with: tableView,
-                          duration: 1,
+                          duration: 0.5,
                           options: .transitionCrossDissolve,
                           animations: { self.tableView.reloadData() })
     }
@@ -133,26 +141,46 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let viewModel = viewModel else { return UISwipeActionsConfiguration() }
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
+            tableView.beginUpdates()
+            viewModel.carts.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            self.updatePriceInfoView()
+            tableView.endUpdates()
+            completionHandler(true)
+        }
+        delete.backgroundColor = .white
+
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 }
 
 extension CartViewController: CartTabeViewCellDelegate {
     func cell(cell: CartTableViewCell, needPerform action: CartTableViewCell.Action) {
         switch action {
-        case .increase(let id, let count):
-            guard let index = tableView.indexPath(for: cell),
-                  let viewModel = viewModel else { return }
-            viewModel.updateCart(id: id, count: count, indexPath: index)
-            tableView.reloadData()
-        case .decrease(let id, let count):
-            guard let index = tableView.indexPath(for: cell),
-                  let viewModel = viewModel else { return }
-            if count != 0 {
-                viewModel.updateCart(id: id, count: count, indexPath: index)
-                tableView.reloadData()
+        case .increase:
+            guard let indexPath = tableView.indexPath(for: cell),
+                  let viewModel = viewModel,
+                  let cart = viewModel.carts[safe: indexPath.row] else { return }
+            let numberItemCart = cart.quantity + 1
+            viewModel.updateCart(count: numberItemCart, indexPath: indexPath)
+            tableView.reloadRows(at: [indexPath], with: .none)
+        case .decrease:
+            guard let indexPath = tableView.indexPath(for: cell),
+                  let viewModel = viewModel,
+                  let cart = viewModel.carts[safe: indexPath.row] else { return }
+            let numberItemCart = cart.quantity - 1
+            if numberItemCart != 0 {
+                viewModel.updateCart(count: numberItemCart, indexPath: indexPath)
+                tableView.reloadRows(at: [indexPath], with: .none)
             } else {
-                viewModel.carts.remove(at: index.row)
+                viewModel.carts.remove(at: indexPath.row)
                 animationLoadTable()
             }
         }
+        updatePriceInfoView()
     }
 }

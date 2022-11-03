@@ -115,4 +115,5 @@ final class HomeViewModel {
             return PopularCellViewModel(products: products)
         }
     }
+
 }

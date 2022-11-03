@@ -21,11 +21,17 @@ final class ProfileViewController: UIViewController {
         configNavigation()
         configUI()
         configTableView()
+        getData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+    }
+
+    private func getData() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getOrder()
     }
 
     private func configNavigation() {
@@ -45,6 +51,21 @@ final class ProfileViewController: UIViewController {
         purchaseTableView.delegate = self
     }
 
+    @IBAction func logOutButtonTouchUpInside(_ sender: Any) {
+        #warning("Handle log Out")
+    }
+
+    @IBAction func infoButtonTouchUpInside(_ sender: Any) {
+        #warning("Handle Info")
+    }
+
+    @IBAction func orderButtonTouchUpInside(_ sender: Any) {
+        #warning("Handle Order")
+    }
+
+    @IBAction func settingButtonTouchUpInside(_ sender: Any) {
+        #warning("Handle Setting")
+    }
 }
 
 extension ProfileViewController {
@@ -56,13 +77,16 @@ extension ProfileViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.cellName) as? HistoryTableViewCell else {
+        guard let viewModel = viewModel,
+              let cell = tableView.dequeueReusableCell(withIdentifier: Define.cellName) as? HistoryTableViewCell else {
             return UITableViewCell()
         }
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 

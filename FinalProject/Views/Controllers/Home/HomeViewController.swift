@@ -24,6 +24,7 @@ final class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.isNavigationBarHidden = false
     }
 
     private func configNavigation() {
@@ -105,6 +106,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             viewModel.cellType = .popular
             cell.selectionStyle = .none
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? PopularCellViewModel
             return cell
         default:
@@ -122,6 +124,19 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return 400
         default:
             return 0
+        }
+    }
+}
+
+// MARK: - Delegate
+extension HomeViewController: PopularCellDelegate {
+
+    func cell(cell: PopularCell, needPerform action: PopularCell.Action) {
+        switch action {
+        case .didTap(let product):
+            let vc = DetailViewController()
+            vc.viewModel = DetailViewModel(product: product)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

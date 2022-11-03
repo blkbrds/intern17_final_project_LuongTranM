@@ -7,10 +7,19 @@
 
 import UIKit
 
+protocol PopularCellDelegate: AnyObject {
+    func cell(cell: PopularCell, needPerform action: PopularCell.Action)
+}
+
 final class PopularCell: UITableViewCell {
+
+    enum Action {
+        case didTap(product: Product?)
+    }
 
     @IBOutlet private weak var collectionView: UICollectionView!
 
+    weak var delegate: PopularCellDelegate?
     var viewModel: PopularCellViewModel?
 
     override func awakeFromNib() {
@@ -46,6 +55,11 @@ extension PopularCell: UICollectionViewDataSource, UICollectionViewDelegateFlowL
         }
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        delegate?.cell(cell: self, needPerform: .didTap(product: viewModel.products[safe: indexPath.row]))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

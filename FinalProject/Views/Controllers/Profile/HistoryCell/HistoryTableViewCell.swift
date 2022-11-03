@@ -15,6 +15,20 @@ final class HistoryTableViewCell: UITableViewCell {
     @IBOutlet private weak var productPriceLabel: UILabel!
     @IBOutlet private weak var productOrderedLabel: UILabel!
 
-    var viewModel: HistoryTableCellViewModel?
+    var viewModel: HistoryTableCellViewModel? {
+        didSet {
+            updateUI()
+        }
+    }
 
+    private func updateUI() {
+        guard let viewModel = viewModel else { return }
+        let total = (viewModel.orderTrans?.price).unwrap(or: 0) * (viewModel.orderTrans?.quantity).unwrap(or: 0)
+
+        productImageView.downloadImage(from: (viewModel.orderTrans?.productImage).content)
+        productNameLabel.text  = viewModel.orderTrans?.productName
+        productQuantityLabel.text = "x\((viewModel.orderTrans?.quantity).unwrap(or: 0))"
+        productPriceLabel.text = "$\(total)"
+        productOrderedLabel.text = viewModel.orderTrans?.date
+    }
 }
