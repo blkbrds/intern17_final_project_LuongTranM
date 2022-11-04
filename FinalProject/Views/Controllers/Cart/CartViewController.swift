@@ -9,15 +9,18 @@ import UIKit
 
 final class CartViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var priceInfoView: UIView!
     @IBOutlet private weak var selectedItemLabel: UILabel!
     @IBOutlet private weak var totalPriceLabel: UILabel!
     @IBOutlet private weak var checkOutButton: UIButton!
 
+    // MARK: - Properties
     var viewModel: CartViewModel?
     private var isShowViewDetail: Bool = true
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
@@ -31,6 +34,7 @@ final class CartViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
 
+    // MARK: - Private methods
     private func configNavigation() {
         navigationItem.title = Define.title
         navigationItem.largeTitleDisplayMode = .never
@@ -79,7 +83,15 @@ final class CartViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         viewModel.getData()
     }
+    
+    private func animationLoadTable() {
+        UIView.transition(with: tableView,
+                          duration: 0.5,
+                          options: .transitionCrossDissolve,
+                          animations: { self.tableView.reloadData() })
+    }
 
+    // MARK: - Objc methods
     @objc private func showHideViewDetail(sender: UITapGestureRecognizer) {
         UIView.transition(with: checkOutButton, duration: 0.2,
                           options: .transitionCrossDissolve,
@@ -87,13 +99,6 @@ final class CartViewController: UIViewController {
             self.checkOutButton.isHidden = self.isShowViewDetail
             self.isShowViewDetail = !self.isShowViewDetail
         })
-    }
-
-    private func animationLoadTable() {
-        UIView.transition(with: tableView,
-                          duration: 0.5,
-                          options: .transitionCrossDissolve,
-                          animations: { self.tableView.reloadData() })
     }
 
     @objc private func deleteButtonTouchUpInside() {
@@ -108,6 +113,7 @@ final class CartViewController: UIViewController {
     }
 }
 
+// MARK: - Define
 extension CartViewController {
     private struct Define {
         static var title: String = "Cart"
@@ -121,6 +127,7 @@ extension CartViewController {
     }
 }
 
+// MARK: - TableView Delegate, Datasource
 extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }

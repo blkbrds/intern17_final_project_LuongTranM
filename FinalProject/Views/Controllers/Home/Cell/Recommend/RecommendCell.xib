@@ -18,25 +18,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="416" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Yux-30-REV">
-                        <rect key="frame" x="15" y="10" width="386" height="24"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsS-Jf-iJj" userLabel="Header View">
+                        <rect key="frame" x="0.0" y="0.0" width="416" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recommend" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JER-ea-FH6">
-                                <rect key="frame" x="0.0" y="0.0" width="257" height="24"/>
+                                <rect key="frame" x="20.000000000000007" y="8" width="115.66666666666669" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View all" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TW2-G5-o4Q">
-                                <rect key="frame" x="257" y="0.0" width="129" height="24"/>
+                                <rect key="frame" x="338" y="9.9999999999999982" width="58" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.92128556969999997" green="0.02557605147" blue="0.01394422124" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                    </stackView>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="LmQ-0p-ecc"/>
+                            <constraint firstItem="TW2-G5-o4Q" firstAttribute="centerY" secondItem="nsS-Jf-iJj" secondAttribute="centerY" id="UbU-ad-QQ0"/>
+                            <constraint firstItem="JER-ea-FH6" firstAttribute="leading" secondItem="nsS-Jf-iJj" secondAttribute="leading" constant="20" id="dSz-AY-2Pm"/>
+                            <constraint firstItem="JER-ea-FH6" firstAttribute="centerY" secondItem="nsS-Jf-iJj" secondAttribute="centerY" id="jmY-PJ-uIl"/>
+                            <constraint firstAttribute="trailing" secondItem="TW2-G5-o4Q" secondAttribute="trailing" constant="20" id="wcy-RT-gvN"/>
+                        </constraints>
+                    </view>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eyU-ge-LNd">
-                        <rect key="frame" x="0.0" y="44" width="416" height="256"/>
+                        <rect key="frame" x="0.0" y="40" width="416" height="260"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8iS-wx-O6v">
                             <size key="itemSize" width="128" height="128"/>
@@ -47,12 +55,12 @@
                     </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Yux-30-REV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="08b-sZ-Eub"/>
+                    <constraint firstItem="nsS-Jf-iJj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="1EK-Pv-5dB"/>
+                    <constraint firstAttribute="trailing" secondItem="nsS-Jf-iJj" secondAttribute="trailing" id="G8s-qE-idr"/>
                     <constraint firstAttribute="bottom" secondItem="eyU-ge-LNd" secondAttribute="bottom" id="GRo-so-McF"/>
+                    <constraint firstItem="eyU-ge-LNd" firstAttribute="top" secondItem="nsS-Jf-iJj" secondAttribute="bottom" id="Gv7-iB-QiM"/>
                     <constraint firstItem="eyU-ge-LNd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Maq-jx-fSZ"/>
-                    <constraint firstItem="Yux-30-REV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="dCV-ry-sNh"/>
-                    <constraint firstItem="eyU-ge-LNd" firstAttribute="top" secondItem="Yux-30-REV" secondAttribute="bottom" constant="10" id="dNl-VD-XhF"/>
-                    <constraint firstAttribute="trailing" secondItem="Yux-30-REV" secondAttribute="trailing" constant="15" id="vSP-KQ-anH"/>
+                    <constraint firstItem="nsS-Jf-iJj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dz8-zu-PJU"/>
                     <constraint firstAttribute="trailing" secondItem="eyU-ge-LNd" secondAttribute="trailing" id="x2t-kv-CIi"/>
                 </constraints>
             </tableViewCellContentView>

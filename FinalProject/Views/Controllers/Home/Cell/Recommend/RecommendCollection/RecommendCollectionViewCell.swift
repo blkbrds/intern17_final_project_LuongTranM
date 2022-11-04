@@ -9,23 +9,27 @@ import UIKit
 
 final class RecommendCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - Outlets
     @IBOutlet private weak var cellView: UIView!
     @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameProductLabel: UILabel!
     @IBOutlet private weak var priceProductLabel: UILabel!
     @IBOutlet private weak var shopLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: RecommendCollectionCellViewModel? {
         didSet {
             updateUI()
         }
     }
 
+    // MARK: - Override methods
     override func awakeFromNib() {
         super.awakeFromNib()
         customViewShadow()
     }
 
+    // MARK: - Private method
     private func customViewShadow() {
         cellView.clipsToBounds = true
         cellView.layer.cornerRadius = 20

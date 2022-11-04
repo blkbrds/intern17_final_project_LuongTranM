@@ -9,21 +9,25 @@ import UIKit
 
 final class SearchCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - Outlets
     @IBOutlet private weak var productNameLabel: UILabel!
     @IBOutlet private weak var productImageview: UIImageView!
 
+    // MARK: - Properties
     var viewModel: SearchCollectionCellViewModel? {
         didSet {
             updateUI()
         }
     }
 
+    // MARK: - Override methods
     override func awakeFromNib() {
         super.awakeFromNib()
         contentView.layer.borderWidth  = Define.borderWidth
         contentView.layer.cornerRadius = Define.cornerRadius
     }
 
+    // MARK: - Override methods
     private func updateUI() {
         guard let viewModel = viewModel else { return }
         productNameLabel.text = (viewModel.product?.name).content
@@ -31,6 +35,7 @@ final class SearchCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Define
 extension SearchCollectionViewCell {
     private struct Define {
         static var borderWidth: CGFloat = 1.0

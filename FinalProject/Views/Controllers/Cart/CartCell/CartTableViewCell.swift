@@ -18,27 +18,29 @@ final class CartTableViewCell: UITableViewCell {
         case decrease
     }
 
-    weak var delegate: CartTabeViewCellDelegate?
-
+    // MARK: - Outlets
     @IBOutlet private weak var cartView: UIView!
     @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var countLabel: UILabel!
 
+    // MARK: - Properties
+    weak var delegate: CartTabeViewCellDelegate?
     var viewModel: CartCellViewModel? {
         didSet {
             updateCell()
         }
     }
-
     private var count: Int = 0
 
+    // MARK: - Override methods
     override func awakeFromNib() {
         super.awakeFromNib()
         configUI()
     }
 
+    // MARK: - Private methods
     private func configUI() {
         cartView.layer.cornerRadius = 10
     }
@@ -52,6 +54,7 @@ final class CartTableViewCell: UITableViewCell {
         countLabel.text = "\(viewModel.cart.quantity)"
     }
 
+    // MARK: - Private method
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
         guard let viewModel = viewModel else { return }
         count = viewModel.cart.quantity + 1

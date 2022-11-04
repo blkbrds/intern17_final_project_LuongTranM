@@ -9,12 +9,15 @@ import UIKit
 
 final class SearchViewController: UIViewController {
 
+    // MARK: - Outles
     @IBOutlet private weak var searchCollectionView: UICollectionView!
 
+    // MARK: - Properties
     private let searchController = UISearchController(searchResultsController: nil)
 
     var viewModel: SearchViewModel?
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
@@ -29,6 +32,7 @@ final class SearchViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
 
+    // MARK: - Private methods
     private func configNavigation() {
         navigationItem.title = Define.title
     }
@@ -55,6 +59,7 @@ final class SearchViewController: UIViewController {
     }
 }
 
+// MARK: - Define
 extension SearchViewController {
     private struct Define {
         static var title: String = "Search"
@@ -63,6 +68,7 @@ extension SearchViewController {
     }
 }
 
+// MARK: - CollectionView Delegate, Datasource
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     #warning("Handle Cell")
@@ -119,11 +125,9 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
             if viewModel.scopeButtonPress {
                 viewModel.searchProducts.removeAll()
                 let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
-                for product in viewModel.products {
-                    if !(scopeButton?.isEmpty ?? false) {
-                        viewModel.searchProducts.append(product)
-                    } else { }
-                }
+                if !(scopeButton?.isEmpty ?? false) {
+                    viewModel.searchProducts.removeAll()
+                } else { }
                 viewModel.searching = false
                 searchCollectionView.reloadData()
             } else {

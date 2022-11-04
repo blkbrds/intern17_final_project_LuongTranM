@@ -9,17 +9,21 @@ import UIKit
 
 final class RecommendCell: UITableViewCell {
 
+    // MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var viewAllLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: RecommendCellViewModel?
 
+    // MARK: - Override method
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
         configUI()
     }
 
+    // MARK: - Private method
     private func configCollectionView() {
         let cellNib = UINib(nibName: Define.cellName, bundle: Bundle.main)
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellName)
@@ -32,17 +36,20 @@ final class RecommendCell: UITableViewCell {
         self.addGestureRecognizer(tap)
     }
 
+    // MARK: - Objc method
     @objc private func viewAllRecommend() {
         #warning("Handle Later")
     }
 }
 
+// MARK: - Define
 extension RecommendCell {
     private struct Define {
         static var cellName: String = String(describing: RecommendCollectionViewCell.self)
     }
 }
 
+// MARK: - CollectionView Delegate, Datasource
 extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

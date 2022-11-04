@@ -9,18 +9,22 @@ import UIKit
 
 final class SliderCell: UITableViewCell {
 
+    // MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var pageControl: UIPageControl!
 
+    // MARK: - Properties
     var viewModel: SlideCellViewModel?
     private var timer: Timer?
 
+    // MARK: - Override methods
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
         configUI()
     }
 
+    // MARK: - Private methods
     private func configCollectionView() {
         let cellNib = UINib(nibName: Define.cellName, bundle: Bundle.main)
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellName)
@@ -37,6 +41,7 @@ final class SliderCell: UITableViewCell {
         timer = Timer.scheduledTimer(timeInterval: Define.timerIntervar, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
     }
 
+    // MARK: - Objc methods
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
         if viewModel.currentIndex < 2 {
@@ -49,6 +54,7 @@ final class SliderCell: UITableViewCell {
     }
 }
 
+// MARK: - Define
 extension SliderCell {
     private struct Define {
         static var cellName: String = String(describing: SlideCollectionViewCell.self)
@@ -56,6 +62,7 @@ extension SliderCell {
     }
 }
 
+// MARK: - CollectionView Delegate, Datasource
 extension SliderCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

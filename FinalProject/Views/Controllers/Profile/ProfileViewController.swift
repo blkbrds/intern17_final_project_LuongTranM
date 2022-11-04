@@ -9,13 +9,16 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var firstCharaterLabel: UILabel!
     @IBOutlet private weak var usernameLabel: UILabel!
     @IBOutlet private weak var emailLabel: UILabel!
     @IBOutlet private weak var purchaseTableView: UITableView!
 
+    // MARK: - Properties
     var viewModel: ProfileViewModel?
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
@@ -29,6 +32,7 @@ final class ProfileViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
 
+    // MARK: - Private methods
     private func getData() {
         guard let viewModel = viewModel else { return }
         viewModel.getOrder()
@@ -51,23 +55,25 @@ final class ProfileViewController: UIViewController {
         purchaseTableView.delegate = self
     }
 
-    @IBAction func logOutButtonTouchUpInside(_ sender: Any) {
+    // MARK: - Action methods
+    @IBAction private func logOutButtonTouchUpInside(_ sender: Any) {
         #warning("Handle log Out")
     }
 
-    @IBAction func infoButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func infoButtonTouchUpInside(_ sender: Any) {
         #warning("Handle Info")
     }
 
-    @IBAction func orderButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func orderButtonTouchUpInside(_ sender: Any) {
         #warning("Handle Order")
     }
 
-    @IBAction func settingButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func settingButtonTouchUpInside(_ sender: Any) {
         #warning("Handle Setting")
     }
 }
 
+// MARK: - Define
 extension ProfileViewController {
     private struct Define {
         static var title: String = "Profile"
@@ -75,6 +81,7 @@ extension ProfileViewController {
     }
 }
 
+// MARK: - TableView Delegate, Datasource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }

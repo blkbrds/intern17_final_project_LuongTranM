@@ -9,11 +9,14 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var tableView: UITableView!
 
+    // MARK: - Properties
     var viewModel: HomeViewModel?
     private var timer: Timer?
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
@@ -27,13 +30,14 @@ final class HomeViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
     }
 
+    // MARK: - Private methods
     private func configNavigation() {
         navigationItem.title = Define.title
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
 
         let cartButton = UIBarButtonItem(image: UIImage(systemName: "cart"), style: .plain, target: self, action: #selector(cartButtonTouchUpInside))
-        cartButton.tintColor = .black
+        cartButton.tintColor = .red
         navigationItem.rightBarButtonItem = cartButton
     }
 
@@ -51,6 +55,7 @@ final class HomeViewController: UIViewController {
         tableView.dataSource = self
     }
 
+    // MARK: - Objc methods
     @objc private func cartButtonTouchUpInside() {
         let vc = CartViewController()
         vc.viewModel = CartViewModel()
@@ -58,6 +63,7 @@ final class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - Define
 extension HomeViewController {
     private struct Define {
         static var title: String = "Discover"
@@ -74,6 +80,7 @@ extension HomeViewController {
     }
 }
 
+// MARK: - TableView Delegate, Datasource
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
@@ -119,7 +126,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 300
         case 1:
-            return 300
+            return 220
         case 2:
             return 400
         default:

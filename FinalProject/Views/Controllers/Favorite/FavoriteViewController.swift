@@ -9,10 +9,13 @@ import UIKit
 
 final class FavoriteViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var tableView: UITableView!
 
+    // MARK: - Properties
     var viewModel: FavoriteViewModel?
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
@@ -20,6 +23,7 @@ final class FavoriteViewController: UIViewController {
         getDataOnLocal()
     }
 
+    // MARK: - Private methods
     private func getDataOnLocal() {
         guard let viewModel = viewModel else { return }
         viewModel.getProductLocal()
@@ -39,6 +43,7 @@ final class FavoriteViewController: UIViewController {
 
 }
 
+// MARK: - Define
 extension FavoriteViewController {
     private struct Define {
         static var title: String = "Favorites"
@@ -46,6 +51,7 @@ extension FavoriteViewController {
     }
 }
 
+// MARK: - TableView Delegate, Datasource
 extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

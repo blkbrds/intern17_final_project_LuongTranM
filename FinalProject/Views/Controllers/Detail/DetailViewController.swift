@@ -9,6 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var contentProductView: UIView!
     @IBOutlet private weak var addProductView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -23,15 +24,16 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var backImageView: UIImageView!
     @IBOutlet private weak var favoriteImageView: UIImageView!
 
+    // MARK: - Properties
     var viewModel: DetailViewModel?
-    var timer: Timer?
-
+    private var timer: Timer?
     private var quantity: Int = 1 {
         didSet {
             updateQuantity()
         }
     }
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -45,6 +47,7 @@ final class DetailViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
 
+    // MARK: - Private methods
     private func configUI() {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
@@ -101,14 +104,7 @@ final class DetailViewController: UIViewController {
         totalProductLabel.text = "Total: $\(total)"
     }
 
-    @objc private func favoriteButtonTouchUpInside() {
-        #warning("HandleFavorite")
-    }
-
-    @objc private func returnButtonTouchUpInside() {
-        navigationController?.popViewController(animated: true)
-    }
-
+    // MARK: - Action methods
     @IBAction private func decreaseButtonTouchUpInside(_ sender: Any) {
         quantity = quantity == 1 ? 1 : quantity - 1
     }
@@ -125,6 +121,15 @@ final class DetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    // MARK: - Objc methods
+    @objc private func favoriteButtonTouchUpInside() {
+        #warning("HandleFavorite")
+    }
+
+    @objc private func returnButtonTouchUpInside() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
         if viewModel.currentIndex < (viewModel.product?.images.count).unwrap(or: 0) - 1 {
