@@ -59,10 +59,12 @@ final class ApiManager {
 
     var defaultHTTPHeaders: [String: String] = {
         return [
-            "Content-type": "application/json"]
+            "Content-type": "application/json",
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2Njc1NDM0MTAsImV4cCI6MTY5OTA3OTQxMCwibmJmIjoxNjY3NTQzNDEwLCJqdGkiOiJqQWdydU1BZHNHSFh3NjNLIiwic3ViIjoiMjAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.2Au42RTECUUchrXjO-TNGKXI2revrfrcFlSfHJUyo_U"]
     }()
 
     let loginProvider = Provider<LoginService>()
+    let mainProvider = Provider<MainService>()
 }
 
 extension ApiManager {

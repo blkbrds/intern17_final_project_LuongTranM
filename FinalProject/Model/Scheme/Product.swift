@@ -7,6 +7,24 @@
 
 import UIKit
 
+struct ProductResponse: Codable {
+
+    var data: [Product]
+
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    init(data: [Product]) {
+        self.data = data
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.data = try container.decode([Product].self, forKey: .data)
+    }
+}
+
 struct Product: Codable {
 
     var id: Int
@@ -19,8 +37,9 @@ struct Product: Codable {
     var images: [ImageProduct]
 
     enum CodingKeys: String, CodingKey {
-        case id, name, discount, content, price, category, images
+        case id, name, discount, content, price, category
         case imageProduct = "image_product"
+        case images = "image_p_r"
     }
 
     init(id: Int,

@@ -158,7 +158,14 @@ extension HomeViewController {
 
     func getProduct() {
         guard let viewModel = viewModel else { return }
-        viewModel.getProduct()
+        viewModel.testAPIProduct { result in
+            switch result {
+            case .success:
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 
     func getShop() {

@@ -22,7 +22,11 @@ final class PopularCell: UITableViewCell {
 
     // MARK: - Properties
     weak var delegate: PopularCellDelegate?
-    var viewModel: PopularCellViewModel?
+    var viewModel: PopularCellViewModel? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
 
     // MARK: - Override methods
     override func awakeFromNib() {

@@ -14,7 +14,11 @@ final class RecommendCell: UITableViewCell {
     @IBOutlet private weak var viewAllLabel: UILabel!
 
     // MARK: - Properties
-    var viewModel: RecommendCellViewModel?
+    var viewModel: RecommendCellViewModel? {
+        didSet {
+            self.collectionView.reloadData()
+        }
+    }
 
     // MARK: - Override method
     override func awakeFromNib() {
