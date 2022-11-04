@@ -21,8 +21,6 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var addToCartButton: UIButton!
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var totalProductLabel: UILabel!
-    @IBOutlet private weak var backImageView: UIImageView!
-    @IBOutlet private weak var favoriteImageView: UIImageView!
 
     // MARK: - Properties
     var viewModel: DetailViewModel?
@@ -58,18 +56,16 @@ final class DetailViewController: UIViewController {
         categoryProductLabel.text = viewModel.product?.category.nameCategory
         shopProductLabel.text = viewModel.product?.category.shop.nameShop
         descriptionProductLabel.text = viewModel.product?.content
-
-        let favoriteTap = UITapGestureRecognizer(target: self, action: #selector(favoriteButtonTouchUpInside))
-        favoriteImageView.isUserInteractionEnabled = true
-        favoriteImageView.addGestureRecognizer(favoriteTap)
-
-        let backTap = UITapGestureRecognizer(target: self, action: #selector(returnButtonTouchUpInside))
-        backImageView.isUserInteractionEnabled = true
-        backImageView.addGestureRecognizer(backTap)
     }
 
     private func configNavigation() {
-        navigationController?.isNavigationBarHidden = true
+        let backButton = UIBarButtonItem(image: UIImage(named: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
+        backButton.tintColor = .black
+        navigationItem.leftBarButtonItem = backButton
+
+        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
+        favoriteButton.tintColor = .red
+        navigationItem.rightBarButtonItem = favoriteButton
     }
 
     private func configCollectionView() {
@@ -117,10 +113,6 @@ final class DetailViewController: UIViewController {
         #warning("add to cart")
     }
 
-    @IBAction private func backButtonTouchUpInside(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
-
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
         #warning("HandleFavorite")
@@ -129,7 +121,7 @@ final class DetailViewController: UIViewController {
     @objc private func returnButtonTouchUpInside() {
         navigationController?.popViewController(animated: true)
     }
-    
+
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
         if viewModel.currentIndex < (viewModel.product?.images.count).unwrap(or: 0) - 1 {

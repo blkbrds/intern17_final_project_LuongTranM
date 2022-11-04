@@ -14,7 +14,7 @@ protocol PopularCellDelegate: AnyObject {
 final class PopularCell: UITableViewCell {
 
     enum Action {
-        case didTap(product: Product?)
+        case didTap(product: Product)
     }
 
     // MARK: - Outlets
@@ -29,7 +29,7 @@ final class PopularCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
     }
-    
+
     // MARK: - Private methods
     private func configCollectionView() {
         let cellNib = UINib(nibName: Define.cellName, bundle: Bundle.main)
@@ -64,8 +64,9 @@ extension PopularCell: UICollectionViewDataSource, UICollectionViewDelegateFlowL
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let viewModel = viewModel else { return }
-        delegate?.cell(cell: self, needPerform: .didTap(product: viewModel.products[safe: indexPath.row]))
+        guard let viewModel = viewModel,
+        let product = viewModel.products[safe: indexPath.row] else { return }
+        delegate?.cell(cell: self, needPerform: .didTap(product: product))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -73,10 +74,10 @@ extension PopularCell: UICollectionViewDataSource, UICollectionViewDelegateFlowL
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 10
+        return 10
     }
 }

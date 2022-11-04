@@ -39,6 +39,10 @@ final class CartViewController: UIViewController {
         navigationItem.title = Define.title
         navigationItem.largeTitleDisplayMode = .never
 
+        let backButton = UIBarButtonItem(image: UIImage(named: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
+        backButton.tintColor = .black
+        navigationItem.leftBarButtonItem = backButton
+
         let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash.fill"), style: .plain, target: self, action: #selector(deleteButtonTouchUpInside))
         deleteButton.tintColor = .black
         navigationItem.rightBarButtonItem = deleteButton
@@ -52,7 +56,6 @@ final class CartViewController: UIViewController {
     }
 
     private func configUI() {
-        guard let viewModel = viewModel else { return }
         priceInfoView.layer.cornerRadius = Define.cornerRadius
         priceInfoView.layer.maskedCorners = Define.maskedCorners
         priceInfoView.layer.shadowColor = Define.shadowColor
@@ -63,9 +66,7 @@ final class CartViewController: UIViewController {
         priceInfoView.layer.masksToBounds = false
         checkOutButton.layer.cornerRadius = Define.cornerRadius
 
-        let totalPrice = viewModel.totalPriceCarts()
-        selectedItemLabel.text = "Item selected: \(viewModel.carts.count)"
-        totalPriceLabel.text = "\(totalPrice)$"
+        updatePriceInfoView()
 
         let tapView = UITapGestureRecognizer()
         tapView.addTarget(self, action: #selector(showHideViewDetail))
@@ -83,7 +84,7 @@ final class CartViewController: UIViewController {
         guard let viewModel = viewModel else { return }
         viewModel.getData()
     }
-    
+
     private func animationLoadTable() {
         UIView.transition(with: tableView,
                           duration: 0.5,
@@ -99,6 +100,10 @@ final class CartViewController: UIViewController {
             self.checkOutButton.isHidden = self.isShowViewDetail
             self.isShowViewDetail = !self.isShowViewDetail
         })
+    }
+
+    @objc private func returnButtonTouchUpInside() {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func deleteButtonTouchUpInside() {

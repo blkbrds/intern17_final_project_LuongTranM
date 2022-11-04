@@ -20,7 +20,7 @@ final class CartViewModel {
                       quantity: 2,
                       price: 8,
                       status: 0,
-                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
         let p2 = Cart(id: 6,
                       userId: 20,
                       productId: 37,
@@ -28,7 +28,7 @@ final class CartViewModel {
                       quantity: 2,
                       price: 260,
                       status: 0,
-                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
         let p3 = Cart(id: 6,
                       userId: 20,
                       productId: 20,
@@ -36,7 +36,7 @@ final class CartViewModel {
                       quantity: 2,
                       price: 180,
                       status: 0,
-                      image: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
+                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
         carts.append(contentsOf: [p1, p2, p3])
     }
 

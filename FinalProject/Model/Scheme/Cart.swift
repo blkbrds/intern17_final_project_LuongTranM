@@ -16,14 +16,14 @@ struct Cart: Codable {
     var quantity: Int
     var price: Int
     var status: Int
-    var image: String
+    var productImage: String
 
     enum CodingKeys: String, CodingKey {
         case id, quantity, price, status
         case userId = "user_id"
         case productId = "product_id"
         case productName = "product_name"
-        case image = "image_product"
+        case productImage = "image_product"
     }
 
     init(id: Int,
@@ -33,7 +33,7 @@ struct Cart: Codable {
          quantity: Int,
          price: Int,
          status: Int,
-         image: String) {
+         productImage: String) {
         self.id = id
         self.userId = userId
         self.productId = productId
@@ -41,7 +41,7 @@ struct Cart: Codable {
         self.quantity = quantity
         self.price = price
         self.status = status
-        self.image = image
+        self.productImage = productImage
     }
 
     init(from decoder: Decoder) throws {
@@ -53,6 +53,6 @@ struct Cart: Codable {
         self.userId = try container.decode(Int.self, forKey: .userId)
         self.productId = try container.decode(Int.self, forKey: .productId)
         self.productName = try container.decode(String.self, forKey: .productName)
-        self.image = try container.decode(String.self, forKey: .image)
+        self.productImage = try container.decode(String.self, forKey: .productImage)
     }
 }

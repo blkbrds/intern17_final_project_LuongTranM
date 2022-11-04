@@ -32,7 +32,6 @@ final class CartTableViewCell: UITableViewCell {
             updateCell()
         }
     }
-    private var count: Int = 0
 
     // MARK: - Override methods
     override func awakeFromNib() {
@@ -42,13 +41,13 @@ final class CartTableViewCell: UITableViewCell {
 
     // MARK: - Private methods
     private func configUI() {
-        cartView.layer.cornerRadius = 10
+        cartView.layer.cornerRadius = Define.cornerRadius
     }
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
 
-        productImageView.downloadImage(from: viewModel.cart.image)
+        productImageView.downloadImage(from: viewModel.cart.productImage)
         nameLabel.text = viewModel.cart.productName
         priceLabel.text = "$ \(viewModel.cart.price)"
         countLabel.text = "\(viewModel.cart.quantity)"
@@ -56,14 +55,16 @@ final class CartTableViewCell: UITableViewCell {
 
     // MARK: - Private method
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
-        guard let viewModel = viewModel else { return }
-        count = viewModel.cart.quantity + 1
         delegate?.cell(cell: self, needPerform: .increase)
     }
 
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
-        guard let viewModel = viewModel else { return }
-        count = viewModel.cart.quantity - 1
         delegate?.cell(cell: self, needPerform: .decrease)
+    }
+}
+
+extension CartTableViewCell {
+    private struct Define {
+        static var cornerRadius: CGFloat = 10
     }
 }

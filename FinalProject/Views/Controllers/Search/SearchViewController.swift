@@ -112,14 +112,13 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
         if !searchText.isEmpty {
             viewModel.searching = true
             viewModel.searchProducts.removeAll()
-            for product in viewModel.products {
-                if product.name.lowercased().contains(searchText.lowercased()) &&
-                    (scopeButton == "Product") {
-                    viewModel.searchProducts.append(product)
-                } else if product.category.shop.nameShop.lowercased().contains(searchText.lowercased()) &&
-                            (scopeButton == "Shop") {
-                    viewModel.searchProducts.append(product)
-                }
+            if scopeButton == "Product" {
+                viewModel.searchProducts = viewModel.products.filter({ $0.name.lowercased().contains(searchText.lowercased())
+                })
+            } else {
+                viewModel.searchProducts = viewModel.products.filter({
+                    $0.category.shop.nameShop.lowercased().contains(searchText.lowercased())
+                })
             }
         } else {
             if viewModel.scopeButtonPress {

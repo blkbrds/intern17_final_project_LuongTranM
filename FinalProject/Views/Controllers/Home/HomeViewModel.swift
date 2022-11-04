@@ -18,7 +18,7 @@ final class HomeViewModel {
     var cellType: CellType = .slide
     var shops: [Shop] = []
     var currentCellIndex: Int = 0
-    var products: [Product] = []
+    var products: [Product]?
 
     #warning("Dummy Data")
     func getProduct() {
@@ -76,7 +76,8 @@ final class HomeViewModel {
                          images: [ImageProduct(image: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_2.jpg"),
                                   ImageProduct(image: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_3.jpg"),
                                   ImageProduct(image: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_4.jpg")])
-        products.append(contentsOf: [p1, p2, p3])
+        products = []
+        products?.append(contentsOf: [p1, p2, p3])
     }
 
     func getShop() {
@@ -112,6 +113,7 @@ final class HomeViewModel {
         case .recommend:
             return RecommendCellViewModel(products: products)
         case .popular:
+            guard let products = products else { return PopularCellViewModel(products: []) }
             return PopularCellViewModel(products: products)
         }
     }

@@ -20,7 +20,7 @@ final class RecommendCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
-        configUI()
+        addTapGesture()
     }
 
     // MARK: - Private method
@@ -31,7 +31,7 @@ final class RecommendCell: UITableViewCell {
         collectionView.dataSource = self
     }
 
-    private func configUI() {
+    private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewAllRecommend))
         self.addGestureRecognizer(tap)
     }
@@ -70,10 +70,10 @@ extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlo
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 15
+        return 15
     }
 }
