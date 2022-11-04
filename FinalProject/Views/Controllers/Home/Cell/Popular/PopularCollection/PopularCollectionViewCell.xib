@@ -17,53 +17,56 @@
                 <rect key="frame" x="0.0" y="0.0" width="177" height="320"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beast" translatesAutoresizingMaskIntoConstraints="NO" id="Xtb-d1-Zqh">
-                        <rect key="frame" x="10" y="5" width="157" height="157"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xtb-d1-Zqh">
+                        <rect key="frame" x="0.0" y="0.0" width="177" height="177"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Xtb-d1-Zqh" secondAttribute="height" multiplier="1:1" id="nkr-IB-sKJ"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Medium crescent-shaped shoulder bag" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqg-MX-tav">
-                        <rect key="frame" x="10" y="172" width="157" height="61"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqg-MX-tav">
+                        <rect key="frame" x="10" y="187" width="157" height="0.0"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hamburger" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Mm-ep-L22">
-                        <rect key="frame" x="15" y="243" width="147" height="20.333333333333314"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Mm-ep-L22">
+                        <rect key="frame" x="15" y="300" width="147" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$280" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ag-lJ-M4M">
-                        <rect key="frame" x="15" y="273.33333333333331" width="147" height="24"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ag-lJ-M4M">
+                        <rect key="frame" x="15" y="310" width="147" height="0.0"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="Wqg-MX-tav" firstAttribute="top" secondItem="Xtb-d1-Zqh" secondAttribute="bottom" constant="10" id="32I-9I-5fI"/>
-                <constraint firstAttribute="trailing" secondItem="Xtb-d1-Zqh" secondAttribute="trailing" constant="10" id="5zE-IJ-l9E"/>
+                <constraint firstAttribute="trailing" secondItem="Xtb-d1-Zqh" secondAttribute="trailing" id="5zE-IJ-l9E"/>
                 <constraint firstAttribute="trailing" secondItem="Wqg-MX-tav" secondAttribute="trailing" constant="10" id="EH8-9j-liZ"/>
                 <constraint firstAttribute="trailing" secondItem="8Mm-ep-L22" secondAttribute="trailing" constant="15" id="HaL-4n-w2l"/>
+                <constraint firstItem="8Mm-ep-L22" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Wqg-MX-tav" secondAttribute="bottom" constant="10" id="JSs-ZP-Sob"/>
                 <constraint firstItem="8ag-lJ-M4M" firstAttribute="top" secondItem="8Mm-ep-L22" secondAttribute="bottom" constant="10" id="LRd-Ym-6di"/>
                 <constraint firstAttribute="trailing" secondItem="8ag-lJ-M4M" secondAttribute="trailing" constant="15" id="SbT-kG-dDI"/>
-                <constraint firstItem="8Mm-ep-L22" firstAttribute="top" secondItem="Wqg-MX-tav" secondAttribute="bottom" constant="10" id="cWx-mD-fPt"/>
+                <constraint firstItem="Wqg-MX-tav" firstAttribute="top" secondItem="Xtb-d1-Zqh" secondAttribute="bottom" constant="10" id="cLr-2T-hrd"/>
                 <constraint firstItem="Wqg-MX-tav" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="hnC-rG-EyN"/>
                 <constraint firstItem="8Mm-ep-L22" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="kNq-Ux-qtc"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8ag-lJ-M4M" secondAttribute="bottom" constant="20" id="kU8-NJ-tmw"/>
-                <constraint firstItem="Xtb-d1-Zqh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="lao-uq-jRU"/>
+                <constraint firstAttribute="bottom" secondItem="8ag-lJ-M4M" secondAttribute="bottom" constant="10" id="kU8-NJ-tmw"/>
+                <constraint firstItem="Xtb-d1-Zqh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="lao-uq-jRU"/>
                 <constraint firstItem="8ag-lJ-M4M" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="sMi-vB-kxQ"/>
-                <constraint firstItem="Xtb-d1-Zqh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="uvy-my-bxu"/>
+                <constraint firstItem="Xtb-d1-Zqh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uvy-my-bxu"/>
             </constraints>
             <size key="customSize" width="310" height="615"/>
+            <connections>
+                <outlet property="categotyProductLabel" destination="8Mm-ep-L22" id="DNI-M7-CIa"/>
+                <outlet property="nameProductLabel" destination="Wqg-MX-tav" id="AaA-Un-UFv"/>
+                <outlet property="priceProductLabel" destination="8ag-lJ-M4M" id="UEG-Od-Sp5"/>
+                <outlet property="productImageView" destination="Xtb-d1-Zqh" id="7wN-VP-nLC"/>
+            </connections>
             <point key="canvasLocation" x="320.76923076923077" y="221.09004739336493"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="beast" width="341.33334350585938" height="437.66665649414062"/>
-    </resources>
 </document>

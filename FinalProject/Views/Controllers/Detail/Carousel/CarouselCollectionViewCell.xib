@@ -17,17 +17,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="323" height="206"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="smO-tX-yZj">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="smO-tX-yZj">
                         <rect key="frame" x="0.0" y="0.0" width="323" height="206"/>
                     </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="smO-tX-yZj" secondAttribute="bottom" id="5fr-ND-FRG"/>
-                <constraint firstAttribute="trailing" secondItem="smO-tX-yZj" secondAttribute="trailing" id="FCn-Dv-Kin"/>
-                <constraint firstItem="smO-tX-yZj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="RTU-zp-Kca"/>
-                <constraint firstItem="smO-tX-yZj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="hKG-e2-ReR"/>
+                <constraint firstAttribute="bottom" secondItem="smO-tX-yZj" secondAttribute="bottom" id="VGr-wh-RlI"/>
+                <constraint firstItem="smO-tX-yZj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="f0L-JZ-ghb"/>
+                <constraint firstAttribute="trailing" secondItem="smO-tX-yZj" secondAttribute="trailing" id="faY-V5-US3"/>
+                <constraint firstItem="smO-tX-yZj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="vMt-Sg-9dY"/>
             </constraints>
             <size key="customSize" width="323" height="206"/>
             <connections>

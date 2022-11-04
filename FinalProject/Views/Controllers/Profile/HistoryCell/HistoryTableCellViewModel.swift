@@ -7,4 +7,11 @@
 
 import Foundation
 
-final class HistoryTableCellViewModel { }
+final class HistoryTableCellViewModel {
+
+    var orderTrans: OrderTransaction?
+
+    init(orderTrans: OrderTransaction?) {
+        self.orderTrans = orderTrans
+    }
+}

@@ -1,13 +1,13 @@
 //
-//  FavoriteTableCellViewModel.swift
+//  RecommendCollectionCellViewModel.swift
 //  FinalProject
 //
-//  Created by luong.tran on 01/11/2022.
+//  Created by luong.tran on 29/10/2022.
 //
 
 import Foundation
 
-final class FavoriteTableCellViewModel {
+final class RecommendCollectionCellViewModel {
 
     var product: Product?
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Optional {
+extension Optional where Wrapped == String {
     var content: String {
         switch self {
         case .some(let value):
@@ -16,4 +16,11 @@ extension Optional {
             return ""
         }
     }
+}
+
+extension Optional where Wrapped == Int {
+  func unwrap(or wrapped: Wrapped) -> Wrapped {
+    guard let number = self else { return wrapped }
+    return number
+  }
 }

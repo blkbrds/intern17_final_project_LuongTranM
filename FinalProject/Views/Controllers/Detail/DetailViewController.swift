@@ -9,6 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet private weak var contentProductView: UIView!
     @IBOutlet private weak var addProductView: UIView!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -21,19 +22,20 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var totalProductLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: DetailViewModel?
-    var timer: Timer?
-
-    private var isShowCartButton: Bool = false
+    private var timer: Timer?
     private var quantity: Int = 1 {
         didSet {
             updateQuantity()
         }
     }
 
+    // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        configNavigation()
         configCollectionView()
         updateQuantity()
     }
@@ -43,9 +45,27 @@ final class DetailViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
     }
 
+    // MARK: - Private methods
     private func configUI() {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
+
+        guard let viewModel = viewModel else { return }
+        nameProductLabel.text = viewModel.product?.name
+        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
+        categoryProductLabel.text = viewModel.product?.category.nameCategory
+        shopProductLabel.text = viewModel.product?.category.shop.nameShop
+        descriptionProductLabel.text = viewModel.product?.content
+    }
+
+    private func configNavigation() {
+        let backButton = UIBarButtonItem(image: UIImage(named: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
+        backButton.tintColor = .black
+        navigationItem.leftBarButtonItem = backButton
+
+        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
+        favoriteButton.tintColor = .red
+        navigationItem.rightBarButtonItem = favoriteButton
     }
 
     private func configCollectionView() {
@@ -67,10 +87,6 @@ final class DetailViewController: UIViewController {
         contentProductView.clipsToBounds = true
         contentProductView.layer.cornerRadius = Define.cornerRadius
         contentProductView.layer.maskedCorners = Define.maskedCorners
-
-        let tapView = UITapGestureRecognizer()
-        tapView.addTarget(self, action: #selector(showHideAddButton))
-        addProductView.addGestureRecognizer(tapView)
     }
 
     private func startTimer() {
@@ -78,15 +94,13 @@ final class DetailViewController: UIViewController {
     }
 
     private func updateQuantity() {
-        let total = quantity * 150
+        guard let viewModel = viewModel else { return }
+        let total = quantity * (viewModel.product?.price).unwrap(or: 0)
         quantityLabel.text = "\(quantity)"
         totalProductLabel.text = "Total: $\(total)"
     }
 
-    @IBAction private func favoriteButtonTouchUpInside(_ sender: Any) {
-        #warning("add favorite")
-    }
-
+    // MARK: - Action methods
     @IBAction private func decreaseButtonTouchUpInside(_ sender: Any) {
         quantity = quantity == 1 ? 1 : quantity - 1
     }
@@ -95,27 +109,27 @@ final class DetailViewController: UIViewController {
         quantity += 1
     }
 
-    @IBAction func addCartButtonTouchUpInside(_ sender: Any) {
+    @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
         #warning("add to cart")
+    }
+
+    // MARK: - Objc methods
+    @objc private func favoriteButtonTouchUpInside() {
+        #warning("HandleFavorite")
+    }
+
+    @objc private func returnButtonTouchUpInside() {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
-        if viewModel.currentIndex < viewModel.images.count - 1 {
+        if viewModel.currentIndex < (viewModel.product?.images.count).unwrap(or: 0) - 1 {
             viewModel.currentIndex += 1
         } else {
             viewModel.currentIndex = 0
         }
         collectionView.scrollToItem(at: IndexPath(row: viewModel.currentIndex, section: 0), at: .centeredHorizontally, animated: true)
-    }
-
-    @objc private func showHideAddButton(sender: UITapGestureRecognizer) {
-        UIView.transition(with: addToCartButton, duration: 0.2,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.addToCartButton.isHidden = self.isShowCartButton
-            self.isShowCartButton = !self.isShowCartButton
-        })
     }
 }
 
@@ -124,7 +138,7 @@ extension DetailViewController {
         static var cellName: String = String(describing: CarouselCollectionViewCell.self)
         static var insetDefault: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         static var lineSpacingDefault: CGFloat = 0
-        static var cornerRadius: CGFloat = 20
+        static var cornerRadius: CGFloat = 25
         static var shadowOffset: CGSize = CGSize(width: 3, height: 0)
         static var shadowOpacity: Float = 1
         static var shadowRadius: CGFloat = 3
@@ -137,7 +151,7 @@ extension DetailViewController {
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.images.count
+        return (viewModel.product?.images.count).unwrap(or: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

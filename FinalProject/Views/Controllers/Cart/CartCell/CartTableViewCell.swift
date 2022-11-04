@@ -14,57 +14,57 @@ protocol CartTabeViewCellDelegate: AnyObject {
 final class CartTableViewCell: UITableViewCell {
 
     enum Action {
-        case increase(id: Int, count: Int)
-        case decrease(id: Int, count: Int)
+        case increase
+        case decrease
     }
 
-    weak var delegate: CartTabeViewCellDelegate?
-
+    // MARK: - Outlets
     @IBOutlet private weak var cartView: UIView!
+    @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var countLabel: UILabel!
 
+    // MARK: - Properties
+    weak var delegate: CartTabeViewCellDelegate?
     var viewModel: CartCellViewModel? {
         didSet {
             updateCell()
         }
     }
 
-    private var count: Int = 0
-
+    // MARK: - Override methods
     override func awakeFromNib() {
         super.awakeFromNib()
         configUI()
     }
 
+    // MARK: - Private methods
     private func configUI() {
-        cartView.layer.cornerRadius = 20
-        cartView.layer.shadowColor = UIColor.lightGray.cgColor
-        cartView.layer.shadowOpacity = 0.5
-        cartView.layer.shadowOffset = CGSize.zero
-        cartView.layer.shadowRadius = 3
+        cartView.layer.cornerRadius = Define.cornerRadius
     }
 
     private func updateCell() {
         guard let viewModel = viewModel else { return }
-        let total: Int = viewModel.cart.price * viewModel.cart.count
-        nameLabel.text = viewModel.cart.name
-        priceLabel.text = "\(total)$"
-        countLabel.text = "\(viewModel.cart.count)"
+
+        productImageView.downloadImage(from: viewModel.cart.productImage)
+        nameLabel.text = viewModel.cart.productName
+        priceLabel.text = "$ \(viewModel.cart.price)"
+        countLabel.text = "\(viewModel.cart.quantity)"
     }
 
+    // MARK: - Private method
     @IBAction private func plusButtonTouchUpInside(_ sender: Any) {
-        guard let delegate = delegate,
-              let viewModel = viewModel else { return }
-        count = viewModel.cart.count + 1
-        delegate.cell(cell: self, needPerform: .increase(id: viewModel.cart.id, count: count))
+        delegate?.cell(cell: self, needPerform: .increase)
     }
 
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
-        guard let delegate = delegate,
-              let viewModel = viewModel else { return }
-        count = viewModel.cart.count - 1
-        delegate.cell(cell: self, needPerform: .decrease(id: viewModel.cart.id, count: count))
+        delegate?.cell(cell: self, needPerform: .decrease)
+    }
+}
+
+extension CartTableViewCell {
+    private struct Define {
+        static var cornerRadius: CGFloat = 10
     }
 }
