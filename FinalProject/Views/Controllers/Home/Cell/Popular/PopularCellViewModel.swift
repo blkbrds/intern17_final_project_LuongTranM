@@ -23,9 +23,4 @@ final class PopularCellViewModel {
         guard let product = products[safe: indexPath.row] else { return PopularCollectionCellViewModel(product: nil) }
         return PopularCollectionCellViewModel(product: product)
     }
-
-    func viewDetailForItem(at indexPath: IndexPath) -> DetailViewModel {
-        guard let product = products[safe: indexPath.row] else { return DetailViewModel(product: nil) }
-        return DetailViewModel(product: product)
-    }
 }

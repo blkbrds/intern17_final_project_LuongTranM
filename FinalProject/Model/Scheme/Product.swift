@@ -25,6 +25,24 @@ struct ProductResponse: Codable {
     }
 }
 
+struct ShopResponse: Codable {
+
+    var data: [Shop]
+
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    init(data: [Shop]) {
+        self.data = data
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.data = try container.decode([Shop].self, forKey: .data)
+    }
+}
+
 struct Product: Codable {
 
     var id: Int

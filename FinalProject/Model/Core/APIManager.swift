@@ -60,7 +60,7 @@ final class ApiManager {
     var defaultHTTPHeaders: [String: String] = {
         return [
             "Content-type": "application/json",
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2Njc1NDM0MTAsImV4cCI6MTY5OTA3OTQxMCwibmJmIjoxNjY3NTQzNDEwLCJqdGkiOiJqQWdydU1BZHNHSFh3NjNLIiwic3ViIjoiMjAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.2Au42RTECUUchrXjO-TNGKXI2revrfrcFlSfHJUyo_U"]
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2Njc3ODcwNjEsImV4cCI6MTY5OTMyMzA2MSwibmJmIjoxNjY3Nzg3MDYxLCJqdGkiOiJYS3BGV2JjZjVGZ3Y1NWNUIiwic3ViIjoiMjAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.dncmJ49O4Dh4Fdj0HN5rupwMiQiozJgvn_0LjVLk22g"]
     }()
 
     let loginProvider = Provider<LoginService>()

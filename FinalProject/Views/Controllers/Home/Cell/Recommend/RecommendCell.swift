@@ -7,13 +7,22 @@
 
 import UIKit
 
+protocol RecommendCellDelegate: AnyObject {
+    func cell(cell: RecommendCell, needPerform action: RecommendCell.Action)
+}
+
 final class RecommendCell: UITableViewCell {
+
+    enum Action {
+        case didTap(product: Product)
+    }
 
     // MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var viewAllLabel: UILabel!
 
     // MARK: - Properties
+    weak var delegate: RecommendCellDelegate?
     var viewModel: RecommendCellViewModel? {
         didSet {
             self.collectionView.reloadData()
@@ -37,7 +46,7 @@ final class RecommendCell: UITableViewCell {
 
     private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewAllRecommend))
-        self.addGestureRecognizer(tap)
+        viewAllLabel.addGestureRecognizer(tap)
     }
 
     // MARK: - Objc method
@@ -54,7 +63,7 @@ extension RecommendCell {
 }
 
 // MARK: - CollectionView Delegate, Datasource
-extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
@@ -62,11 +71,18 @@ extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlo
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellName, for: indexPath) as? RecommendCollectionViewCell else {
+        guard let viewModel = viewModel,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellName, for: indexPath) as? RecommendCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.viewModel = viewModel?.viewModelForItem(at: indexPath)
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+        let product = viewModel.products[safe: indexPath.row] else { return }
+        delegate?.cell(cell: self, needPerform: .didTap(product: product))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

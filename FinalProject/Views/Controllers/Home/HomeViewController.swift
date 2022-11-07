@@ -15,6 +15,7 @@ final class HomeViewController: UIViewController {
     // MARK: - Properties
     var viewModel: HomeViewModel?
     private var timer: Timer?
+    private var homeError: APIError?
 
     // MARK: - Override methods
     override func viewDidLoad() {
@@ -83,7 +84,8 @@ extension HomeViewController {
 // MARK: - TableView Delegate, Datasource
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.getSection()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -105,6 +107,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
             viewModel.cellType = .recommend
             cell.selectionStyle = .none
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? RecommendCellViewModel
             return cell
         case 2:
@@ -122,6 +125,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let viewModel = viewModel else { return 0 }
         switch indexPath.row {
         case 0:
             return 300
@@ -148,28 +152,95 @@ extension HomeViewController: PopularCellDelegate {
     }
 }
 
+extension HomeViewController: RecommendCellDelegate {
+
+    func cell(cell: RecommendCell, needPerform action: RecommendCell.Action) {
+        switch action {
+        case .didTap(let product):
+            let vc = DetailViewController()
+            vc.viewModel = DetailViewModel(product: product)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
 // MARK: - APIs
 extension HomeViewController {
 
     private func getData() {
-        getProduct()
-        getShop()
-    }
+        let dispatch = DispatchGroup()
 
-    func getProduct() {
-        guard let viewModel = viewModel else { return }
-        viewModel.testAPIProduct { result in
-            switch result {
-            case .success:
-                self.tableView.reloadData()
-            case .failure(let error):
-                print(error)
+        dispatch.enter()
+        getShop {
+            dispatch.leave()
+        }
+
+        dispatch.enter()
+        getRecommendProduct {
+            dispatch.leave()
+        }
+
+        dispatch.enter()
+        getPouplarProduct {
+            dispatch.leave()
+        }
+
+        dispatch.notify(queue: .main) { [weak self] in
+            guard let this = self else { return }
+            if this.homeError != nil {
+                this.alert(msg: (this.homeError?.localizedDescription).content, completion: nil)
+            } else {
+                self?.tableView.reloadData()
             }
         }
     }
 
-    func getShop() {
+    private func getPouplarProduct(completion: @escaping () -> Void) {
         guard let viewModel = viewModel else { return }
-        viewModel.getShop()
+        viewModel.getApiPopularProduct { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                this.checkError(error: error)
+                completion()
+            }
+        }
+    }
+
+    private func getRecommendProduct(completion: @escaping () -> Void) {
+        guard let viewModel = viewModel else { return }
+        viewModel.getApiRecommendProduct { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                this.checkError(error: error)
+                completion()
+            }
+        }
+    }
+
+    private func getShop(completion: @escaping () -> Void) {
+        guard let viewModel = viewModel else { return }
+        viewModel.getApiShop { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                this.checkError(error: error)
+                completion()
+            }
+        }
+    }
+
+    private func checkError(error: APIError) {
+        guard homeError == nil else {
+            return
+        }
+        homeError = error
     }
 }

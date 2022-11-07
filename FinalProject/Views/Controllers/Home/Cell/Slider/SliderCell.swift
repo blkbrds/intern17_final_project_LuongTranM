@@ -14,7 +14,11 @@ final class SliderCell: UITableViewCell {
     @IBOutlet private weak var pageControl: UIPageControl!
 
     // MARK: - Properties
-    var viewModel: SlideCellViewModel?
+    var viewModel: SlideCellViewModel? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     private var timer: Timer?
 
     // MARK: - Override methods
@@ -66,7 +70,8 @@ extension SliderCell {
 extension SliderCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.shops.count >= 3 ? 3 : viewModel.shops.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
