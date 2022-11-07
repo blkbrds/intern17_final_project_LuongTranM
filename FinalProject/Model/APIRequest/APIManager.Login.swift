@@ -8,38 +8,36 @@
 import Foundation
 
 enum LoginService {
-    case testAPI
+    case login(email: String, password: String)
 }
 
 extension LoginService: TargetType {
     var path: String {
         switch self {
-        case .testAPI:
-            return "/weather"
+        case .login:
+            return "/login"
         }
     }
 
     var method: Method {
         switch self {
-        case .testAPI:
-            return .get
+        case .login:
+            return .post
         }
     }
 
     var header: ReaquestHeaders? {
         switch self {
-        case .testAPI:
+        case .login:
             return ApiManager.shared.defaultHTTPHeaders
         }
     }
 
     var params: RequestParameters? {
         switch self {
-        case .testAPI:
-            return [
-                "appid": "29f841fc056921a0ca0cf95542d2f5c0",
-                "units": "metric",
-                "q": "DaNang"]
+        case .login(email: let email, password: let password):
+            return ["email": email,
+                    "password": password]
         }
     }
 }
