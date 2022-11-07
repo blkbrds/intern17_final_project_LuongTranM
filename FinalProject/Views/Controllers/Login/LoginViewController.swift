@@ -106,7 +106,7 @@ extension LoginViewController {
             SVProgressHUD.dismiss()
             switch result {
             case .success:
-                AppDelegate.delegate?.setRoot(rootType: .home)
+                AppDelegate.shared.setRoot(rootType: .home)
             case .failure(let error):
                 #warning("Alert Message and Disable Login Button")
             }

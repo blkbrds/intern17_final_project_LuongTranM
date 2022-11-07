@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct LoginRequest: Codable {
+struct LoginRespone: Codable {
     var success: Bool
     var data: Token
     var message: String
