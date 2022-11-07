@@ -30,7 +30,7 @@ protocol TargetType {
 extension TargetType {
 
     var baseURL: String {
-        return "https://api.openweathermap.org/data/2.5"
+        return "http://127.0.0.1:8000/api/v1/user"
     }
 
     var queryItems: [URLQueryItem]? {
