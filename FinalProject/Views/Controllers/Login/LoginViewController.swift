@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class LoginViewController: UIViewController {
 
@@ -31,14 +32,14 @@ final class LoginViewController: UIViewController {
     private func configUI() {
         configTextField()
         configButton()
-        configLabel()
+        addGestureForRegisterLabel()
         configGradient()
     }
 
-    private func configLabel() {
-        let tapRegisterLabel = UITapGestureRecognizer(target: self, action: #selector(registerTapTouchUpInside))
+    private func addGestureForRegisterLabel() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(registerTapTouchUpInside))
         registerLabel.isUserInteractionEnabled = true
-        registerLabel.addGestureRecognizer(tapRegisterLabel)
+        registerLabel.addGestureRecognizer(tapGesture)
     }
 
     private func configGradient() {
@@ -71,42 +72,45 @@ final class LoginViewController: UIViewController {
     }
 
     // MARK: Action methods
-    @IBAction func loginButtonTouchUpInside(_ sender: Any) {
-        guard let viewModel = viewModel,
-              let email = usernameTextField.text,
+    @IBAction private func loginButtonTouchUpInside(_ sender: Any) {
+        guard let email = usernameTextField.text,
               let password = passwordTextField.text else { return }
         if email.isEmpty && password.isEmpty {
-            print("Empty")
+            #warning("Alert Message and Disable Login Button")
         } else {
-            viewModel.requestLoginAPI(email: email, password: password, completion: { result in
-                switch result {
-                case .success:
-                    AppDelegate.delegate?.setRoot(rootType: .home)
-                    print("Login success")
-                case .failure(let error):
-                    if error == APIError.badRequest {
-                        print("Email or password incorrect")
-                    } else {
-                        print(error)
-                    }
-                }
-            })
+            requestLogin(email: email, password: password)
         }
     }
 
-    @IBAction func loginFacebookButtonTouchUpInside(_ sender: Any) {
-        print("facebook")
+    @IBAction private func loginFacebookButtonTouchUpInside(_ sender: Any) {
+        #warning("Login by facebook")
     }
 
-    @IBAction func loginGmailButtonTouchUpInside(_ sender: Any) {
-        print("gmail")
+    @IBAction private func loginGmailButtonTouchUpInside(_ sender: Any) {
+        #warning("Login by gmail")
     }
 
     // MARK: Objc methods
     @objc private func registerTapTouchUpInside(sender: UITapGestureRecognizer) {
-//        let vc = RegisterViewController()
-//        vc.viewModel = RegisterViewModel()
-//        navigationController?.pushViewController(vc, animated: true)
+        #warning("Register account")
+    }
+}
+
+// MARK: - APIs
+extension LoginViewController {
+
+    private func requestLogin(email: String, password: String) {
+        guard let viewModel = viewModel else { return }
+        SVProgressHUD.show()
+        viewModel.requestLoginAPI(email: email, password: password, completion: { result in
+            SVProgressHUD.dismiss()
+            switch result {
+            case .success:
+                AppDelegate.delegate?.setRoot(rootType: .home)
+            case .failure(let error):
+                #warning("Alert Message and Disable Login Button")
+            }
+        })
     }
 }
 
