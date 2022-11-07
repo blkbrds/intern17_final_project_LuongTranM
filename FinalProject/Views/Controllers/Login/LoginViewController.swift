@@ -72,7 +72,26 @@ final class LoginViewController: UIViewController {
 
     // MARK: Action methods
     @IBAction func loginButtonTouchUpInside(_ sender: Any) {
-        print("login")
+        guard let viewModel = viewModel,
+              let email = usernameTextField.text,
+              let password = passwordTextField.text else { return }
+        if email.isEmpty && password.isEmpty {
+            print("Empty")
+        } else {
+            viewModel.requestLoginAPI(email: email, password: password, completion: { result in
+                switch result {
+                case .success:
+                    AppDelegate.delegate?.setRoot(rootType: .home)
+                    print("Login success")
+                case .failure(let error):
+                    if error == APIError.badRequest {
+                        print("Email or password incorrect")
+                    } else {
+                        print(error)
+                    }
+                }
+            })
+        }
     }
 
     @IBAction func loginFacebookButtonTouchUpInside(_ sender: Any) {

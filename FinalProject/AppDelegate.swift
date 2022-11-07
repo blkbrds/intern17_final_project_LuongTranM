@@ -7,6 +7,8 @@
 
 import UIKit
 
+let userDefaults = UserDefaults.standard
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,12 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case home
     }
 
+    static var delegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
+
     var window: UIWindow?
     var rootType: RootType = .login
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        setRoot(rootType: .login)
+        (userDefaults.string(forKey: "authToken") != nil) ? (setRoot(rootType: .home)) : (setRoot(rootType: .login))
         window?.makeKeyAndVisible()
         return true
     }
