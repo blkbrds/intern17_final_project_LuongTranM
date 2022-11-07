@@ -39,7 +39,7 @@ final class CartViewController: UIViewController {
         navigationItem.title = Define.title
         navigationItem.largeTitleDisplayMode = .never
 
-        let backButton = UIBarButtonItem(image: UIImage(named: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
+        let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
 
