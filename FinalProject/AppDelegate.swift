@@ -7,7 +7,7 @@
 
 import UIKit
 
-let userDefaults = UserDefaults.standard
+let ud = UserDefaults.standard
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        userDefaults.string(forKey: "authToken").content.isEmpty ? (setRoot(rootType: .home)) : (setRoot(rootType: .login))
         window?.makeKeyAndVisible()
+        Session.shared.token.isEmpty ? (setRoot(rootType: .login)) : (setRoot(rootType: .home))
         return true
     }
 

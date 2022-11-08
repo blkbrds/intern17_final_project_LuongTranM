@@ -15,7 +15,7 @@ extension LoginService: TargetType {
     var path: String {
         switch self {
         case .login:
-            return "/login"
+            return "login"
         }
     }
 
@@ -29,7 +29,7 @@ extension LoginService: TargetType {
     var header: ReaquestHeaders? {
         switch self {
         case .login:
-            return ApiManager.shared.defaultHTTPHeaders
+            return ["Content-type": "application/json"]
         }
     }
 

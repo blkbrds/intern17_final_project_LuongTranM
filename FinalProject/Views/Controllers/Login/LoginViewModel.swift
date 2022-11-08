@@ -17,8 +17,9 @@ final class LoginViewModel {
                     completion(.failure(.noData))
                     return
                 }
+                print(value)
                 let authToken = value.data.accessToken
-                userDefaults.set(authToken, forKey: "authToken")
+                Session.shared.token = authToken
                 completion(.success(value))
             case .failure(let error):
                 completion(.failure(error))

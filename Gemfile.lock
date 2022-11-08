@@ -88,10 +88,11 @@ GEM
     zeitwerk (2.6.1)
 
 PLATFORMS
+  arm64-darwin-21
   x86_64-darwin-20
 
 DEPENDENCIES
   cocoapods
 
 BUNDLED WITH
-   2.3.10
+   2.3.24

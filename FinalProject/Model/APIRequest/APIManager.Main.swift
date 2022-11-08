@@ -35,9 +35,9 @@ extension MainService: TargetType {
     var header: ReaquestHeaders? {
         switch self {
         case .shop, .recommend, .popular:
-            return ApiManager.shared.defaultHTTPHeaders
+            return ApiManager.shared.getDefaultHTTPHeaders()
         }
-    }
+    }   
 
     var params: RequestParameters? {
         switch self {

@@ -53,15 +53,15 @@ enum APIError: Error {
     }
 }
 
-final class ApiManager {
+class ApiManager {
 
-    static let shared: ApiManager = ApiManager()
+    static var shared: ApiManager = ApiManager()
 
-    var defaultHTTPHeaders: [String: String] = {
+    func getDefaultHTTPHeaders() -> [String: String] {
         return [
             "Content-type": "application/json",
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2Njc3ODcwNjEsImV4cCI6MTY5OTMyMzA2MSwibmJmIjoxNjY3Nzg3MDYxLCJqdGkiOiJYS3BGV2JjZjVGZ3Y1NWNUIiwic3ViIjoiMjAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.dncmJ49O4Dh4Fdj0HN5rupwMiQiozJgvn_0LjVLk22g"]
-    }()
+            "Authorization": "Bearer \(Session.shared.token)"]
+    }
 
     let loginProvider = Provider<LoginService>()
     let mainProvider = Provider<MainService>()

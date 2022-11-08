@@ -17,7 +17,6 @@ final class HomeViewModel {
 
     var cellType: CellType = .slide
     var shops: [Shop] = []
-    var currentCellIndex: Int = 0
     var popularProducts: [Product] = []
     var recommendProducts: [Product] = []
 

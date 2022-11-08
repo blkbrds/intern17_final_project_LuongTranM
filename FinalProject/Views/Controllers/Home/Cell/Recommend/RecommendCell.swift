@@ -40,6 +40,7 @@ final class RecommendCell: UITableViewCell {
     private func configCollectionView() {
         let cellNib = UINib(nibName: Define.cellName, bundle: Bundle.main)
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellName)
+        collectionView.decelerationRate = .fast
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -47,6 +48,13 @@ final class RecommendCell: UITableViewCell {
     private func addTapGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(viewAllRecommend))
         viewAllLabel.addGestureRecognizer(tap)
+    }
+
+    private func snapToNearestCell(scrollView: UIScrollView) {
+         let middlePoint = Int(scrollView.contentOffset.x + UIScreen.main.bounds.width / 2)
+         if let indexPath = collectionView.indexPathForItem(at: CGPoint(x: middlePoint, y: 0)) {
+              collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+         }
     }
 
     // MARK: - Objc method
@@ -90,10 +98,18 @@ extension RecommendCell: UICollectionViewDataSource, UICollectionViewDelegateFlo
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 15
+        return 0
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        snapToNearestCell(scrollView: scrollView)
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        snapToNearestCell(scrollView: scrollView)
     }
 }

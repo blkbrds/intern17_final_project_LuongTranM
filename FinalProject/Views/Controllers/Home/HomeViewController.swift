@@ -125,7 +125,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let viewModel = viewModel else { return 0 }
         switch indexPath.row {
         case 0:
             return 300
@@ -170,6 +169,8 @@ extension HomeViewController {
     private func getData() {
         let dispatch = DispatchGroup()
 
+        showHUD()
+        
         dispatch.enter()
         getShop {
             dispatch.leave()
@@ -186,11 +187,12 @@ extension HomeViewController {
         }
 
         dispatch.notify(queue: .main) { [weak self] in
+            self?.dismissHUD()
             guard let this = self else { return }
             if this.homeError != nil {
                 this.alert(msg: (this.homeError?.localizedDescription).content, completion: nil)
             } else {
-                self?.tableView.reloadData()
+                this.tableView.reloadData()
             }
         }
     }

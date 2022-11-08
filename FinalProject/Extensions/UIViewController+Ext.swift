@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 extension UIViewController {
     func alert(msg: String, completion: (() -> Void)?) {
@@ -15,5 +16,13 @@ extension UIViewController {
         }
         alert.addAction(cancelButton)
         present(alert, animated: false)
+    }
+
+    func showHUD() {
+        SVProgressHUD.show()
+    }
+
+    func dismissHUD() {
+        SVProgressHUD.dismiss()
     }
 }
