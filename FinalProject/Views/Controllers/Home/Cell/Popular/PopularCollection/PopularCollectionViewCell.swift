@@ -27,6 +27,8 @@ final class PopularCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         contentView.layer.borderWidth = 1
         contentView.layer.cornerRadius = 20
+        productImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        productImageView.layer.cornerRadius = 20
     }
 
     // MARK: - Private methods

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SVProgressHUD
 
 final class LoginViewController: UIViewController {
 
@@ -76,7 +75,7 @@ final class LoginViewController: UIViewController {
         guard let email = usernameTextField.text,
               let password = passwordTextField.text else { return }
         if email.isEmpty && password.isEmpty {
-            #warning("Alert Message and Disable Login Button")
+            alert(msg: "Email and password are empty", completion: nil)
         } else {
             requestLogin(email: email, password: password)
         }
@@ -101,14 +100,15 @@ extension LoginViewController {
 
     private func requestLogin(email: String, password: String) {
         guard let viewModel = viewModel else { return }
-        SVProgressHUD.show()
-        viewModel.requestLoginAPI(email: email, password: password, completion: { result in
-            SVProgressHUD.dismiss()
+        showHUD()
+        viewModel.requestLoginAPI(email: email, password: password, completion: { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
             switch result {
             case .success:
                 AppDelegate.shared.setRoot(rootType: .home)
             case .failure(let error):
-                #warning("Alert Message and Disable Login Button")
+                this.alert(msg: error.localizedDescription, completion: nil)
             }
         })
     }

@@ -28,8 +28,8 @@ final class SearchViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.isNavigationBarHidden = false
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.isNavigationBarHidden = false
     }
 
     // MARK: - Private methods

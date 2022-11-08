@@ -27,6 +27,8 @@ final class RecommendCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         customViewShadow()
+        productImageView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        productImageView.layer.cornerRadius = 20
     }
 
     // MARK: - Private method

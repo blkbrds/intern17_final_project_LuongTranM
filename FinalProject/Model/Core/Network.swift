@@ -30,15 +30,16 @@ protocol TargetType {
 extension TargetType {
 
     var baseURL: String {
-        return "http://127.0.0.1:8000/api/v1/user"
+        return "http://127.0.0.1:8000/api/v1/user/"
     }
 
     var queryItems: [URLQueryItem]? {
-        guard let parameters = params else {
+        guard let parameters = params,
+              !parameters.isEmpty else {
             return nil
         }
 
-        return parameters.map { (name, value) in
+        return parameters.map { name, value in
             return URLQueryItem(name: name, value: value)
         }
     }
@@ -50,6 +51,7 @@ extension TargetType {
 
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        request.allHTTPHeaderFields = header
 
         return request
     }

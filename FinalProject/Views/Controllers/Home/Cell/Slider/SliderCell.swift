@@ -14,7 +14,12 @@ final class SliderCell: UITableViewCell {
     @IBOutlet private weak var pageControl: UIPageControl!
 
     // MARK: - Properties
-    var viewModel: SlideCellViewModel?
+    var viewModel: SlideCellViewModel? {
+        didSet {
+            collectionView.reloadData()
+            configUI()
+        }
+    }
     private var timer: Timer?
 
     // MARK: - Override methods
@@ -34,7 +39,8 @@ final class SliderCell: UITableViewCell {
     }
 
     private func configUI() {
-        pageControl.numberOfPages = 3
+        guard let viewModel = viewModel else { return }
+        pageControl.numberOfPages = viewModel.numberOfPage()
     }
 
     private func startTimer() {
@@ -44,7 +50,7 @@ final class SliderCell: UITableViewCell {
     // MARK: - Objc methods
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
-        if viewModel.currentIndex < 2 {
+        if viewModel.currentIndex < (viewModel.numberOfPage() - 1) {
             viewModel.currentIndex += 1
         } else {
             viewModel.currentIndex = 0
@@ -66,7 +72,8 @@ extension SliderCell {
 extension SliderCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.numberOfItems(in: section)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
