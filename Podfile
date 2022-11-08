@@ -9,5 +9,6 @@ target 'FinalProject' do
   # Pods for FinalProject
   pod 'SVProgressHUD'
   pod "SwiftLint"
+  pod 'RealmSwift'
 
 end
