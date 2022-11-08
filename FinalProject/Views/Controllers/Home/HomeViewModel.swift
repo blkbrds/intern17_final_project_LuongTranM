@@ -20,7 +20,7 @@ final class HomeViewModel {
     var popularProducts: [Product] = []
     var recommendProducts: [Product] = []
 
-    func getSection() -> Int {
+    func numberOfRows(in section: Int) -> Int {
         var index = 0
         if !shops.isEmpty {
             index += 1

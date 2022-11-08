@@ -85,7 +85,7 @@ extension HomeViewController {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.getSection()
+        return viewModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -170,7 +170,7 @@ extension HomeViewController {
         let dispatch = DispatchGroup()
 
         showHUD()
-        
+
         dispatch.enter()
         getShop {
             dispatch.leave()

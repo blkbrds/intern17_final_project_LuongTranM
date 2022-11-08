@@ -37,7 +37,7 @@ extension MainService: TargetType {
         case .shop, .recommend, .popular:
             return ApiManager.shared.getDefaultHTTPHeaders()
         }
-    }   
+    }
 
     var params: RequestParameters? {
         switch self {
