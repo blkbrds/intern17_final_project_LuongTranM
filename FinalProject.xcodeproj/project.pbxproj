@@ -34,6 +34,7 @@
 		8458F2B529110C260087D6FB /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */; };
 		8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */; };
 		846BAC0C291911A000F46AE7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846BAC0B291911A000F46AE7 /* Session.swift */; };
+		84AF1258291B96C7000E208D /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AF1257291B96C7000E208D /* RealmManager.swift */; };
 		84B298362912538E00805DCC /* RecommendCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B298352912538E00805DCC /* RecommendCellViewModel.swift */; };
 		84B298382912561F00805DCC /* SlideCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B298372912561F00805DCC /* SlideCellViewModel.swift */; };
 		84B2983A2912B51300805DCC /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B298392912B51300805DCC /* Cart.swift */; };
@@ -113,6 +114,7 @@
 		8458F2B329110C260087D6FB /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		8458F2B429110C260087D6FB /* HistoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistoryTableViewCell.xib; sourceTree = "<group>"; };
 		846BAC0B291911A000F46AE7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		84AF1257291B96C7000E208D /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		84B298352912538E00805DCC /* RecommendCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendCellViewModel.swift; sourceTree = "<group>"; };
 		84B298372912561F00805DCC /* SlideCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideCellViewModel.swift; sourceTree = "<group>"; };
 		84B298392912B51300805DCC /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			children = (
 				D2ECE5452908591C00041BF9 /* Reachability.swift */,
 				846BAC0B291911A000F46AE7 /* Session.swift */,
+				84AF1257291B96C7000E208D /* RealmManager.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -688,6 +691,7 @@
 			files = (
 				844E4327291164EB006B713B /* CarouselCollectionViewCell.swift in Sources */,
 				84B76CC02910CDFC00AF2B3C /* FavoriteViewModel.swift in Sources */,
+				84AF1258291B96C7000E208D /* RealmManager.swift in Sources */,
 				84D371432918E6F0002ED8A4 /* UIViewController+Ext.swift in Sources */,
 				D2ECE55B29090E6B00041BF9 /* Network.swift in Sources */,
 				844E434A29124772006B713B /* PopularCell.swift in Sources */,

@@ -60,7 +60,7 @@ class ApiManager {
     func getDefaultHTTPHeaders() -> [String: String] {
         return [
             "Content-type": "application/json",
-            "Authorization": "Bearer \(Session.shared.token)"]
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL3VzZXIvbG9naW4iLCJpYXQiOjE2Njc5Nzk0MzAsImV4cCI6MTY5OTUxNTQzMCwibmJmIjoxNjY3OTc5NDMwLCJqdGkiOiI1eDNGZVNVc2xCaXJ5Qmk3Iiwic3ViIjoiMjAiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.yLCAsKBkommq0KxhH8MfpJrVRMig6yUdVKEGWutGQn0"]
     }
 
     let loginProvider = Provider<LoginService>()
@@ -71,7 +71,9 @@ extension ApiManager {
 
     func decoder<T: Codable>(model: T.Type, from data: Data) -> T? {
         do {
-            let result = try JSONDecoder().decode(model.self, from: data)
+            guard let result = try? JSONDecoder().decode(model.self, from: data) else {
+                return nil
+            }
             return result
         } catch {
             return nil

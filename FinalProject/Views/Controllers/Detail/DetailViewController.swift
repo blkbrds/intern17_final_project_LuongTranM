@@ -7,7 +7,16 @@
 
 import UIKit
 
+protocol DetailViewControllerDelegate: AnyObject {
+    func vc(vc: DetailViewController, needPeform action: DetailViewController.Action)
+}
+
 final class DetailViewController: UIViewController {
+
+    enum Action {
+        case updateFavorite(product: Product)
+        case deleteFavorite(product: Product)
+    }
 
     // MARK: - Outlets
     @IBOutlet private weak var contentProductView: UIView!
@@ -23,8 +32,11 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var totalProductLabel: UILabel!
 
     // MARK: - Properties
+    var delegate: DetailViewControllerDelegate?
     var viewModel: DetailViewModel?
+//    private var isFavorite: Bool = false
     private var timer: Timer?
+    private var favoriteButton: UIBarButtonItem?
     private var quantity: Int = 1 {
         didSet {
             updateQuantity()
@@ -50,22 +62,31 @@ final class DetailViewController: UIViewController {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
 
-        guard let viewModel = viewModel else { return }
-        nameProductLabel.text = viewModel.product?.name
-        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
-        categoryProductLabel.text = viewModel.product?.category.nameCategory
-        shopProductLabel.text = viewModel.product?.category.shop.nameShop
-        descriptionProductLabel.text = viewModel.product?.content
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        nameProductLabel.text = product.name
+        priceProductLabel.text = "$ \(product.price)"
+        categoryProductLabel.text = product.category?.nameCategory
+        shopProductLabel.text = product.category?.shop?.nameShop
+        descriptionProductLabel.text = product.content
     }
 
     private func configNavigation() {
+        guard let viewModel = viewModel else { return }
+
+        // Create bar button
         let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
 
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
-        favoriteButton.tintColor = .red
+        favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
+        // Check and update color favorite button
+        updateColorFavorite(isFavorite: viewModel.product?.isFavorite ?? false)
         navigationItem.rightBarButtonItem = favoriteButton
+    }
+
+    private func updateColorFavorite(isFavorite: Bool) {
+        favoriteButton?.tintColor = isFavorite ? .red : .black
     }
 
     private func configCollectionView() {
@@ -100,6 +121,28 @@ final class DetailViewController: UIViewController {
         totalProductLabel.text = "Total: $\(total)"
     }
 
+    private func addFavoriteProduct() {
+        guard let viewModel = viewModel else { return }
+        viewModel.addFavoriteProduct { (done) in
+            if done {
+                print("add Success")
+            } else {
+                print("Lois")
+            }
+        }
+    }
+
+    private func deleteFavoriteProduct() {
+        guard let viewModel = viewModel else { return }
+        viewModel.deleteFavoriteProduct { (done) in
+            if done {
+                print("delete Success")
+            } else {
+                print("Lois")
+            }
+        }
+    }
+
     // MARK: - Action methods
     @IBAction private func decreaseButtonTouchUpInside(_ sender: Any) {
         quantity = quantity == 1 ? 1 : quantity - 1
@@ -110,12 +153,39 @@ final class DetailViewController: UIViewController {
     }
 
     @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
-        #warning("add to cart")
+        #warning("Handle later")
+        viewModel?.deleteFavoriteProduct(completion: { done in
+            if done {
+                print("AAA")
+            } else {
+                print("LOis")
+            }
+        })
     }
 
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
-        #warning("HandleFavorite")
+        
+        //        guard let viewModel = viewModel else { return }
+        //        isFavorite = viewModel.isFavorite()
+        //        if isFavorite {
+        //            deleteFavoriteProduct()
+        //        } else {
+        //            addFavoriteProduct()
+        //        }
+        //        isFavorite = !isFavorite
+        //        updateColorFavorite(isFavorite: isFavorite)
+
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        product.isFavorite = !product.isFavorite
+        updateColorFavorite(isFavorite: (product.isFavorite))
+        if product.isFavorite {
+            delegate?.vc(vc: self, needPeform: .updateFavorite(product: product))
+        } else {
+            delegate?.vc(vc: self, needPeform: .deleteFavorite(product: product))
+        }
+
     }
 
     @objc private func returnButtonTouchUpInside() {
@@ -165,7 +235,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.height)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

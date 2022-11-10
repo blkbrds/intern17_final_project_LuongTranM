@@ -20,15 +20,15 @@ final class FavoriteViewController: UIViewController {
         super.viewDidLoad()
         configNavigation()
         configTableView()
-        getDataOnLocal()
+        getFavoriteProduct()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getFavoriteProduct()
     }
 
     // MARK: - Private methods
-    private func getDataOnLocal() {
-        guard let viewModel = viewModel else { return }
-        viewModel.getProductLocal()
-    }
-
     private func configNavigation() {
         title = Define.title
     }
@@ -78,11 +78,28 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Delegate
 extension FavoriteViewController: FavoriteTableViewCellDelegate {
     func cell(_ cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action) {
         switch action {
         case .didTap:
             #warning("Handle later")
+        }
+    }
+}
+
+// MARK: Data
+extension FavoriteViewController {
+
+    func getFavoriteProduct() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getFavoriteProduct { [weak self] done in
+            if done {
+                guard let this = self else { return }
+                this.tableView.reloadData()
+            } else {
+                alert(msg: "No Data", completion: nil)
+            }
         }
     }
 }
