@@ -145,7 +145,6 @@ extension HomeViewController: PopularCellDelegate {
         switch action {
         case .didTap(let product):
             let vc = DetailViewController()
-            vc.delegate = self
             vc.viewModel = DetailViewModel(product: product)
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -160,21 +159,6 @@ extension HomeViewController: RecommendCellDelegate {
             let vc = DetailViewController()
             vc.viewModel = DetailViewModel(product: product)
             navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-extension HomeViewController: DetailViewControllerDelegate {
-
-    func vc(vc: DetailViewController, needPeform action: DetailViewController.Action) {
-        switch action {
-        case .updateFavorite(let product):
-            guard let viewModel = viewModel else { return }
-            RealmManager.shared.addRealm(object: product)
-            print("addd", viewModel.popularProducts[0])
-        case .deleteFavorite(product: let product):
-            
-            print("dddd")
         }
     }
 }

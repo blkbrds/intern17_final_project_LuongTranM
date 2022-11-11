@@ -7,16 +7,7 @@
 
 import UIKit
 
-protocol DetailViewControllerDelegate: AnyObject {
-    func vc(vc: DetailViewController, needPeform action: DetailViewController.Action)
-}
-
 final class DetailViewController: UIViewController {
-
-    enum Action {
-        case updateFavorite(product: Product)
-        case deleteFavorite(product: Product)
-    }
 
     // MARK: - Outlets
     @IBOutlet private weak var contentProductView: UIView!
@@ -32,9 +23,8 @@ final class DetailViewController: UIViewController {
     @IBOutlet private weak var totalProductLabel: UILabel!
 
     // MARK: - Properties
-    var delegate: DetailViewControllerDelegate?
     var viewModel: DetailViewModel?
-//    private var isFavorite: Bool = false
+    private var isFavorite: Bool = false
     private var timer: Timer?
     private var favoriteButton: UIBarButtonItem?
     private var quantity: Int = 1 {
@@ -72,7 +62,8 @@ final class DetailViewController: UIViewController {
     }
 
     private func configNavigation() {
-        guard let viewModel = viewModel else { return }
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
 
         // Create bar button
         let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
@@ -81,7 +72,8 @@ final class DetailViewController: UIViewController {
 
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
         // Check and update color favorite button
-        updateColorFavorite(isFavorite: viewModel.product?.isFavorite ?? false)
+        isFavorite = viewModel.isFavorite(product: product)
+        updateColorFavorite(isFavorite: isFavorite)
         navigationItem.rightBarButtonItem = favoriteButton
     }
 
@@ -121,28 +113,6 @@ final class DetailViewController: UIViewController {
         totalProductLabel.text = "Total: $\(total)"
     }
 
-    private func addFavoriteProduct() {
-        guard let viewModel = viewModel else { return }
-        viewModel.addFavoriteProduct { (done) in
-            if done {
-                print("add Success")
-            } else {
-                print("Lois")
-            }
-        }
-    }
-
-    private func deleteFavoriteProduct() {
-        guard let viewModel = viewModel else { return }
-        viewModel.deleteFavoriteProduct { (done) in
-            if done {
-                print("delete Success")
-            } else {
-                print("Lois")
-            }
-        }
-    }
-
     // MARK: - Action methods
     @IBAction private func decreaseButtonTouchUpInside(_ sender: Any) {
         quantity = quantity == 1 ? 1 : quantity - 1
@@ -154,38 +124,18 @@ final class DetailViewController: UIViewController {
 
     @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
         #warning("Handle later")
-        viewModel?.deleteFavoriteProduct(completion: { done in
-            if done {
-                print("AAA")
-            } else {
-                print("LOis")
-            }
-        })
     }
 
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
-        
-        //        guard let viewModel = viewModel else { return }
-        //        isFavorite = viewModel.isFavorite()
-        //        if isFavorite {
-        //            deleteFavoriteProduct()
-        //        } else {
-        //            addFavoriteProduct()
-        //        }
-        //        isFavorite = !isFavorite
-        //        updateColorFavorite(isFavorite: isFavorite)
-
-        guard let viewModel = viewModel,
-              let product = viewModel.product else { return }
-        product.isFavorite = !product.isFavorite
-        updateColorFavorite(isFavorite: (product.isFavorite))
-        if product.isFavorite {
-            delegate?.vc(vc: self, needPeform: .updateFavorite(product: product))
+        guard let viewModel = viewModel, let product = viewModel.product else { return }
+        isFavorite = viewModel.isFavorite(product: product)
+        updateColorFavorite(isFavorite: !isFavorite)
+        if !isFavorite {
+            viewModel.addFavoriteProduct()
         } else {
-            delegate?.vc(vc: self, needPeform: .deleteFavorite(product: product))
+            viewModel.deleteFavoriteProduct()
         }
-
     }
 
     @objc private func returnButtonTouchUpInside() {
@@ -219,6 +169,7 @@ extension DetailViewController {
 }
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
         return (viewModel.product?.images.count).unwrap(or: 0)
@@ -228,14 +179,13 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         guard let viewModel = viewModel,
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellName, for: indexPath) as? CarouselCollectionViewCell else {
             return UICollectionViewCell()
-
         }
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.height)
+        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.height - 5)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

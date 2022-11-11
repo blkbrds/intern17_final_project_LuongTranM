@@ -23,6 +23,20 @@ final class FavoriteViewModel {
         }
     }
 
+    func deleteFavorite(id: Int, at indexPath: IndexPath, completion: (Bool) -> Void) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let object = realm.objects(Product.self).filter("id = %@", id as Any)
+                realm.delete(object)
+            }
+            completion(true)
+        } catch {
+            completion(false)
+        }
+        favoriteProucts?.remove(at: indexPath.row)
+    }
+
     func numberOfRows(in section: Int) -> Int {
         guard let favoriteProucts = favoriteProucts else { return 0 }
         return favoriteProucts.count
