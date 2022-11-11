@@ -17,7 +17,11 @@ final class CartViewController: UIViewController {
     @IBOutlet private weak var checkOutButton: UIButton!
 
     // MARK: - Properties
-    var viewModel: CartViewModel?
+    var viewModel: CartViewModel? {
+        didSet {
+            getCart()
+        }
+    }
     private var isShowViewDetail: Bool = true
 
     // MARK: - Override methods
@@ -25,8 +29,8 @@ final class CartViewController: UIViewController {
         super.viewDidLoad()
         configNavigation()
         configTableView()
-        getData()
         configUI()
+        getCart()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -66,8 +70,6 @@ final class CartViewController: UIViewController {
         priceInfoView.layer.masksToBounds = false
         checkOutButton.layer.cornerRadius = Define.cornerRadius
 
-        updatePriceInfoView()
-
         let tapView = UITapGestureRecognizer()
         tapView.addTarget(self, action: #selector(showHideViewDetail))
         priceInfoView.addGestureRecognizer(tapView)
@@ -75,14 +77,14 @@ final class CartViewController: UIViewController {
 
     private func updatePriceInfoView() {
         guard let viewModel = viewModel else { return }
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
         let totalPrice = viewModel.totalPriceCarts()
         selectedItemLabel.text = "Item selected: \(viewModel.carts.count)"
-        totalPriceLabel.text = "\(totalPrice)$"
-    }
-
-    private func getData() {
-        guard let viewModel = viewModel else { return }
-        viewModel.getData()
+        if let formattedTipAmount = formatter.string(from: totalPrice as NSNumber) {
+            totalPriceLabel.text = "\(formattedTipAmount)"
+        }
     }
 
     private func animationLoadTable() {
@@ -151,17 +153,15 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 150
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let viewModel = viewModel else { return UISwipeActionsConfiguration() }
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
-            tableView.beginUpdates()
-            viewModel.carts.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .left)
-            self.updatePriceInfoView()
-            tableView.endUpdates()
+        guard let viewModel = viewModel,
+              let cart = viewModel.carts[safe: indexPath.row]  else { return UISwipeActionsConfiguration() }
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completionHandler) in
+            guard let this = self else { return }
+            this.deleteCart(orderId: cart.id)
             completionHandler(true)
         }
         delete.backgroundColor = .white
@@ -170,6 +170,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Delegate
 extension CartViewController: CartTabeViewCellDelegate {
     func cell(cell: CartTableViewCell, needPerform action: CartTableViewCell.Action) {
         switch action {
@@ -178,21 +179,63 @@ extension CartViewController: CartTabeViewCellDelegate {
                   let viewModel = viewModel,
                   let cart = viewModel.carts[safe: indexPath.row] else { return }
             let numberItemCart = cart.quantity + 1
-            viewModel.updateCart(count: numberItemCart, indexPath: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .none)
+            updateCart(orderId: cart.id, quantity: numberItemCart)
         case .decrease:
             guard let indexPath = tableView.indexPath(for: cell),
                   let viewModel = viewModel,
                   let cart = viewModel.carts[safe: indexPath.row] else { return }
             let numberItemCart = cart.quantity - 1
             if numberItemCart != 0 {
-                viewModel.updateCart(count: numberItemCart, indexPath: indexPath)
-                tableView.reloadRows(at: [indexPath], with: .none)
+                updateCart(orderId: cart.id, quantity: numberItemCart)
             } else {
                 viewModel.carts.remove(at: indexPath.row)
-                animationLoadTable()
+                updateCart(orderId: cart.id, quantity: numberItemCart)
             }
         }
         updatePriceInfoView()
+    }
+}
+
+// MARK: Handle Apis
+extension CartViewController {
+
+    private func getCart() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getApiCart { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.updatePriceInfoView()
+                this.animationLoadTable()
+            case .failure(let err):
+                this.alert(msg: err.localizedDescription, completion: nil)
+            }
+        }
+    }
+
+    private func updateCart(orderId: Int, quantity: Int) {
+        guard let viewModel = viewModel else { return }
+        viewModel.requestUpdateCart(orderId: orderId, quantity: quantity) { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.getCart()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+            }
+        }
+    }
+
+    private func deleteCart(orderId: Int) {
+        guard let viewModel = viewModel else { return }
+        viewModel.requestDeleteCart(orderId: orderId) { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.getCart()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+            }
+        }
     }
 }

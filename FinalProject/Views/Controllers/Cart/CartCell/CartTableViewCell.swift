@@ -19,7 +19,6 @@ final class CartTableViewCell: UITableViewCell {
     }
 
     // MARK: - Outlets
-    @IBOutlet private weak var cartView: UIView!
     @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
@@ -41,7 +40,7 @@ final class CartTableViewCell: UITableViewCell {
 
     // MARK: - Private methods
     private func configUI() {
-        cartView.layer.cornerRadius = Define.cornerRadius
+        productImageView.layer.cornerRadius = Define.cornerRadius
     }
 
     private func updateCell() {

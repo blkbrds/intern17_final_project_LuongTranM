@@ -110,7 +110,7 @@ final class DetailViewController: UIViewController {
     }
 
     @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
-        #warning("add to cart")
+        addProductToCart()
     }
 
     // MARK: - Objc methods
@@ -133,6 +133,7 @@ final class DetailViewController: UIViewController {
     }
 }
 
+// MARK: Define
 extension DetailViewController {
     private struct Define {
         static var cellName: String = String(describing: CarouselCollectionViewCell.self)
@@ -148,6 +149,7 @@ extension DetailViewController {
     }
 }
 
+// MARK: CollectionView Delegate, Datasource
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
@@ -174,5 +176,24 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return Define.lineSpacingDefault
+    }
+}
+
+// MARK: Handle Apis
+extension DetailViewController {
+
+    private func addProductToCart() {
+        showHUD()
+        guard let viewModel = viewModel, let product = viewModel.product else { return }
+        viewModel.requestAddToCart(id: product.id, quantity: quantity) { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
+            switch result {
+            case .success(let response):
+                this.alert(buttonTitle: "OK", title: "SUCCESS", msg: (response.data).content, completion: nil)
+            case .failure(let err):
+                this.alert(msg: err.localizedDescription, completion: nil)
+            }
+        }
     }
 }
