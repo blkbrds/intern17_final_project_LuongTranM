@@ -24,7 +24,6 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: DetailViewModel?
-    private var isFavorite: Bool = false
     private var timer: Timer?
     private var favoriteButton: UIBarButtonItem?
     private var quantity: Int = 1 {
@@ -72,8 +71,7 @@ final class DetailViewController: UIViewController {
 
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
         // Check and update color favorite button
-        isFavorite = viewModel.isFavorite(product: product)
-        updateColorFavorite(isFavorite: isFavorite)
+        updateColorFavorite(isFavorite: viewModel.isFavorite(product: product))
         navigationItem.rightBarButtonItem = favoriteButton
     }
 
@@ -129,12 +127,22 @@ final class DetailViewController: UIViewController {
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
         guard let viewModel = viewModel, let product = viewModel.product else { return }
-        isFavorite = viewModel.isFavorite(product: product)
+        let isFavorite = viewModel.isFavorite(product: product)
         updateColorFavorite(isFavorite: !isFavorite)
         if !isFavorite {
-            viewModel.addFavoriteProduct()
+            viewModel.addFavoriteProduct { [weak self] done in
+                guard let this = self else { return }
+                if !done {
+                    this.alert(msg: "Can't Add", completion: nil)
+                }
+            }
         } else {
-            viewModel.deleteFavoriteProduct()
+            viewModel.deleteFavoriteProduct { [weak self] done in
+                guard let this = self else { return }
+                if !done {
+                    this.alert(msg: "Can't Delete", completion: nil)
+                }
+            }
         }
     }
 
@@ -185,7 +193,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: collectionView.frame.height - 5)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 5)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

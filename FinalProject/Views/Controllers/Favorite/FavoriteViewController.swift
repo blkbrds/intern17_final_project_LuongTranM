@@ -107,7 +107,9 @@ extension FavoriteViewController {
                 guard let this = self else { return }
                 this.getFavoriteProduct()
             })
-        } catch { }
+        } catch {
+            alert(msg: "Can't reload data", completion: nil)
+        }
     }
 
     private func getFavoriteProduct() {

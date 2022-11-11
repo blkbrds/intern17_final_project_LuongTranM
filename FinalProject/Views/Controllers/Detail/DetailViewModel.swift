@@ -18,7 +18,6 @@ final class DetailViewModel {
 
     var favoriteProducts: [Product] = []
     var currentIndex: Int = 0
-    var isFav: Bool = false
 
     func viewModelForItem(at indexPath: IndexPath) -> CarouselCollectionCellViewModel {
         return CarouselCollectionCellViewModel(image: (product?.images[safe: indexPath.row]?.image).content)
@@ -27,27 +26,29 @@ final class DetailViewModel {
 
 extension DetailViewModel {
 
-    func addFavoriteProduct() {
+    func addFavoriteProduct(completion: (Bool) -> Void) {
         do {
             let realm = try Realm()
             try realm.write {
                 let product = Product(value: self.product ?? Product())
                 realm.add(product)
             }
+            completion(true)
         } catch {
-            fatalError()
+            completion(false)
         }
     }
 
-    func deleteFavoriteProduct() {
+    func deleteFavoriteProduct(completion: (Bool) -> Void) {
         do {
             let realm = try Realm()
             try realm.write {
                 let object = realm.objects(Product.self).filter("id = %@", self.product?.id as Any)
                 realm.delete(object)
             }
+            completion(true)
         } catch {
-            fatalError()
+            completion(false)
         }
     }
 

@@ -162,11 +162,5 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 extension SearchViewController {
 
     private func getData() {
-        getProduct()
-    }
-
-    func getProduct() {
-        guard let viewModel = viewModel else { return }
-//        viewModel.getProduct()
     }
 }
