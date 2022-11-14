@@ -11,6 +11,7 @@ enum MainService {
     case popular
     case recommend
     case shop
+    case search
 }
 
 extension MainService: TargetType {
@@ -22,26 +23,28 @@ extension MainService: TargetType {
             return "product/random"
         case .popular:
             return "product/new"
+        case .search:
+            return "product"
         }
     }
 
     var method: Method {
         switch self {
-        case .shop, .recommend, .popular:
+        case .shop, .recommend, .popular, .search:
             return .get
         }
     }
 
     var header: ReaquestHeaders? {
         switch self {
-        case .shop, .recommend, .popular:
+        case .shop, .recommend, .popular, .search:
             return ApiManager.shared.getDefaultHTTPHeaders()
         }
     }
 
     var params: RequestParameters? {
         switch self {
-        case .shop, .recommend, .popular:
+        case .shop, .recommend, .popular, .search:
             return [:]
         }
     }

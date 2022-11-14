@@ -23,13 +23,17 @@ final class SearchViewController: UIViewController {
         configNavigation()
         configCollectionView()
         configSearchController()
-        getData()
+        getProduct()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.isNavigationBarHidden = false
+        searchController.isActive = true
+        DispatchQueue.main.async {
+            self.searchController.searchBar.becomeFirstResponder()
+        }
     }
 
     // MARK: - Private methods
@@ -42,6 +46,7 @@ final class SearchViewController: UIViewController {
         searchCollectionView.register(searchNib, forCellWithReuseIdentifier: Define.cellName)
         searchCollectionView.delegate = self
         searchCollectionView.dataSource = self
+        searchCollectionView.keyboardDismissMode = .onDrag
     }
 
     private func configSearchController() {
@@ -57,6 +62,12 @@ final class SearchViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
+
+    private func animationTableReloadData() {
+        UIView.transition(with: searchCollectionView, duration: 0.5, options: .transitionCrossDissolve) {
+            self.searchCollectionView.reloadData()
+        }
+    }
 }
 
 // MARK: - Define
@@ -71,7 +82,6 @@ extension SearchViewController {
 // MARK: - CollectionView Delegate, Datasource
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    #warning("Handle Cell")
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
         return viewModel.numberOfItems(in: section)
@@ -94,7 +104,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 2 - 15, height: 230)
+        return CGSize(width: view.frame.width / 2 - 15, height: 250)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -102,9 +112,8 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
+extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
 
-    #warning("Handle search")
     func updateSearchResults(for searchController: UISearchController) {
         guard let viewModel = viewModel else { return }
         let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
@@ -113,7 +122,8 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
             viewModel.searching = true
             viewModel.searchProducts.removeAll()
             if scopeButton == "Product" {
-                viewModel.searchProducts = viewModel.products.filter({ $0.name.lowercased().contains(searchText.lowercased())
+                viewModel.searchProducts = viewModel.products.filter({
+                    $0.name.lowercased().contains(searchText.lowercased())
                 })
             } else {
                 viewModel.searchProducts = viewModel.products.filter({
@@ -126,23 +136,23 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
                 let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
                 if !(scopeButton?.isEmpty ?? false) {
                     viewModel.searchProducts.removeAll()
-                } else { }
+                }
                 viewModel.searching = false
-                searchCollectionView.reloadData()
+                animationTableReloadData()
             } else {
                 viewModel.searching = false
-                viewModel.searchProducts.removeAll()
                 viewModel.searchProducts = viewModel.products
+                viewModel.searchProducts.removeAll()
             }
         }
-        searchCollectionView.reloadData()
+        animationTableReloadData()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         guard let viewModel = viewModel else { return }
         viewModel.searching = false
         viewModel.searchProducts.removeAll()
-        searchCollectionView.reloadData()
+        animationTableReloadData()
     }
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
@@ -154,13 +164,29 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
                 viewModel.searchProducts.append(product)
             } else { }
         }
-        searchCollectionView.reloadData()
+        animationTableReloadData()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        animationTableReloadData()
     }
 }
 
 // MARK: - APIs
 extension SearchViewController {
 
-    private func getData() {
+    private func getProduct() {
+        showHUD()
+        guard let viewModel = viewModel else { return }
+        viewModel.getApiProduct { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                this.animationTableReloadData()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+            }
+        }
     }
 }
