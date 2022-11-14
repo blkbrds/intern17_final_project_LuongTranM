@@ -128,7 +128,6 @@ final class DetailViewController: UIViewController {
     @objc private func favoriteButtonTouchUpInside() {
         guard let viewModel = viewModel, let product = viewModel.product else { return }
         let isFavorite = viewModel.isFavorite(product: product)
-        updateColorFavorite(isFavorite: !isFavorite)
         if !isFavorite {
             viewModel.addFavoriteProduct { [weak self] done in
                 guard let this = self else { return }
@@ -144,6 +143,7 @@ final class DetailViewController: UIViewController {
                 }
             }
         }
+        updateColorFavorite(isFavorite: !isFavorite)
     }
 
     @objc private func returnButtonTouchUpInside() {
