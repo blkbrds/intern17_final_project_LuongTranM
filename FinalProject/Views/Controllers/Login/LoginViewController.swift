@@ -27,6 +27,10 @@ final class LoginViewController: UIViewController {
         configUI()
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        hideKeyboard()
+    }
+
     // MARK: Private methods
     private func configUI() {
         configTextField()
@@ -68,6 +72,16 @@ final class LoginViewController: UIViewController {
         gmailButton.layer.cornerRadius = Define.cornerRadius
         gmailButton.layer.borderWidth = Define.borderWidth
         gmailButton.layer.borderColor = Define.borderColor
+    }
+
+    private func showKeyboard() {
+        usernameTextField.becomeFirstResponder()
+        passwordTextField.becomeFirstResponder()
+    }
+
+    private func hideKeyboard() {
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
     }
 
     // MARK: Action methods
@@ -125,5 +139,11 @@ extension LoginViewController {
             CGColor(_colorLiteralRed: 0.69, green: 0.95, blue: 0.95, alpha: 1.00),
             CGColor(_colorLiteralRed: 1.00, green: 1.00, blue: 1.00, alpha: 1.00)
         ]
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        showKeyboard()
     }
 }
