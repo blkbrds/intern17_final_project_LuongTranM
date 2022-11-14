@@ -12,32 +12,20 @@ final class CartViewModel {
     var carts: [Cart] = []
     var totalPrice: Int = 0
 
-    func getData() {
-        let p1 = Cart(id: 6,
-                      userId: 20,
-                      productId: 16,
-                      productName: "Alphaskin Tie Headband",
-                      quantity: 2,
-                      price: 8,
-                      status: 0,
-                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
-        let p2 = Cart(id: 6,
-                      userId: 20,
-                      productId: 37,
-                      productName: "Santal Royal",
-                      quantity: 2,
-                      price: 260,
-                      status: 0,
-                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
-        let p3 = Cart(id: 6,
-                      userId: 20,
-                      productId: 20,
-                      productName: "Santal Royal Spapa Santal Royal Spapa",
-                      quantity: 2,
-                      price: 180,
-                      status: 0,
-                      productImage: "http://localhost:8000/storage/shop/product/1666968849_alphaskin_tie_headband_1.jpg")
-        carts.append(contentsOf: [p1, p2, p3])
+    func getApiCart(completion: @escaping Completion<[Cart]>) {
+        ApiManager.shared.mainProvider.request(target: .cart, model: CartResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? CartResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                self.carts = response.data ?? []
+                completion(.success(self.carts))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
     }
 
     func totalPriceCarts() -> Int {
@@ -48,8 +36,49 @@ final class CartViewModel {
         return total
     }
 
-    func updateCart(count: Int, indexPath: IndexPath) {
-        carts[indexPath.row].quantity = count
+    func requestUpdateCart(orderId: Int, quantity: Int, completion: @escaping Completion<MessageResponse>) {
+        ApiManager.shared.mainProvider.request(target: .updateCart(id: orderId, quantity: quantity), model: MessageResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? MessageResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+
+    func requestDeleteCart(orderId: Int, completion: @escaping Completion<MessageResponse>) {
+        ApiManager.shared.mainProvider.request(target: .deleteCart(id: orderId), model: MessageResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? MessageResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+
+    func requestCreateTransaction(orders: [Int], amount: Int, completion: @escaping Completion<MessageResponse>) {
+        ApiManager.shared.mainProvider.request(target: .createTransaction(orders: orders, amount: amount), model: MessageResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? MessageResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
     }
 
     func numberOfRows(in section: Int) -> Int {

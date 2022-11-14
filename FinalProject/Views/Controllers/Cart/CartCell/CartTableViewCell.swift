@@ -16,14 +16,14 @@ final class CartTableViewCell: UITableViewCell {
     enum Action {
         case increase
         case decrease
+        case inputQuantity(quantity: Int)
     }
 
     // MARK: - Outlets
-    @IBOutlet private weak var cartView: UIView!
     @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
-    @IBOutlet private weak var countLabel: UILabel!
+    @IBOutlet private weak var quantityTextField: UITextField!
 
     // MARK: - Properties
     weak var delegate: CartTabeViewCellDelegate?
@@ -41,7 +41,8 @@ final class CartTableViewCell: UITableViewCell {
 
     // MARK: - Private methods
     private func configUI() {
-        cartView.layer.cornerRadius = Define.cornerRadius
+        productImageView.layer.cornerRadius = Define.cornerRadius
+        quantityTextField.delegate = self
     }
 
     private func updateCell() {
@@ -50,7 +51,7 @@ final class CartTableViewCell: UITableViewCell {
         productImageView.downloadImage(from: viewModel.cart.productImage)
         nameLabel.text = viewModel.cart.productName
         priceLabel.text = "$ \(viewModel.cart.price)"
-        countLabel.text = "\(viewModel.cart.quantity)"
+        quantityTextField.text = "\(viewModel.cart.quantity)"
     }
 
     // MARK: - Private method
@@ -61,10 +62,31 @@ final class CartTableViewCell: UITableViewCell {
     @IBAction private func minusButtonTouchUpInside(_ sender: Any) {
         delegate?.cell(cell: self, needPerform: .decrease)
     }
+
+    private func showKeyBoard() {
+        quantityTextField.becomeFirstResponder()
+    }
+
+    private func hideKeyBoard() {
+        quantityTextField.resignFirstResponder()
+    }
 }
 
 extension CartTableViewCell {
     private struct Define {
         static var cornerRadius: CGFloat = 10
+    }
+}
+
+extension CartTableViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        showKeyBoard()
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let quantity = textField.text else { return false }
+        delegate?.cell(cell: self, needPerform: .inputQuantity(quantity: Int(quantity).unwrap(or: 0)))
+        hideKeyBoard()
+        return true
     }
 }

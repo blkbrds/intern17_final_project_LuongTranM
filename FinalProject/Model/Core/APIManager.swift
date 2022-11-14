@@ -15,6 +15,7 @@ typealias JSArray = [JSObject]
 
 typealias ReaquestHeaders = [String: String]
 typealias RequestParameters = [String: String]
+typealias RequestBodys = [String: Any]
 
 enum Result<Value> {
     case success(Value)

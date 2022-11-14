@@ -9,9 +9,9 @@ import UIKit
 import SVProgressHUD
 
 extension UIViewController {
-    func alert(msg: String, completion: (() -> Void)?) {
-        let alert = UIAlertController(title: "ERROR", message: msg, preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "Cancel", style: .default) { _ in
+    func alert(buttonTitle: String = "Cancel", title: String = "ERROR", msg: String, completion: (() -> Void)?) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: buttonTitle, style: .default) { _ in
             completion?()
         }
         alert.addAction(cancelButton)

@@ -35,9 +35,16 @@ extension LoginService: TargetType {
 
     var params: RequestParameters? {
         switch self {
-        case .login(email: let email, password: let password):
+        case .login(let email, let password):
             return ["email": email,
                     "password": password]
+        }
+    }
+
+    var body: RequestBodys? {
+        switch self {
+        case .login:
+            return nil
         }
     }
 }
