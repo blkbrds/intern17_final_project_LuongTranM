@@ -26,6 +26,8 @@ protocol TargetType {
     var header: ReaquestHeaders? { get }
 
     var params: RequestParameters? { get }
+
+    var body: RequestBodys? { get }
 }
 
 extension TargetType {
@@ -53,6 +55,11 @@ extension TargetType {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = header
+
+        if let body = body,
+           let httpBody = try? JSONSerialization.data(withJSONObject: body as Dictionary, options: []) {
+            request.httpBody = httpBody
+        }
 
         return request
     }

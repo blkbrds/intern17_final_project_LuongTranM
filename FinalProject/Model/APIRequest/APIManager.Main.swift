@@ -62,18 +62,25 @@ extension MainService: TargetType {
 
     var params: RequestParameters? {
         switch self {
-        case .shop, .recommend, .popular, .cart, .deleteCart:
+        case .shop, .recommend, .popular, .cart, .deleteCart, .createTransaction:
             return [:]
         case .addCart(_, let quantity):
             return ["quantity": "\(quantity)"]
         case .updateCart(_, let quantity):
             return ["quantity": "\(quantity)"]
+        }
+    }
+
+    var body: RequestBodys? {
+        switch self {
         case .createTransaction(let orders, let amount):
-            return ["orders": "\(orders)",
+            return ["orders": orders,
                     "user_name": "Minh Lương",
                     "user_phone": "0123456789",
                     "address": "ĐN",
-                    "amount": "\(amount)"]
+                    "amount": amount]
+        default:
+            return nil
         }
     }
 }

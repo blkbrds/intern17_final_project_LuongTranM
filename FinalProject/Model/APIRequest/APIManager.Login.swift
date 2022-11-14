@@ -40,4 +40,11 @@ extension LoginService: TargetType {
                     "password": password]
         }
     }
+
+    var body: RequestBodys? {
+        switch self {
+        case .login:
+            return nil
+        }
+    }
 }

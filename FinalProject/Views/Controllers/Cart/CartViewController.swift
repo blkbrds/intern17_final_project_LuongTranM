@@ -100,7 +100,9 @@ final class CartViewController: UIViewController {
         for index in viewModel.carts {
             ordersId.append(index.id)
         }
-        #warning("Handle Later")
+        createTransaction(ordersId: ordersId, amount: viewModel.totalPriceCarts()) {
+            self.navigationController?.popViewController(animated: false)
+        }
     }
 
     // MARK: - Objc methods
@@ -253,7 +255,7 @@ extension CartViewController {
         }
     }
 
-    private func createTransaction(ordersId: [Int], amount: Int) {
+    private func createTransaction(ordersId: [Int], amount: Int, completion: @escaping (() -> Void)) {
         guard let viewModel = viewModel else { return }
         showHUD()
         viewModel.requestCreateTransaction(orders: ordersId, amount: amount) { [weak self] result in
@@ -262,7 +264,9 @@ extension CartViewController {
             switch result {
             case .success(let response):
                 this.getCart()
-                this.alert(buttonTitle: "OK", title: "SUCCESS", msg: (response.data).content, completion: nil)
+                this.alert(buttonTitle: "OK", title: "SUCCESS", msg: (response.data).content) {
+                    completion()
+                }
             case .failure(let error):
                 this.alert(msg: error.localizedDescription, completion: nil)
             }
