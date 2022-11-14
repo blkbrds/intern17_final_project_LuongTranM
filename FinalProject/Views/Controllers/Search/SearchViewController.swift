@@ -16,6 +16,7 @@ final class SearchViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
 
     var viewModel: SearchViewModel?
+    var searchTask: DispatchWorkItem?
 
     // MARK: - Override methods
     override func viewDidLoad() {
@@ -30,6 +31,10 @@ final class SearchViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.isNavigationBarHidden = false
+        searchController.isActive = true
+        DispatchQueue.main.async {
+            self.searchController.searchBar.becomeFirstResponder()
+        }
     }
 
     // MARK: - Private methods
@@ -42,6 +47,7 @@ final class SearchViewController: UIViewController {
         searchCollectionView.register(searchNib, forCellWithReuseIdentifier: Define.cellName)
         searchCollectionView.delegate = self
         searchCollectionView.dataSource = self
+        searchCollectionView.keyboardDismissMode = .onDrag
     }
 
     private func configSearchController() {
@@ -56,6 +62,12 @@ final class SearchViewController: UIViewController {
         definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+
+    private func animationTableReloadData() {
+        UIView.transition(with: searchCollectionView, duration: 0.5, options: .transitionCrossDissolve) {
+            self.searchCollectionView.reloadData()
+        }
     }
 }
 
@@ -94,7 +106,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 2 - 15, height: 230)
+        return CGSize(width: view.frame.width / 2 - 15, height: 250)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -102,9 +114,8 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
+extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
 
-    #warning("Handle search")
     func updateSearchResults(for searchController: UISearchController) {
         guard let viewModel = viewModel else { return }
         let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
@@ -113,7 +124,8 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
             viewModel.searching = true
             viewModel.searchProducts.removeAll()
             if scopeButton == "Product" {
-                viewModel.searchProducts = viewModel.products.filter({ $0.name.lowercased().contains(searchText.lowercased())
+                viewModel.searchProducts = viewModel.products.filter({
+                    $0.name.lowercased().contains(searchText.lowercased())
                 })
             } else {
                 viewModel.searchProducts = viewModel.products.filter({
@@ -122,27 +134,32 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
             }
         } else {
             if viewModel.scopeButtonPress {
-                viewModel.searchProducts.removeAll()
-                let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
-                if !(scopeButton?.isEmpty ?? false) {
+                DispatchQueue.main.async {
                     viewModel.searchProducts.removeAll()
-                } else { }
-                viewModel.searching = false
-                searchCollectionView.reloadData()
+                    let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
+                    if !(scopeButton?.isEmpty ?? false) {
+                        viewModel.searchProducts.removeAll()
+                    } else { }
+                    viewModel.searching = false
+                    self.searchCollectionView.reloadData()
+                }
             } else {
                 viewModel.searching = false
-                viewModel.searchProducts.removeAll()
                 viewModel.searchProducts = viewModel.products
+                viewModel.searchProducts.removeAll()
             }
         }
-        searchCollectionView.reloadData()
+        animationTableReloadData()
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         guard let viewModel = viewModel else { return }
         viewModel.searching = false
         viewModel.searchProducts.removeAll()
-        searchCollectionView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let this = self else { return }
+            this.searchCollectionView.reloadData()
+        }
     }
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
@@ -154,7 +171,11 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
                 viewModel.searchProducts.append(product)
             } else { }
         }
-        searchCollectionView.reloadData()
+        animationTableReloadData()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        animationTableReloadData()
     }
 }
 
@@ -162,11 +183,25 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 extension SearchViewController {
 
     private func getData() {
-        getProduct()
+        getProduct { [weak self] in
+            guard let this = self else { return }
+            this.searchCollectionView.reloadData()
+        }
     }
 
-    func getProduct() {
+    func getProduct(completion: @escaping () -> Void) {
+        showHUD()
         guard let viewModel = viewModel else { return }
-        viewModel.getProduct()
+        viewModel.getApiProduct { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+                completion()
+            }
+        }
     }
 }
