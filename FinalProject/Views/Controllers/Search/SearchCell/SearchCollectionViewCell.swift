@@ -25,6 +25,8 @@ final class SearchCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         contentView.layer.borderWidth  = Define.borderWidth
         contentView.layer.cornerRadius = Define.cornerRadius
+        productImageview.layer.cornerRadius = Define.cornerRadius
+        productImageview.layer.maskedCorners = Define.maskedCorners
     }
 
     // MARK: - Override methods
@@ -40,5 +42,6 @@ extension SearchCollectionViewCell {
     private struct Define {
         static var borderWidth: CGFloat = 1.0
         static var cornerRadius: CGFloat = 20
+        static var maskedCorners: CACornerMask = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }
 }

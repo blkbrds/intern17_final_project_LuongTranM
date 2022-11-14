@@ -14,11 +14,27 @@ final class SearchViewModel {
     var searching: Bool = false
     var scopeButtonPress: Bool = false
 
+    func getApiProduct(completion: @escaping Completion<[Product]>) {
+        ApiManager.shared.mainProvider.request(target: .search, model: ProductResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? ProductResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                self.products = Array(response.data)
+                completion(.success(self.products))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     func numberOfItems(in section: Int) -> Int {
         if searching || scopeButtonPress {
             return searchProducts.count
         } else {
-            return products.count
+            return 0
         }
     }
 

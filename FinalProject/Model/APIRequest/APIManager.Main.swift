@@ -16,6 +16,7 @@ enum MainService {
     case updateCart(id: Int, quantity: Int)
     case deleteCart(id: Int)
     case createTransaction(orders: [Int], amount: Int)
+    case search
 }
 
 extension MainService: TargetType {
@@ -37,12 +38,14 @@ extension MainService: TargetType {
             return "cart/delete/\(id)"
         case .createTransaction:
             return "transaction/create"
+        case .search:
+            return "product"
         }
     }
 
     var method: Method {
         switch self {
-        case .shop, .recommend, .popular, .cart:
+        case .shop, .recommend, .popular, .cart, .search:
             return .get
         case .addCart, .createTransaction:
             return .post
@@ -55,14 +58,14 @@ extension MainService: TargetType {
 
     var header: ReaquestHeaders? {
         switch self {
-        case .shop, .recommend, .popular, .cart, .addCart, .updateCart, .deleteCart, .createTransaction:
+        case .shop, .recommend, .popular, .cart, .addCart, .updateCart, .deleteCart, .createTransaction, .search:
             return ApiManager.shared.getDefaultHTTPHeaders()
         }
     }
 
     var params: RequestParameters? {
         switch self {
-        case .shop, .recommend, .popular, .cart, .deleteCart, .createTransaction:
+        case .shop, .recommend, .popular, .cart, .deleteCart, .createTransaction, .search:
             return [:]
         case .addCart(_, let quantity):
             return ["quantity": "\(quantity)"]
