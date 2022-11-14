@@ -16,7 +16,6 @@ final class SearchViewController: UIViewController {
     private let searchController = UISearchController(searchResultsController: nil)
 
     var viewModel: SearchViewModel?
-    var searchTask: DispatchWorkItem?
 
     // MARK: - Override methods
     override func viewDidLoad() {
@@ -24,7 +23,7 @@ final class SearchViewController: UIViewController {
         configNavigation()
         configCollectionView()
         configSearchController()
-        getData()
+        getProduct()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -133,15 +132,13 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
             }
         } else {
             if viewModel.scopeButtonPress {
-                DispatchQueue.main.async {
+                viewModel.searchProducts.removeAll()
+                let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
+                if !(scopeButton?.isEmpty ?? false) {
                     viewModel.searchProducts.removeAll()
-                    let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
-                    if !(scopeButton?.isEmpty ?? false) {
-                        viewModel.searchProducts.removeAll()
-                    } else { }
-                    viewModel.searching = false
-                    self.searchCollectionView.reloadData()
                 }
+                viewModel.searching = false
+                animationTableReloadData()
             } else {
                 viewModel.searching = false
                 viewModel.searchProducts = viewModel.products
@@ -155,10 +152,7 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
         guard let viewModel = viewModel else { return }
         viewModel.searching = false
         viewModel.searchProducts.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let this = self else { return }
-            this.searchCollectionView.reloadData()
-        }
+        animationTableReloadData()
     }
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
@@ -181,14 +175,7 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
 // MARK: - APIs
 extension SearchViewController {
 
-    private func getData() {
-        getProduct { [weak self] in
-            guard let this = self else { return }
-            this.searchCollectionView.reloadData()
-        }
-    }
-
-    func getProduct(completion: @escaping () -> Void) {
+    private func getProduct() {
         showHUD()
         guard let viewModel = viewModel else { return }
         viewModel.getApiProduct { [weak self] result in
@@ -196,10 +183,9 @@ extension SearchViewController {
             guard let this = self else { return }
             switch result {
             case .success:
-                completion()
+                this.animationTableReloadData()
             case .failure(let error):
                 this.alert(msg: error.localizedDescription, completion: nil)
-                completion()
             }
         }
     }
