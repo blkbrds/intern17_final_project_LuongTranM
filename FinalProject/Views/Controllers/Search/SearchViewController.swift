@@ -83,7 +83,6 @@ extension SearchViewController {
 // MARK: - CollectionView Delegate, Datasource
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    #warning("Handle Cell")
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
         return viewModel.numberOfItems(in: section)
@@ -129,7 +128,7 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
                 })
             } else {
                 viewModel.searchProducts = viewModel.products.filter({
-                    $0.category.shop.nameShop.lowercased().contains(searchText.lowercased())
+                    ($0.category?.shop?.nameShop).content.lowercased().contains(searchText.lowercased())
                 })
             }
         } else {

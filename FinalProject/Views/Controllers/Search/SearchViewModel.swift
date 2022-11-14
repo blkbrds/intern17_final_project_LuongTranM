@@ -14,7 +14,6 @@ final class SearchViewModel {
     var searching: Bool = false
     var scopeButtonPress: Bool = false
 
-    #warning("Dummy Data")
     func getApiProduct(completion: @escaping Completion<[Product]>) {
         ApiManager.shared.mainProvider.request(target: .search, model: ProductResponse.self) { result in
             switch result {
@@ -23,7 +22,7 @@ final class SearchViewModel {
                     completion(.failure(.noData))
                     return
                 }
-                self.products = response.data
+                self.products = Array(response.data)
                 completion(.success(self.products))
             case .failure(let error):
                 completion(.failure(error))

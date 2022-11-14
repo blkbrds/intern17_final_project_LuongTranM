@@ -33,10 +33,11 @@ final class PopularCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Private methods
     private func updateUI() {
-        guard let viewModel = viewModel else { return }
-        productImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
-        nameProductLabel.text = viewModel.product?.name
-        categotyProductLabel.text = viewModel.product?.category.nameCategory
-        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        productImageView.downloadImage(from: product.imageProduct)
+        nameProductLabel.text = product.name
+        categotyProductLabel.text = product.category?.nameCategory
+        priceProductLabel.text = "$ \(product.price)"
     }
 }

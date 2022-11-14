@@ -45,10 +45,11 @@ final class FavoriteTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let viewModel = viewModel else { return }
-        itemImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
-        itemNameLabel.text = viewModel.product?.name
-        itemSubLabel.text = viewModel.product?.category.shop.nameShop
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        itemImageView.downloadImage(from: product.imageProduct)
+        itemNameLabel.text = product.name
+        itemSubLabel.text = product.category?.shop?.nameShop
     }
 
     // MARK: - Action

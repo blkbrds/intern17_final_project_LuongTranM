@@ -25,6 +25,7 @@ final class DetailViewController: UIViewController {
     // MARK: - Properties
     var viewModel: DetailViewModel?
     private var timer: Timer?
+    private var favoriteButton: UIBarButtonItem?
     private var quantity: Int = 1 {
         didSet {
             updateQuantity()
@@ -50,22 +51,32 @@ final class DetailViewController: UIViewController {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
 
-        guard let viewModel = viewModel else { return }
-        nameProductLabel.text = viewModel.product?.name
-        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
-        categoryProductLabel.text = viewModel.product?.category.nameCategory
-        shopProductLabel.text = viewModel.product?.category.shop.nameShop
-        descriptionProductLabel.text = viewModel.product?.content
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        nameProductLabel.text = product.name
+        priceProductLabel.text = "$ \(product.price)"
+        categoryProductLabel.text = product.category?.nameCategory
+        shopProductLabel.text = product.category?.shop?.nameShop
+        descriptionProductLabel.text = product.content
     }
 
     private func configNavigation() {
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+
+        // Create bar button
         let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
 
-        let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
-        favoriteButton.tintColor = .red
+        favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
+        // Check and update color favorite button
+        updateColorFavorite(isFavorite: viewModel.isFavorite(product: product))
         navigationItem.rightBarButtonItem = favoriteButton
+    }
+
+    private func updateColorFavorite(isFavorite: Bool) {
+        favoriteButton?.tintColor = isFavorite ? .red : .black
     }
 
     private func configCollectionView() {
@@ -110,12 +121,29 @@ final class DetailViewController: UIViewController {
     }
 
     @IBAction private func addCartButtonTouchUpInside(_ sender: Any) {
-        #warning("add to cart")
+        #warning("Handle later")
     }
 
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
-        #warning("HandleFavorite")
+        guard let viewModel = viewModel, let product = viewModel.product else { return }
+        let isFavorite = viewModel.isFavorite(product: product)
+        if !isFavorite {
+            viewModel.addFavoriteProduct { [weak self] done in
+                guard let this = self else { return }
+                if !done {
+                    this.alert(msg: "Can't Add", completion: nil)
+                }
+            }
+        } else {
+            viewModel.deleteFavoriteProduct { [weak self] done in
+                guard let this = self else { return }
+                if !done {
+                    this.alert(msg: "Can't Delete", completion: nil)
+                }
+            }
+        }
+        updateColorFavorite(isFavorite: !isFavorite)
     }
 
     @objc private func returnButtonTouchUpInside() {
@@ -149,6 +177,7 @@ extension DetailViewController {
 }
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
         return (viewModel.product?.images.count).unwrap(or: 0)
@@ -158,14 +187,13 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         guard let viewModel = viewModel,
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellName, for: indexPath) as? CarouselCollectionViewCell else {
             return UICollectionViewCell()
-
         }
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height - 5)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

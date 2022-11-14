@@ -42,7 +42,7 @@ final class HomeViewModel {
                     completion(.failure(.noData))
                     return
                 }
-                self.popularProducts = response.data
+                self.popularProducts = Array(response.data)
                 completion(.success(self.popularProducts))
             case .failure(let err):
                 completion(.failure(err))
@@ -58,7 +58,7 @@ final class HomeViewModel {
                     completion(.failure(.noData))
                     return
                 }
-                self.recommendProducts = response.data
+                self.recommendProducts = Array(response.data)
                 completion(.success(self.recommendProducts))
             case .failure(let err):
                 completion(.failure(err))
@@ -74,7 +74,7 @@ final class HomeViewModel {
                     completion(.failure(.noData))
                     return
                 }
-                self.shops = response.data
+                self.shops = Array(response.data)
                 completion(.success(self.shops))
             case .failure(let err):
                 completion(.failure(err))

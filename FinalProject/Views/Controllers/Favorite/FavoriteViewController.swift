@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class FavoriteViewController: UIViewController {
 
@@ -14,21 +15,17 @@ final class FavoriteViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: FavoriteViewModel?
+    private var notificationToken: NotificationToken?
 
     // MARK: - Override methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigation()
         configTableView()
-        getDataOnLocal()
+        setUpObserve()
     }
 
     // MARK: - Private methods
-    private func getDataOnLocal() {
-        guard let viewModel = viewModel else { return }
-        viewModel.getProductLocal()
-    }
-
     private func configNavigation() {
         title = Define.title
     }
@@ -78,11 +75,52 @@ extension FavoriteViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Delegate
 extension FavoriteViewController: FavoriteTableViewCellDelegate {
+
     func cell(_ cell: FavoriteTableViewCell, needPerform action: FavoriteTableViewCell.Action) {
         switch action {
         case .didTap:
-            #warning("Handle later")
+            guard let viewModel = viewModel,
+                  let indexPath = tableView.indexPath(for: cell),
+                  let product = viewModel.favoriteProucts?[safe: indexPath.row] else { return }
+            tableView.beginUpdates()
+            viewModel.deleteFavorite(id: product.id, at: indexPath) { [weak self] (done) in
+                guard let this = self else { return }
+                if !done {
+                    this.alert(msg: "Can't Delete Data", completion: nil)
+                }
+            }
+            tableView.deleteRows(at: [indexPath], with: .left)
+            tableView.endUpdates()
+        }
+    }
+}
+
+// MARK: Data
+extension FavoriteViewController {
+
+    private func setUpObserve() {
+        do {
+            let realm = try Realm()
+            notificationToken = realm.objects(Product.self).observe({ [weak self] (_) in
+                guard let this = self else { return }
+                this.getFavoriteProduct()
+            })
+        } catch {
+            alert(msg: "Can't reload data", completion: nil)
+        }
+    }
+
+    private func getFavoriteProduct() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getFavoriteProduct { [weak self] done in
+            if done {
+                guard let this = self else { return }
+                this.tableView.reloadData()
+            } else {
+                alert(msg: "No Data", completion: nil)
+            }
         }
     }
 }
