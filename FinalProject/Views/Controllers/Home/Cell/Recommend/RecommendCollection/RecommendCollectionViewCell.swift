@@ -44,10 +44,11 @@ final class RecommendCollectionViewCell: UICollectionViewCell {
     }
 
     private func updateUI() {
-        guard let viewModel = viewModel else { return }
-        productImageView.downloadImage(from: (viewModel.product?.imageProduct).content)
-        nameProductLabel.text = (viewModel.product?.name).content
-        priceProductLabel.text = "$ \((viewModel.product?.price).unwrap(or: 0))"
-        shopLabel.text = (viewModel.product?.category.shop.nameShop).content
+        guard let viewModel = viewModel,
+              let product = viewModel.product else { return }
+        productImageView.downloadImage(from: product.imageProduct)
+        nameProductLabel.text = product.name
+        priceProductLabel.text = "$ \(product.price)"
+        shopLabel.text = (product.category?.shop?.nameShop).content
     }
 }

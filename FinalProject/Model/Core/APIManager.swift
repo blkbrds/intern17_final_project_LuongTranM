@@ -71,7 +71,9 @@ extension ApiManager {
 
     func decoder<T: Codable>(model: T.Type, from data: Data) -> T? {
         do {
-            let result = try JSONDecoder().decode(model.self, from: data)
+            guard let result = try? JSONDecoder().decode(model.self, from: data) else {
+                return nil
+            }
             return result
         } catch {
             return nil

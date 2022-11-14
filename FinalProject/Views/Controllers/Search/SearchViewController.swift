@@ -117,7 +117,7 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
                 })
             } else {
                 viewModel.searchProducts = viewModel.products.filter({
-                    $0.category.shop.nameShop.lowercased().contains(searchText.lowercased())
+                    ($0.category?.shop?.nameShop).content.lowercased().contains(searchText.lowercased())
                 })
             }
         } else {
@@ -162,11 +162,5 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 extension SearchViewController {
 
     private func getData() {
-        getProduct()
-    }
-
-    func getProduct() {
-        guard let viewModel = viewModel else { return }
-        viewModel.getProduct()
     }
 }
