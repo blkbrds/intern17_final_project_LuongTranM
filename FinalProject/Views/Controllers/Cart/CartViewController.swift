@@ -94,6 +94,15 @@ final class CartViewController: UIViewController {
                           animations: { self.tableView.reloadData() })
     }
 
+    @IBAction func checkOutButtonTouchUpInside(_ sender: Any) {
+        guard let viewModel = viewModel else { return }
+        var ordersId: [Int] = []
+        for index in viewModel.carts {
+            ordersId.append(index.id)
+        }
+        #warning("Handle Later")
+    }
+
     // MARK: - Objc methods
     @objc private func showHideViewDetail(sender: UITapGestureRecognizer) {
         UIView.transition(with: checkOutButton, duration: 0.2,
@@ -191,6 +200,11 @@ extension CartViewController: CartTabeViewCellDelegate {
                 viewModel.carts.remove(at: indexPath.row)
                 updateCart(orderId: cart.id, quantity: numberItemCart)
             }
+        case .inputQuantity(let quantity):
+            guard let indexPath = tableView.indexPath(for: cell),
+                  let viewModel = viewModel,
+                  let cart = viewModel.carts[safe: indexPath.row] else { return }
+            updateCart(orderId: cart.id, quantity: quantity)
         }
         updatePriceInfoView()
     }
@@ -233,6 +247,22 @@ extension CartViewController {
             switch result {
             case .success:
                 this.getCart()
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+            }
+        }
+    }
+
+    private func createTransaction(ordersId: [Int], amount: Int) {
+        guard let viewModel = viewModel else { return }
+        showHUD()
+        viewModel.requestCreateTransaction(orders: ordersId, amount: amount) { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
+            switch result {
+            case .success(let response):
+                this.getCart()
+                this.alert(buttonTitle: "OK", title: "SUCCESS", msg: (response.data).content, completion: nil)
             case .failure(let error):
                 this.alert(msg: error.localizedDescription, completion: nil)
             }

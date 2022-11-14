@@ -66,6 +66,21 @@ final class CartViewModel {
         }
     }
 
+    func requestCreateTransaction(orders: [Int], amount: Int, completion: @escaping Completion<MessageResponse>) {
+        ApiManager.shared.mainProvider.request(target: .createTransaction(orders: orders, amount: amount), model: MessageResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? MessageResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+
     func numberOfRows(in section: Int) -> Int {
         return carts.count
     }
