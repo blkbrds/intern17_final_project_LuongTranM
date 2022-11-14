@@ -63,6 +63,10 @@ final class CartTableViewCell: UITableViewCell {
         delegate?.cell(cell: self, needPerform: .decrease)
     }
 
+    private func showKeyBoard() {
+        quantityTextField.becomeFirstResponder()
+    }
+
     private func hideKeyBoard() {
         quantityTextField.resignFirstResponder()
     }
@@ -75,6 +79,9 @@ extension CartTableViewCell {
 }
 
 extension CartTableViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        showKeyBoard()
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let quantity = textField.text else { return false }
