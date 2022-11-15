@@ -60,7 +60,7 @@ final class ProfileViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success:
-                ud.removeObject(forKey: KeysUserDefault.Keys.token.rawValue)
+                Session.shared.token = ""
                 AppDelegate.shared.setRoot(rootType: .login)
             case .failure(let err):
                 this.alert(msg: err.localizedDescription, completion: nil)
