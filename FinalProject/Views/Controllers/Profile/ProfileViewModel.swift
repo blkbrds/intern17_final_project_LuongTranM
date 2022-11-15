@@ -47,6 +47,36 @@ final class ProfileViewModel {
         orderTrans.append(contentsOf: [p1, p2, p3])
     }
 
+    func getApiUser(completion: @escaping Completion<User>) {
+        ApiManager.shared.mainProvider.request(target: .user, model: UserResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? UserResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response.data))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+
+    func requestLogout(completion: @escaping Completion<MessageResponse>) {
+        ApiManager.shared.loginProvider.request(target: .logout, model: MessageResponse.self) { result in
+            switch result {
+            case .success(let response):
+                guard let response = response as? MessageResponse else {
+                    completion(.failure(.noData))
+                    return
+                }
+                completion(.success(response))
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+
     func numberOfRows(in section: Int) -> Int {
         return orderTrans.count
     }

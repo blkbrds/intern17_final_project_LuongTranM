@@ -24,7 +24,8 @@ final class ProfileViewController: UIViewController {
         configNavigation()
         configUI()
         configTableView()
-        getData()
+        getUserInfomation()
+        getDummyData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -33,11 +34,6 @@ final class ProfileViewController: UIViewController {
     }
 
     // MARK: - Private methods
-    private func getData() {
-        guard let viewModel = viewModel else { return }
-        viewModel.getOrder()
-    }
-
     private func configNavigation() {
         title = Define.title
     }
@@ -57,7 +53,19 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Action methods
     @IBAction private func logOutButtonTouchUpInside(_ sender: Any) {
-        #warning("Handle log Out")
+        guard let viewModel = viewModel else { return }
+        showHUD()
+        viewModel.requestLogout { [weak self] result in
+            self?.dismissHUD()
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                ud.removeObject(forKey: KeysUserDefault.Keys.token.rawValue)
+                AppDelegate.shared.setRoot(rootType: .login)
+            case .failure(let err):
+                this.alert(msg: err.localizedDescription, completion: nil)
+            }
+        }
     }
 
     @IBAction private func infoButtonTouchUpInside(_ sender: Any) {
@@ -99,5 +107,31 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+// MARK: getApis
+extension ProfileViewController {
+
+    private func getDummyData() {
+        guard let viewModel = viewModel else { return }
+        viewModel.getOrder()
+    }
+
+    private func getUserInfomation() {
+        guard let viewModel = viewModel else { return }
+        showHUD()
+        viewModel.getApiUser { [weak self] result in
+            guard let this = self else { return }
+            self?.dismissHUD()
+            switch result {
+            case .success(let user):
+                this.firstCharaterLabel.text = user.userName.uppercased().first?.description
+                this.usernameLabel.text = user.userName
+                this.emailLabel.text = user.email
+            case .failure(let error):
+                this.alert(msg: error.localizedDescription, completion: nil)
+            }
+        }
     }
 }
