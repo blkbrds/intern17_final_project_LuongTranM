@@ -9,6 +9,7 @@ import Foundation
 
 enum LoginService {
     case login(email: String, password: String)
+    case logout
 }
 
 extension LoginService: TargetType {
@@ -16,12 +17,14 @@ extension LoginService: TargetType {
         switch self {
         case .login:
             return "login"
+        case .logout:
+            return "logout"
         }
     }
 
     var method: Method {
         switch self {
-        case .login:
+        case .login, .logout:
             return .post
         }
     }
@@ -30,6 +33,8 @@ extension LoginService: TargetType {
         switch self {
         case .login:
             return ["Content-type": "application/json"]
+        case .logout:
+            return ApiManager.shared.getDefaultHTTPHeaders()
         }
     }
 
@@ -38,12 +43,14 @@ extension LoginService: TargetType {
         case .login(let email, let password):
             return ["email": email,
                     "password": password]
+        case .logout:
+            return nil
         }
     }
 
     var body: RequestBodys? {
         switch self {
-        case .login:
+        case .login, .logout:
             return nil
         }
     }

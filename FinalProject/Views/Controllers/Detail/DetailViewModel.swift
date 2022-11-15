@@ -10,9 +10,9 @@ import RealmSwift
 
 final class DetailViewModel {
 
-    var product: Product?
+    var product: Product
 
-    init(product: Product?) {
+    init(product: Product) {
         self.product = product
     }
 
@@ -35,7 +35,7 @@ final class DetailViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> CarouselCollectionCellViewModel {
-        return CarouselCollectionCellViewModel(image: (product?.images[safe: indexPath.row]?.image).content)
+        return CarouselCollectionCellViewModel(image: (product.images[safe: indexPath.row]?.image).content)
     }
 }
 
@@ -58,7 +58,7 @@ extension DetailViewModel {
         do {
             let realm = try Realm()
             try realm.write {
-                let object = realm.objects(Product.self).filter("id = %@", self.product?.id as Any)
+                let object = realm.objects(Product.self).filter("id = %@", self.product.id as Any)
                 realm.delete(object)
             }
             completion(true)
