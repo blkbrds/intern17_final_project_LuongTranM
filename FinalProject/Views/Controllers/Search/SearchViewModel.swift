@@ -50,10 +50,10 @@ final class SearchViewModel {
 
     func viewDetailForItem(at indexPath: IndexPath) -> DetailViewModel {
         if searching || scopeButtonPress {
-            guard let product = searchProducts[safe: indexPath.row] else { return DetailViewModel(product: nil) }
+            guard let product = searchProducts[safe: indexPath.row] else { return DetailViewModel(product: Product()) }
             return DetailViewModel(product: product)
         } else {
-            guard let product = products[safe: indexPath.row] else { return DetailViewModel(product: nil) }
+            guard let product = products[safe: indexPath.row] else { return DetailViewModel(product: Product()) }
             return DetailViewModel(product: product)
         }
     }

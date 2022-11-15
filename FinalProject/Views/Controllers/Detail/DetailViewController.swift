@@ -51,18 +51,16 @@ final class DetailViewController: UIViewController {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
 
-        guard let viewModel = viewModel,
-              let product = viewModel.product else { return }
-        nameProductLabel.text = product.name
-        priceProductLabel.text = "$ \(product.price)"
-        categoryProductLabel.text = product.category?.nameCategory
-        shopProductLabel.text = product.category?.shop?.nameShop
-        descriptionProductLabel.text = product.content
+        guard let viewModel = viewModel else { return }
+        nameProductLabel.text = viewModel.product.name
+        priceProductLabel.text = "$ \(viewModel.product.price)"
+        categoryProductLabel.text = viewModel.product.category?.nameCategory
+        shopProductLabel.text = viewModel.product.category?.shop?.nameShop
+        descriptionProductLabel.text = viewModel.product.content
     }
 
     private func configNavigation() {
-        guard let viewModel = viewModel,
-              let product = viewModel.product else { return }
+        guard let viewModel = viewModel else { return }
 
         navigationItem.largeTitleDisplayMode = .never
 
@@ -73,8 +71,13 @@ final class DetailViewController: UIViewController {
 
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
         // Check and update color favorite button
-        updateColorFavorite(isFavorite: viewModel.isFavorite(product: product))
+        updateColorFavorite(isFavorite: checkFavorite())
         navigationItem.rightBarButtonItem = favoriteButton
+    }
+
+    private func checkFavorite() -> Bool {
+        guard let viewModel = viewModel else { return false }
+        return viewModel.isFavorite(product: viewModel.product)
     }
 
     private func updateColorFavorite(isFavorite: Bool) {
@@ -108,7 +111,7 @@ final class DetailViewController: UIViewController {
 
     private func updateQuantity() {
         guard let viewModel = viewModel else { return }
-        let total = quantity * (viewModel.product?.price).unwrap(or: 0)
+        let total = quantity * viewModel.product.price
         quantityLabel.text = "\(quantity)"
         totalProductLabel.text = "Total: $\(total)"
     }
@@ -128,8 +131,8 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Objc methods
     @objc private func favoriteButtonTouchUpInside() {
-        guard let viewModel = viewModel, let product = viewModel.product else { return }
-        let isFavorite = viewModel.isFavorite(product: product)
+        guard let viewModel = viewModel else { return }
+        let isFavorite = viewModel.isFavorite(product: viewModel.product)
         if !isFavorite {
             viewModel.addFavoriteProduct { [weak self] done in
                 guard let this = self else { return }
@@ -154,7 +157,7 @@ final class DetailViewController: UIViewController {
 
     @objc private func moveToNextIndex() {
         guard let viewModel = viewModel else { return }
-        if viewModel.currentIndex < (viewModel.product?.images.count).unwrap(or: 0) - 1 {
+        if viewModel.currentIndex < (viewModel.product.images.count - 1) {
             viewModel.currentIndex += 1
         } else {
             viewModel.currentIndex = 0
@@ -184,7 +187,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return (viewModel.product?.images.count).unwrap(or: 0)
+        return viewModel.product.images.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -214,8 +217,8 @@ extension DetailViewController {
 
     private func addProductToCart() {
         showHUD()
-        guard let viewModel = viewModel, let product = viewModel.product else { return }
-        viewModel.requestAddToCart(id: product.id, quantity: quantity) { [weak self] result in
+        guard let viewModel = viewModel else { return }
+        viewModel.requestAddToCart(id: viewModel.product.id, quantity: quantity) { [weak self] result in
             self?.dismissHUD()
             guard let this = self else { return }
             switch result {
