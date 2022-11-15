@@ -44,26 +44,17 @@ final class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        navigationItem.largeTitleDisplayMode = .never
     }
 
     // MARK: - Private methods
     private func configUI() {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
-
-        guard let viewModel = viewModel else { return }
-        nameProductLabel.text = viewModel.product.name
-        priceProductLabel.text = "$ \(viewModel.product.price)"
-        categoryProductLabel.text = viewModel.product.category?.nameCategory
-        shopProductLabel.text = viewModel.product.category?.shop?.nameShop
-        descriptionProductLabel.text = viewModel.product.content
+        updateUI()
     }
 
     private func configNavigation() {
-        guard let viewModel = viewModel else { return }
-
-        navigationItem.largeTitleDisplayMode = .never
-
         // Create bar button
         let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
         backButton.tintColor = .black
@@ -73,6 +64,15 @@ final class DetailViewController: UIViewController {
         // Check and update color favorite button
         updateColorFavorite(isFavorite: checkFavorite())
         navigationItem.rightBarButtonItem = favoriteButton
+    }
+
+    private func updateUI() {
+        guard let viewModel = viewModel else { return }
+        nameProductLabel.text = viewModel.product.name
+        priceProductLabel.text = "$ \(viewModel.product.price)"
+        categoryProductLabel.text = viewModel.product.category?.nameCategory
+        shopProductLabel.text = viewModel.product.category?.shop?.nameShop
+        descriptionProductLabel.text = viewModel.product.content
     }
 
     private func checkFavorite() -> Bool {
