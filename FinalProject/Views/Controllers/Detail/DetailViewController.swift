@@ -64,6 +64,8 @@ final class DetailViewController: UIViewController {
         guard let viewModel = viewModel,
               let product = viewModel.product else { return }
 
+        navigationItem.largeTitleDisplayMode = .never
+
         // Create bar button
         let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
         backButton.tintColor = .black
