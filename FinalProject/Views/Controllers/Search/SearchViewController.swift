@@ -53,14 +53,10 @@ final class SearchViewController: UIViewController {
         searchController.loadViewIfNeeded()
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.enablesReturnKeyAutomatically = false
         searchController.searchBar.returnKeyType = UIReturnKeyType.done
         searchController.searchBar.scopeButtonTitles = ["Product", "Shop"]
         searchController.searchBar.placeholder = "Searching..."
-        definesPresentationContext = true
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
     }
 
     private func animationTableReloadData() {
@@ -132,13 +128,11 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate, UI
             }
         } else {
             if viewModel.scopeButtonPress {
-                viewModel.searchProducts.removeAll()
                 let scopeButton = searchController.searchBar.scopeButtonTitles?[searchController.searchBar.selectedScopeButtonIndex]
                 if !(scopeButton?.isEmpty ?? false) {
                     viewModel.searchProducts.removeAll()
                 }
                 viewModel.searching = false
-                animationTableReloadData()
             } else {
                 viewModel.searching = false
                 viewModel.searchProducts = viewModel.products

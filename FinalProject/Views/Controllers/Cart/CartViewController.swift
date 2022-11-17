@@ -17,11 +17,7 @@ final class CartViewController: UIViewController {
     @IBOutlet private weak var checkOutButton: UIButton!
 
     // MARK: - Properties
-    var viewModel: CartViewModel? {
-        didSet {
-            getCart()
-        }
-    }
+    var viewModel: CartViewModel?
     private var isShowViewDetail: Bool = true
 
     // MARK: - Override methods
@@ -66,7 +62,6 @@ final class CartViewController: UIViewController {
         priceInfoView.layer.shadowOpacity = Define.shadowOpacity
         priceInfoView.layer.shadowOffset = Define.shadowOffset
         priceInfoView.layer.shadowRadius = Define.shadowRadius
-        priceInfoView.clipsToBounds = true
         priceInfoView.layer.masksToBounds = false
         checkOutButton.layer.cornerRadius = Define.cornerRadius
 
