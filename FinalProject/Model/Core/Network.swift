@@ -91,6 +91,7 @@ class Provider<Target: TargetType>: ProviderType {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
             completion(.failure(.noInternet))
+            return
         }
 
         // Create request

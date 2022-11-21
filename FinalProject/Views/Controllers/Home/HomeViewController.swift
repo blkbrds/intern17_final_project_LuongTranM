@@ -14,7 +14,6 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: HomeViewModel?
-    private var timer: Timer?
     private var homeError: APIError?
 
     // MARK: - Override methods
