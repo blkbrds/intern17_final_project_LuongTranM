@@ -15,6 +15,7 @@ final class CartViewController: UIViewController {
     @IBOutlet private weak var selectedItemLabel: UILabel!
     @IBOutlet private weak var totalPriceLabel: UILabel!
     @IBOutlet private weak var checkOutButton: UIButton!
+    @IBOutlet private weak var emptyView: UIView!
 
     // MARK: - Properties
     var viewModel: CartViewModel?
@@ -70,6 +71,11 @@ final class CartViewController: UIViewController {
         priceInfoView.addGestureRecognizer(tapView)
     }
 
+    private func updateUI() {
+        guard let viewModel = viewModel else { return }
+        emptyView.isHidden = viewModel.carts.isEmpty ? false : true
+    }
+
     private func updatePriceInfoView() {
         guard let viewModel = viewModel else { return }
         let formatter = NumberFormatter()
@@ -91,13 +97,9 @@ final class CartViewController: UIViewController {
 
     @IBAction func checkOutButtonTouchUpInside(_ sender: Any) {
         guard let viewModel = viewModel else { return }
-        var ordersId: [Int] = []
-        for index in viewModel.carts {
-            ordersId.append(index.id)
-        }
-        createTransaction(ordersId: ordersId, amount: viewModel.totalPriceCarts()) {
-            self.navigationController?.popViewController(animated: false)
-        }
+        let paymentVC = PaymentViewController()
+        paymentVC.viewModel = PaymentViewModel(carts: viewModel.carts, totalMoney: viewModel.totalPriceCarts())
+        navigationController?.pushViewController(paymentVC, animated: true)
     }
 
     // MARK: - Objc methods
@@ -201,7 +203,11 @@ extension CartViewController: CartTabeViewCellDelegate {
             guard let indexPath = tableView.indexPath(for: cell),
                   let viewModel = viewModel,
                   let cart = viewModel.carts[safe: indexPath.row] else { return }
-            updateCart(orderId: cart.id, quantity: quantity)
+            if quantity.isNumeric {
+                updateCart(orderId: cart.id, quantity: Int(quantity).unwrap(or: 0))
+            } else {
+                alert(msg: "Format invalid", completion: nil)
+            }
         }
         updatePriceInfoView()
     }
@@ -217,6 +223,7 @@ extension CartViewController {
             switch result {
             case .success:
                 this.updatePriceInfoView()
+                this.updateUI()
                 this.animationLoadTable()
             case .failure(let err):
                 this.alert(msg: err.localizedDescription, completion: nil)
@@ -244,24 +251,6 @@ extension CartViewController {
             switch result {
             case .success:
                 this.getCart()
-            case .failure(let error):
-                this.alert(msg: error.localizedDescription, completion: nil)
-            }
-        }
-    }
-
-    private func createTransaction(ordersId: [Int], amount: Int, completion: @escaping (() -> Void)) {
-        guard let viewModel = viewModel else { return }
-        showHUD()
-        viewModel.requestCreateTransaction(orders: ordersId, amount: amount) { [weak self] result in
-            self?.dismissHUD()
-            guard let this = self else { return }
-            switch result {
-            case .success(let response):
-                this.getCart()
-                this.alert(buttonTitle: "OK", title: "SUCCESS", msg: (response.data).content) {
-                    completion()
-                }
             case .failure(let error):
                 this.alert(msg: error.localizedDescription, completion: nil)
             }
