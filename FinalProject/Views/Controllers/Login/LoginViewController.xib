@@ -38,6 +38,9 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="checkValidEmailTextfield:" destination="-1" eventType="editingChanged" id="bJn-Nw-Sv4"/>
+                    </connections>
                 </textField>
                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dLZ-Sb-yhx">
                     <rect key="frame" x="15" y="307" width="384" height="50"/>

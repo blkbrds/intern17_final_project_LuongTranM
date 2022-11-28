@@ -41,12 +41,8 @@ final class PaymentViewController: UIViewController {
 
     // MARK: Private methods
     private func configNavigation() {
-        navigationItem.title = Define.title
-        navigationItem.largeTitleDisplayMode = .never
-
-        let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
-        backButton.tintColor = .black
-        navigationItem.leftBarButtonItem = backButton
+        setTitleNavigation(type: .payment)
+        setLeftBarButton(imageString: "chevron", tintColor: .black, action: #selector(returnButtonTouchUpInside))
     }
 
     private func configUI() {
@@ -112,9 +108,20 @@ final class PaymentViewController: UIViewController {
     }
 
     // MARK: Action methods
-    @IBAction private func checkChangeTextfield(_ sender: UITextField) {
-        guard let phone = phoneTextField.text else { return }
+    @IBAction private func checkChangedPhoneTextfield(_ sender: UITextField) {
+        let phone = phoneTextField.text.content
         if phone.count <= 11 && phone.isNumeric && !phone.isEmpty {
+            sender.layer.borderColor = UIColor.systemGray5.cgColor
+            paymentButton.isEnabled = true
+        } else {
+            sender.layer.borderColor = .init(red: 0.89, green: 0.32, blue: 0.32, alpha: 1.00)
+            paymentButton.isEnabled = false
+        }
+    }
+
+    @IBAction private func checkChangedNameTextfield(_ sender: UITextField) {
+        let isContainsNumber = sender.text.content.checkTypeRegex(typeRegex: .number)
+        if !isContainsNumber && !sender.text.content.isEmpty {
             sender.layer.borderColor = UIColor.systemGray5.cgColor
             paymentButton.isEnabled = true
         } else {
@@ -178,6 +185,11 @@ extension PaymentViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: TextField delegate
 extension PaymentViewController: UITextFieldDelegate {
 
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.layer.borderColor = textField.text.content.isEmpty ? .init(red: 0.89, green: 0.32, blue: 0.32, alpha: 1.00) : UIColor.systemGray5.cgColor
+        return true
+    }
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case phoneTextField:
@@ -195,20 +207,6 @@ extension PaymentViewController: UITextFieldDelegate {
         default:
             break
         }
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        switch textField {
-        case phoneTextField:
-            if string.isNumeric {
-                textField.layer.borderColor = UIColor.systemGray5.cgColor
-            } else {
-                textField.layer.borderColor = .init(red: 0.89, green: 0.32, blue: 0.32, alpha: 1.00)
-            }
-        default:
-            textField.layer.borderColor = UIColor.systemGray5.cgColor
-        }
-        return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

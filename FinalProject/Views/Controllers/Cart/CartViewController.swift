@@ -33,20 +33,14 @@ final class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        navigationItem.largeTitleDisplayMode = .never
     }
 
     // MARK: - Private methods
     private func configNavigation() {
-        navigationItem.title = Define.title
-        navigationItem.largeTitleDisplayMode = .never
-
-        let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
-        backButton.tintColor = .black
-        navigationItem.leftBarButtonItem = backButton
-
-        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash.fill"), style: .plain, target: self, action: #selector(deleteButtonTouchUpInside))
-        deleteButton.tintColor = .black
-        navigationItem.rightBarButtonItem = deleteButton
+        setTitleNavigation(type: .cart)
+        setLeftBarButton(imageString: "chevron", tintColor: .black, action: #selector(returnButtonTouchUpInside))
+        setRightBarButton(imageString: "trash.fill", tintColor: .black, action: #selector(deleteButtonTouchUpInside))
     }
 
     private func  configTableView() {

@@ -35,7 +35,7 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Private methods
     private func configNavigation() {
-        title = Define.title
+        setTitleNavigation(type: .profile)
     }
 
     private func configUI() {

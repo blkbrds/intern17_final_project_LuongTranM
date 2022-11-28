@@ -27,7 +27,7 @@ final class FavoriteViewController: UIViewController {
 
     // MARK: - Private methods
     private func configNavigation() {
-        title = Define.title
+        setTitleNavigation(type: .favorite)
     }
 
     private func configTableView() {
