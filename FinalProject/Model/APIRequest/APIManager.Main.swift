@@ -18,6 +18,7 @@ enum MainService {
     case createTransaction(orders: [Int], amount: Int)
     case search
     case user
+    case transaction(startDay: String, endDay: String)
 }
 
 extension MainService: TargetType {
@@ -43,6 +44,8 @@ extension MainService: TargetType {
             return "product"
         case .user:
             return "infoUser"
+        case .transaction:
+            return "transaction"
         }
     }
 
@@ -50,7 +53,7 @@ extension MainService: TargetType {
         switch self {
         case .shop, .recommend, .popular, .cart, .search, .user:
             return .get
-        case .addCart, .createTransaction:
+        case .addCart, .createTransaction, .transaction:
             return .post
         case .updateCart:
             return .patch
@@ -61,7 +64,7 @@ extension MainService: TargetType {
 
     var header: ReaquestHeaders? {
         switch self {
-        case .shop, .recommend, .popular, .cart, .addCart, .updateCart, .deleteCart, .createTransaction, .search, .user:
+        case .shop, .recommend, .popular, .cart, .addCart, .updateCart, .deleteCart, .createTransaction, .search, .user, .transaction:
             return ApiManager.shared.getDefaultHTTPHeaders()
         }
     }
@@ -74,6 +77,9 @@ extension MainService: TargetType {
             return ["quantity": "\(quantity)"]
         case .updateCart(_, let quantity):
             return ["quantity": "\(quantity)"]
+        case .transaction(startDay: let startDay, endDay: let endDay):
+            return ["start_day": startDay,
+                    "end_day": endDay]
         }
     }
 

@@ -9,9 +9,9 @@ import Foundation
 
 final class HistoryTableCellViewModel {
 
-    var orderTrans: OrderTransaction?
+    var orderTrans: Cart?
 
-    init(orderTrans: OrderTransaction?) {
+    init(orderTrans: Cart?) {
         self.orderTrans = orderTrans
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     // MARK: - Outlets
+    @IBOutlet private weak var userInfomationView: UIView!
     @IBOutlet private weak var firstCharaterLabel: UILabel!
     @IBOutlet private weak var usernameLabel: UILabel!
     @IBOutlet private weak var emailLabel: UILabel!
@@ -31,6 +32,7 @@ final class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        navigationController?.isNavigationBarHidden = true
     }
 
     // MARK: - Private methods
@@ -47,6 +49,7 @@ final class ProfileViewController: UIViewController {
         let nib = UINib(nibName: Define.cellName, bundle: nil)
         purchaseTableView.register(nib, forCellReuseIdentifier: Define.cellName)
         purchaseTableView.separatorStyle = .none
+        purchaseTableView.bounces = false
         purchaseTableView.dataSource = self
         purchaseTableView.delegate = self
     }
@@ -73,7 +76,9 @@ final class ProfileViewController: UIViewController {
     }
 
     @IBAction private func orderButtonTouchUpInside(_ sender: Any) {
-        #warning("Handle Order")
+        let vc = TransactionViewController()
+        vc.viewModel = TransactionViewModel()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @IBAction private func settingButtonTouchUpInside(_ sender: Any) {

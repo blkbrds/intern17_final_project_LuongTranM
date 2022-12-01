@@ -32,6 +32,6 @@ final class HistoryTableViewCell: UITableViewCell {
         productNameLabel.text  = viewModel.orderTrans?.productName
         productQuantityLabel.text = "x\((viewModel.orderTrans?.quantity).unwrap(or: 0))"
         productPriceLabel.text = "$\(total)"
-        productOrderedLabel.text = viewModel.orderTrans?.date
+//        productOrderedLabel.text = viewModel.orderTrans?.date
     }
 }

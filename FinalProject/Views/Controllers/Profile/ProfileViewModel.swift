@@ -9,40 +9,34 @@ import Foundation
 
 final class ProfileViewModel {
 
-    var orderTrans: [OrderTransaction] = []
+    var orderTrans: [Cart] = []
 
     #warning("Dummy Data")
     func getOrder() {
-        let p1 = OrderTransaction(id: 1,
-                                  orderId: 5,
-                                  userId: 20,
-                                  productId: 37,
-                                  productName: "Santal Royal",
-                                  productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png",
-                                  quantity: 2,
-                                  price: 260,
-                                  date: "2022-10-29",
-                                  status: 1)
-        let p2 = OrderTransaction(id: 1,
-                                  orderId: 5,
-                                  userId: 20,
-                                  productId: 37,
-                                  productName: "Santal Royal 2",
-                                  productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png",
-                                  quantity: 2,
-                                  price: 260,
-                                  date: "2022-10-29",
-                                  status: 1)
-        let p3 = OrderTransaction(id: 1,
-                                  orderId: 5,
-                                  userId: 20,
-                                  productId: 37,
-                                  productName: "Santal Royal 3",
-                                  productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png",
-                                  quantity: 2,
-                                  price: 260,
-                                  date: "2022-10-29",
-                                  status: 1)
+        let p1 = Cart(id: 5,
+                      userId: 20,
+                      productId: 37,
+                      productName: "Santal Royal 2",
+                      quantity: 2,
+                      price: 260,
+                      status: 1,
+                      productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png")
+        let p2 = Cart(id: 5,
+                      userId: 20,
+                      productId: 37,
+                      productName: "Santal Royal 2",
+                      quantity: 2,
+                      price: 260,
+                      status: 1,
+                      productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png")
+        let p3 = Cart(id: 5,
+                      userId: 20,
+                      productId: 37,
+                      productName: "Santal Royal 2",
+                      quantity: 2,
+                      price: 260,
+                      status: 1,
+                      productImage: "http://localhost:8000/storage/shop/product/1666973112_santal_royal_1.png")
 
         orderTrans.append(contentsOf: [p1, p2, p3])
     }

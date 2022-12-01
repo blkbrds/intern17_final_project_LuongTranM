@@ -7,61 +7,90 @@
 
 import Foundation
 
-struct OrderTransaction: Codable {
-
-    var id: Int
-    var orderId: Int
-    var userId: Int
-    var productId: Int
-    var productName: String
-    var productImage: String
-    var quantity: Int
-    var price: Int
-    var date: String
-    var status: Int
+struct TransactionResponse: Codable {
+    var success: Bool
+    var data: [Transaction]?
 
     enum CodingKeys: String, CodingKey {
-        case id, quantity, price, status, date
-        case orderId = "order_id"
-        case userId = "user_id"
-        case productId = "product_id"
-        case productName = "product_name"
-        case productImage = "image_product"
+        case data, success
     }
 
-    init(id: Int,
-         orderId: Int,
-         userId: Int,
-         productId: Int,
-         productName: String,
-         productImage: String,
-         quantity: Int,
-         price: Int,
-         date: String,
-         status: Int) {
-        self.id = id
-        self.orderId = orderId
-        self.userId = userId
-        self.productId = productId
-        self.productName = productName
-        self.productImage = productImage
-        self.quantity = quantity
-        self.price = price
-        self.date = date
-        self.status = status
+    init(success: Bool, data: [Transaction]? = nil) {
+        self.success = success
+        self.data = data
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(Int.self, forKey: .id)
-        self.quantity = try container.decode(Int.self, forKey: .quantity)
-        self.price = try container.decode(Int.self, forKey: .price)
+        self.data = try container.decodeIfPresent([Transaction].self, forKey: .data)
+        self.success = try container.decode(Bool.self, forKey: .success)
+    }
+}
+
+struct Transaction: Codable {
+    var transactionId: Int
+    var userName: String
+    var userPhone: String
+    var address: String
+    var amount: Int
+    var payment: String?
+    var paymentInfo: String?
+    var security: String?
+    var status: Int
+    var createdAt: String
+    var updatedAt: String
+    var orders: [Cart]
+
+    enum CodingKeys: String, CodingKey {
+        case address, payment, amount, security, status
+        case transactionId = "id"
+        case userName = "user_name"
+        case userPhone = "user_phone"
+        case paymentInfo = "payment_info"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case orders = "order"
+    }
+
+    init(transactionId: Int,
+         userName: String,
+         userPhone: String,
+         address: String,
+         amount: Int,
+         payment: String? = nil,
+         paymentInfo: String? = nil,
+         security: String? = nil,
+         status: Int,
+         createdAt: String,
+         updatedAt: String,
+         orders: [Cart]) {
+        self.transactionId = transactionId
+        self.userName = userName
+        self.userPhone = userPhone
+        self.address = address
+        self.amount = amount
+        self.payment = payment
+        self.paymentInfo = paymentInfo
+        self.security = security
+        self.status = status
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+        self.orders = orders
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.address = try container.decode(String.self, forKey: .address)
+        self.payment = try container.decodeIfPresent(String.self, forKey: .payment)
+        self.amount = try container.decode(Int.self, forKey: .amount)
+        self.security = try container.decodeIfPresent(String.self, forKey: .security)
         self.status = try container.decode(Int.self, forKey: .status)
-        self.date = try container.decode(String.self, forKey: .date)
-        self.orderId = try container.decode(Int.self, forKey: .orderId)
-        self.userId = try container.decode(Int.self, forKey: .userId)
-        self.productId = try container.decode(Int.self, forKey: .productId)
-        self.productName = try container.decode(String.self, forKey: .productName)
-        self.productImage = try container.decode(String.self, forKey: .productImage)
+        self.transactionId = try container.decode(Int.self, forKey: .transactionId)
+        self.userName = try container.decode(String.self, forKey: .userName)
+        self.userPhone = try container.decode(String.self, forKey: .userPhone)
+        self.paymentInfo = try container.decodeIfPresent(String.self, forKey: .paymentInfo)
+        self.createdAt = try container.decode(String.self, forKey: .createdAt)
+        self.updatedAt = try container.decode(String.self, forKey: .updatedAt)
+        self.orders = try container.decode([Cart].self, forKey: .orders)
     }
 }
