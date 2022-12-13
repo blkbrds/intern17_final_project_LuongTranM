@@ -52,6 +52,7 @@ final class DetailViewController: UIViewController {
         configSubView()
         addToCartButton.layer.cornerRadius = Define.cornerRadius
         updateUI()
+        configGesture()
     }
 
     private func configNavigation() {
@@ -103,6 +104,12 @@ final class DetailViewController: UIViewController {
         contentProductView.layer.maskedCorners = Define.maskedCorners
     }
 
+    private func configGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapIntoShop))
+        shopProductLabel.isUserInteractionEnabled = true
+        shopProductLabel.addGestureRecognizer(tap)
+    }
+
     private func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: Define.timerIntervar, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
     }
@@ -147,6 +154,13 @@ final class DetailViewController: UIViewController {
             }
         }
         updateColorFavorite(isFavorite: !isFavorite)
+    }
+
+    @objc private func tapIntoShop() {
+        guard let viewModel = viewModel else { return }
+        let mapVC = MapViewController()
+        mapVC.viewModel = MapViewModel(shop: viewModel.product.category?.shop)
+        navigationController?.pushViewController(mapVC, animated: true)
     }
 
     @objc private func returnButtonTouchUpInside() {
