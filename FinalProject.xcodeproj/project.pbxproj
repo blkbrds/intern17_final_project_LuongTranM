@@ -69,6 +69,9 @@
 		84B76CC02910CDFC00AF2B3C /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B76CBF2910CDFC00AF2B3C /* FavoriteViewModel.swift */; };
 		84D371432918E6F0002ED8A4 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D371422918E6F0002ED8A4 /* UIViewController+Ext.swift */; };
 		84F2FFA329224920009B8414 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F2FFA229224920009B8414 /* User.swift */; };
+		84F4C9A4292DB42400830A97 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F4C9A2292DB42400830A97 /* MapViewController.swift */; };
+		84F4C9A5292DB42400830A97 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F4C9A3292DB42400830A97 /* MapViewController.xib */; };
+		84F4C9A7292F01D300830A97 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F4C9A6292F01D300830A97 /* MapViewModel.swift */; };
 		C067F6D4814AB1C3AEEA9AAE /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A22DB3123BD609AE6F9698A /* Pods_FinalProject.framework */; };
 		D27553962907C1C400032E02 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27553952907C1C400032E02 /* AppDelegate.swift */; };
 		D275539F2907C1C600032E02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D275539E2907C1C600032E02 /* Assets.xcassets */; };
@@ -149,6 +152,9 @@
 		84B76CBF2910CDFC00AF2B3C /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
 		84D371422918E6F0002ED8A4 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		84F2FFA229224920009B8414 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		84F4C9A2292DB42400830A97 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		84F4C9A3292DB42400830A97 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		84F4C9A6292F01D300830A97 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		893897C552A43E05BA857672 /* Pods-FinalProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.release.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.release.xcconfig"; sourceTree = "<group>"; };
 		8E5899E7E223907F44FD0064 /* Pods-FinalProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject.debug.xcconfig"; path = "Target Support Files/Pods-FinalProject/Pods-FinalProject.debug.xcconfig"; sourceTree = "<group>"; };
 		D27553922907C1C400032E02 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -394,6 +400,16 @@
 			path = FavoriteCell;
 			sourceTree = "<group>";
 		};
+		84F4C9A1292DB3DE00830A97 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				84F4C9A2292DB42400830A97 /* MapViewController.swift */,
+				84F4C9A3292DB42400830A97 /* MapViewController.xib */,
+				84F4C9A6292F01D300830A97 /* MapViewModel.swift */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
 		D27553892907C1C400032E02 = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +501,7 @@
 		D2ECE5392908537400041BF9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				84F4C9A1292DB3DE00830A97 /* Mapper */,
 				844E432C29121261006B713B /* Cart */,
 				844E431729115F4B006B713B /* Detail */,
 				84B76C78290A637D00AF2B3C /* BaseTabbar */,
@@ -603,6 +620,7 @@
 				844E433029121297006B713B /* CartViewController.xib in Resources */,
 				84B76C8C290A648700AF2B3C /* ProfileViewController.xib in Resources */,
 				844E431B29115F7C006B713B /* DetailViewController.xib in Resources */,
+				84F4C9A5292DB42400830A97 /* MapViewController.xib in Resources */,
 				D27553A22907C1C600032E02 /* LaunchScreen.storyboard in Resources */,
 				8458F2B629110C260087D6FB /* HistoryTableViewCell.xib in Resources */,
 				84B76CB52910B85800AF2B3C /* SearchCollectionViewCell.xib in Resources */,
@@ -700,6 +718,7 @@
 				844E432F29121297006B713B /* CartViewController.swift in Sources */,
 				84B76CA6290CC51E00AF2B3C /* RecommendCollectionCellViewModel.swift in Sources */,
 				D2ECE54B2908632200041BF9 /* APIManager.Login.swift in Sources */,
+				84F4C9A7292F01D300830A97 /* MapViewModel.swift in Sources */,
 				844E4336291212DF006B713B /* CartTableViewCell.swift in Sources */,
 				84B76C93290CBF0200AF2B3C /* HomeViewModel.swift in Sources */,
 				84B76C8E290A68F500AF2B3C /* BaseTabbarViewController.swift in Sources */,
@@ -744,6 +763,7 @@
 				84B76CA4290CC50500AF2B3C /* PopularCollectionCellViewModel.swift in Sources */,
 				84B76C9D290CC4B800AF2B3C /* RecommendCollectionViewCell.swift in Sources */,
 				84B2983C29134BBE00805DCC /* Order.swift in Sources */,
+				84F4C9A4292DB42400830A97 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
