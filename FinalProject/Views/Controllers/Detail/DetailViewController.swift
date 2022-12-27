@@ -56,10 +56,8 @@ final class DetailViewController: UIViewController {
     }
 
     private func configNavigation() {
-        // Create bar button
-        let backButton = UIBarButtonItem(image: UIImage(imageLiteralResourceName: "chevron"), style: .plain, target: self, action: #selector(returnButtonTouchUpInside))
-        backButton.tintColor = .black
-        navigationItem.leftBarButtonItem = backButton
+        setTitleNavigation(type: .detail)
+        setLeftBarButton(imageString: "chevron", tintColor: .black, action: #selector(returnButtonTouchUpInside))
 
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart.fill"), style: .plain, target: self, action: #selector(favoriteButtonTouchUpInside))
         // Check and update color favorite button

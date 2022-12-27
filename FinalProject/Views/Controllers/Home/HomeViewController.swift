@@ -28,17 +28,13 @@ final class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
         navigationController?.isNavigationBarHidden = false
+        setPrefersLargeTitles(type: .discovery)
     }
 
     // MARK: - Private methods
     private func configNavigation() {
-        navigationItem.title = Define.title
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-
-        let cartButton = UIBarButtonItem(image: UIImage(systemName: "cart"), style: .plain, target: self, action: #selector(cartButtonTouchUpInside))
-        cartButton.tintColor = .red
-        navigationItem.rightBarButtonItem = cartButton
+        setTitleNavigation(type: .discovery)
+        setRightBarButton(imageString: "cart", tintColor: .red, action: #selector(cartButtonTouchUpInside))
     }
 
     private func configTableView() {
