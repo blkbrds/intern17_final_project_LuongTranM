@@ -16,7 +16,7 @@ final class CartTableViewCell: UITableViewCell {
     enum Action {
         case increase
         case decrease
-        case inputQuantity(quantity: Int)
+        case inputQuantity(quantity: String)
     }
 
     // MARK: - Outlets
@@ -85,7 +85,7 @@ extension CartTableViewCell: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let quantity = textField.text else { return false }
-        delegate?.cell(cell: self, needPerform: .inputQuantity(quantity: Int(quantity).unwrap(or: 0)))
+        delegate?.cell(cell: self, needPerform: .inputQuantity(quantity: quantity))
         hideKeyBoard()
         return true
     }

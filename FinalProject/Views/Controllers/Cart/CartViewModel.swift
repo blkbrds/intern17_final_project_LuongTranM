@@ -10,7 +10,6 @@ import Foundation
 final class CartViewModel {
 
     var carts: [Cart] = []
-    var totalPrice: Int = 0
 
     func getApiCart(completion: @escaping Completion<[Cart]>) {
         ApiManager.shared.mainProvider.request(target: .cart, model: CartResponse.self) { result in
@@ -53,21 +52,6 @@ final class CartViewModel {
 
     func requestDeleteCart(orderId: Int, completion: @escaping Completion<MessageResponse>) {
         ApiManager.shared.mainProvider.request(target: .deleteCart(id: orderId), model: MessageResponse.self) { result in
-            switch result {
-            case .success(let response):
-                guard let response = response as? MessageResponse else {
-                    completion(.failure(.noData))
-                    return
-                }
-                completion(.success(response))
-            case .failure(let err):
-                completion(.failure(err))
-            }
-        }
-    }
-
-    func requestCreateTransaction(orders: [Int], amount: Int, completion: @escaping Completion<MessageResponse>) {
-        ApiManager.shared.mainProvider.request(target: .createTransaction(orders: orders, amount: amount), model: MessageResponse.self) { result in
             switch result {
             case .success(let response):
                 guard let response = response as? MessageResponse else {

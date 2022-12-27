@@ -15,7 +15,7 @@ enum MainService {
     case addCart(id: Int, quantity: Int)
     case updateCart(id: Int, quantity: Int)
     case deleteCart(id: Int)
-    case createTransaction(orders: [Int], amount: Int)
+    case createTransaction(body: Payment)
     case search
     case user
     case transaction(startDay: String, endDay: String)
@@ -85,12 +85,12 @@ extension MainService: TargetType {
 
     var body: RequestBodys? {
         switch self {
-        case .createTransaction(let orders, let amount):
-            return ["orders": orders,
-                    "user_name": "Minh Lương",
-                    "user_phone": "0123456789",
-                    "address": "ĐN",
-                    "amount": amount]
+        case .createTransaction(let body):
+            return ["orders": body.orderIds,
+                    "user_name": body.userName,
+                    "user_phone": body.phoneNumber,
+                    "address": body.address,
+                    "amount": body.amount]
         default:
             return nil
         }

@@ -38,7 +38,7 @@ final class SearchViewController: UIViewController {
 
     // MARK: - Private methods
     private func configNavigation() {
-        navigationItem.title = Define.title
+        setTitleNavigation(type: .search)
     }
 
     private func configCollectionView() {

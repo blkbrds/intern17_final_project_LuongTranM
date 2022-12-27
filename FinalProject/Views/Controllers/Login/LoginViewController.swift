@@ -28,7 +28,7 @@ final class LoginViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        hideKeyboard()
+        view.endEditing(true)
     }
 
     // MARK: Private methods
@@ -56,9 +56,11 @@ final class LoginViewController: UIViewController {
         usernameTextField.setupLeftSideImage(imageViewName: "person.fill")
         usernameTextField.layer.cornerRadius = Define.cornerRadius
         usernameTextField.underlined()
+        usernameTextField.delegate = self
         passwordTextField.setupLeftSideImage(imageViewName: "key.fill")
         passwordTextField.layer.cornerRadius = Define.cornerRadius
         passwordTextField.underlined()
+        passwordTextField.delegate = self
     }
 
     private func configButton() {
@@ -74,17 +76,18 @@ final class LoginViewController: UIViewController {
         gmailButton.layer.borderColor = Define.borderColor
     }
 
-    private func showKeyboard() {
-        usernameTextField.becomeFirstResponder()
-        passwordTextField.becomeFirstResponder()
-    }
-
-    private func hideKeyboard() {
-        usernameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-    }
-
     // MARK: Action methods
+    @IBAction private func checkValidEmailTextfield(_ sender: UITextField) {
+        let isEmail = sender.text.content.checkTypeRegex(typeRegex: .email)
+        if isEmail {
+            sender.tintColor = .black
+            loginButton.isEnabled = true
+        } else {
+            sender.tintColor = .red
+            loginButton.isEnabled = false
+        }
+    }
+
     @IBAction private func loginButtonTouchUpInside(_ sender: Any) {
         guard let email = usernameTextField.text,
               let password = passwordTextField.text else { return }
@@ -144,6 +147,13 @@ extension LoginViewController {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        showKeyboard()
+        switch textField {
+        case usernameTextField:
+            textField.becomeFirstResponder()
+        case passwordTextField:
+            textField.becomeFirstResponder()
+        default:
+            textField.resignFirstResponder()
+        }
     }
 }
